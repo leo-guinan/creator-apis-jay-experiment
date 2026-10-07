@@ -24,7 +24,7 @@ Status: source-derived working ledger. Quotes and interpretations require review
 5. Start with direct attribution only; keep assisted and unknown outcomes visible.
 6. Treat a 10% Jay royalty on directly attributable collected revenue as a proposed initial rule requiring explicit agreement and settlement verification.
 7. Prefer manual publishing and build measurement first.
-8. Keep the Jay recording private; public reuse requires consent and review.
+8. Keep the raw Jay recording private; the transcript is approved for public repository use under Leo's confirmation of Jay's recording/publication consent.
 
 ## Falsifiers / stop conditions
 
@@ -35,10 +35,20 @@ Status: source-derived working ledger. Quotes and interpretations require review
 - The offer attracts attention but not qualified calls or purchases: the audience/promise hypothesis is rejected or revised.
 - A transcript-derived statement differs materially from the recording: preserve the discrepancy and do not publish the quote.
 
-## Next executable slice
+## Implemented executable slice
 
-Create a local-only v0 evidence ledger and test the full trace with synthetic fixtures:
+The local v0 evidence ledger now tests the full trace with synthetic fixtures:
 
 `contributor → source → content block → artifact → placement → route click → purchase → direct attribution → royalty accrual`
 
-The fixture must label synthetic data as synthetic. It must not imply a real Jay payment, real customer, real platform publication, or validated economics.
+The implementation is in `src/creator_apis/evidence.py`; its contract is in `docs/v0-evidence-ledger-contract.md`; and the reproducible receipt is `examples/synthetic-evidence-receipt.json`.
+
+Observed verification:
+
+- `direct` attribution reaches `contributor:jay` through the route, placement, artifact, content block, and source.
+- Synthetic `$1,000` collected revenue produces a synthetic `$100` royalty accrual at 10%.
+- A session mismatch remains `unknown` and cannot accrue a royalty.
+- Two events with distinct IDs remain present in append-only order.
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` passes 3 tests.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics.

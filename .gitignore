@@ -1,2 +1,6 @@
 # Local source material
 notes/source-manifest.json
+
+# Python caches
+__pycache__/
+*.py[cod]

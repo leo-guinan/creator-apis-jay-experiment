@@ -1,0 +1,100 @@
+{
+  "fixture_status": "synthetic",
+  "records": {
+    "contributor:jay": {
+      "record_type": "contributor",
+      "record_id": "contributor:jay",
+      "fixture_status": "synthetic",
+      "name": "Jay"
+    },
+    "source:jay-interview": {
+      "record_type": "source",
+      "record_id": "source:jay-interview",
+      "fixture_status": "synthetic",
+      "contributor_id": "contributor:jay"
+    },
+    "block:work-not-done": {
+      "record_type": "content_block",
+      "record_id": "block:work-not-done",
+      "fixture_status": "synthetic",
+      "source_id": "source:jay-interview"
+    },
+    "artifact:jay-clip-v1": {
+      "record_type": "artifact",
+      "record_id": "artifact:jay-clip-v1",
+      "fixture_status": "synthetic",
+      "block_ids": [
+        "block:work-not-done"
+      ]
+    },
+    "placement:youtube-jay-clip-v1": {
+      "record_type": "placement",
+      "record_id": "placement:youtube-jay-clip-v1",
+      "fixture_status": "synthetic",
+      "artifact_id": "artifact:jay-clip-v1",
+      "channel": "youtube"
+    },
+    "route:jay-youtube-001": {
+      "record_type": "route",
+      "record_id": "route:jay-youtube-001",
+      "fixture_status": "synthetic",
+      "placement_id": "placement:youtube-jay-clip-v1",
+      "destination": "https://example.test/calibration"
+    }
+  },
+  "events": [
+    {
+      "event_id": "event:click-1",
+      "event_type": "route_click",
+      "session_id": "session:1",
+      "route_id": "route:jay-youtube-001",
+      "metadata": {},
+      "fixture_status": "synthetic"
+    },
+    {
+      "event_id": "event:purchase-1",
+      "event_type": "purchase_1000",
+      "session_id": "session:1",
+      "route_id": null,
+      "metadata": {
+        "amount_cents": 100000
+      },
+      "fixture_status": "synthetic"
+    }
+  ],
+  "conversions": {
+    "conversion:1": {
+      "conversion_id": "conversion:1",
+      "session_id": "session:1",
+      "amount_cents": 100000,
+      "purchase_event_id": "event:purchase-1",
+      "fixture_status": "synthetic"
+    }
+  },
+  "attribution": {
+    "conversion_id": "conversion:1",
+    "classification": "direct",
+    "contributor_id": "contributor:jay",
+    "trace": [
+      "route:jay-youtube-001",
+      "placement:youtube-jay-clip-v1",
+      "artifact:jay-clip-v1",
+      "block:work-not-done",
+      "source:jay-interview",
+      "contributor:jay"
+    ],
+    "evidence_event_ids": [
+      "event:click-1",
+      "event:purchase-1"
+    ],
+    "fixture_status": "synthetic"
+  },
+  "royalty_accrual": {
+    "conversion_id": "conversion:1",
+    "contributor_id": "contributor:jay",
+    "collected_amount_cents": 100000,
+    "rate": 0.1,
+    "amount_cents": 10000,
+    "fixture_status": "synthetic"
+  }
+}

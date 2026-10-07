@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: clean local experiment workspace initialized from the supplied architecture brief and Jay recording.
+Status: local experiment workspace with the first synthetic evidence-ledger slice implemented and published.
 
 ## Source inputs
 
@@ -26,18 +26,30 @@ The first bounded demonstration is Jay's contribution flowing through content bl
 
 This workspace is intentionally separate from the existing `/Users/leoguinan/Creator-APIs` repository, which contains unrelated modified and untracked architecture/deployment work. No existing implementation was copied into this experiment workspace.
 
-## Immediate next slice
+## Completed first slice
 
-1. Preserve and inspect the full Jay recording transcript.
-2. Convert the architecture brief and conversation into a source-labeled decision ledger.
-3. Inventory the existing runtime and tests before changing code.
-4. Freeze the smallest v0 contract for campaign, contributor, source, content block, artifact, placement, route, append-only event, conversion, provenance, and royalty calculation.
-5. Implement only after the contract and falsifiers are written.
+1. Preserved and inspected the full Jay recording transcript.
+2. Converted the architecture brief and conversation into a source-labeled decision ledger.
+3. Froze the smallest v0 contract in `docs/v0-evidence-ledger-contract.md`.
+4. Implemented a local `EvidenceLedger` in `src/creator_apis/evidence.py`.
+5. Exercised the complete synthetic trace with a generated receipt at `examples/synthetic-evidence-receipt.json`.
+
+Verification receipt:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 3 tests passed.
+- Synthetic attribution classification: `direct`.
+- Synthetic collected amount: `$1,000`.
+- Synthetic royalty at 10%: `$100` (`10,000` cents).
+- All exported records are explicitly marked `fixture_status: synthetic`.
+
+## Next slice
+
+Add campaign/experiment identifiers and multiple placements/routes while preserving the same append-only event and direct-attribution boundaries. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 
 - No automatic publishing to YouTube, X, LinkedIn, or email.
 - No payment processor integration or real royalty settlement.
-- No public exposure of private conversation or recording contents.
+- No copying of the raw recording into the repository; the approved transcript is public and source-linked.
 - No claim that attribution is causal merely because a route was clicked.
 - No tokenization, auction, or patronage mechanism.
