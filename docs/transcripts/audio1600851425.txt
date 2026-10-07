@@ -1,0 +1,709 @@
+There we go.
+Awesome.
+Yeah, so I'm watching Building Public University, which
+is a first principal's university.
+And so I started with the question
+of what is a university at its most basic level.
+And it's a professor who's willing to teach
+and a student who's willing to learn.
+And so I've set up this structure around that where basically
+each student pays for kind of their network position.
+First student pays a dollar, the second student pays $2.
+And the goal is, if I'm a good professor over time,
+this network of students that I have will grow.
+And then the objective function of a university
+is to minimize the paybacks, the median payback period
+for students.
+And so basically, if I'm not teaching you stuff
+that it gives you leverage over your time,
+I'm not doing my job well as a university.
+And this all actually stems from the research I've
+been doing over the past six years or so
+on entrepreneurship and investing from first principles.
+I've been exploring money from a thermodynamic angle
+and how do we minimize the cost of work getting done.
+I've started doing some stouting for the Wolfram Institute
+with one of their blockchain researchers.
+And so this week, I'm getting into the process
+of communicating it to the world, which
+is the part that I am not particularly good at.
+So it happened to be a perfect time for this call.
+I've actually been working on using the game Stardew Valley
+as an analogy, if you're familiar with it at all.
+I don't think so.
+OK, so it's basically like, it's a cozy game,
+it's kind of the genre.
+And the whole idea is that you build out a farm
+and you kind of build relationships with people in the town.
+And you can kind of build out this nice calm kind of farming
+life.
+And the story is actually kind of the pound versus this mega
+corp coming in with cheaper prices that kind of destroying
+the relationships.
+And it allows you to kind of just do everything with money
+versus some of the relationship building stuff.
+And so as it turns out, it has this perfect realization
+of player energy to money generation.
+And so starting off early game, you have to plant the crops
+and go out and like manually water them.
+A little bit into the game, you get sprinklers, right?
+So now instead of watering the crops each day,
+that's done automatically.
+And so that energy is returned to the human player
+to decide what else to kind of expand into.
+And so with AI, I think basically,
+we just keep adding sprinklers and then bigger and bigger
+fields.
+And we're not actually like taking advantage
+of freeing up human time to actually be more human.
+And so my main focus is helping people
+understand how to leverage AI to create magic for themselves.
+And I kind of define magic is like work not done.
+And so I've been building this AI system that
+integrates into existing businesses
+and basically over time calibrates
+on what all work is being done in the business.
+And then takes work out and shows that outcomes not only
+at least stay the same but actually improve over time
+because you're doing less work, but more meaningful work.
+And that's where I'm headed.
+And just yeah, right now it's a matter of getting
+the copyrighted down.
+And actually your six peas have been helping immensely
+a bit to kind of build a get into the system.
+So that as I create YouTube videos,
+I can just break down the major ideas and actually
+like create specific CTAs.
+And I've already seen like traffic going into the video
+that I started this week with.
+But yeah, I love just maybe your initial thoughts
+and like what stands out to you and maybe what isn't
+being communicated as well.
+Yeah, well, first off, I love the idea.
+I think the world needs more alternative education sources.
+I actually like to shirt the you have too.
+Oh, thank you.
+Do you have the six peas?
+Like we can walk through it because I think I'm most
+curious about who we're trying to target
+and then what the core promises that we are delivering
+to these people.
+Let me pull up where I was working on that.
+And then what channels are you thinking of promoting this on?
+I show YouTube.
+Yeah, so I've been mostly working
+on Twitter LinkedIn and YouTube.
+So I've kind of got Twitter.
+I have some subs back to and that's kind of my longer form.
+But I kind of look at Twitter as kind of my daily notebook.
+It's not particularly reliable.
+But it's a great place to just quickly
+workshop ideas, see how to cat like different crazings, right?
+And LinkedIn now that I've got kind of and I've got my first client
+and I've started to actually integrate into a system
+and gained a lot more clarity on what I'm doing.
+And so kind of the focus this week
+is integrating into that LinkedIn system
+and starting to grow the actual business aspect of it.
+Because part of what I'm doing with building public university
+too is I basically set up my business to start from zero at
+so starting October 1st, I set a $100 a day burn rate
+that is just like showing up and I've got a public dashboard
+that's going to show this over time.
+Because I want to kind of demonstrate
+my entire funnel growing from like basically a zero audience
+up to something generating meaningful revenue.
+So I've got about five students right now
+that I'm kind of starting to bring in and demonstrate this.
+But it's kind of a weird thing.
+And the reason is like I don't have a great understanding
+of specifically who my users are.
+I've got an idea of who my users can be.
+Because like right now the marketing is all on like everything
+that AI can do, right?
+You can get so much done and it feels great.
+You feel so productive.
+And like my argument is basically like actually
+you should be doing less with AI if you're using it right.
+And so like the first client I found is actually
+so he's a creator with about 1500 newsletter subscribers.
+He wants to be able to leverage that more for his business
+but doesn't quite understand how.
+So we're focusing on how do we like rapidly experiment
+with different ideas and see what resonates with his audience
+to kind of make that accessible.
+And so that's the part where like right now
+I'm actually testing kind of multiple audiences
+with this kind of general framing
+and seeing who's actually resonating
+with it the most right now.
+And I think there's something here around creators
+who are feeling like the stuff that they're doing
+is giving them worse results in the age of AI
+because I feel like a lot of the systems
+that people have built up for themselves
+just aren't cutting it anymore.
+Okay.
+So you help creators leverage AI the right way
+to drive business results?
+Yes.
+And then what's the business model for the university?
+So you said it's like for a student pays a dollar
+second student pays two dollars
+and probably many students you work with.
+You know, like keep growing.
+So that's the university's business model
+and then the AI systems business model
+is actually a little different.
+So it actually starts off with like a $1,000 payment
+for a, for the calibration for that phase
+where basically Marvin, my AI system,
+his goal is to pay for himself
+and prove that he can generate results for the business.
+At that point, the goal is to turn that into a 250-month
+recurring revenue model.
+It's basically just maintaining the connections
+and running the stuff that we already know how to run.
+And so that part hasn't been validated fully yet.
+But as I said, I still work with the first client
+in this kind of $1,000 calibration phase.
+But we're seeing kind of already progress
+of how Marvin is learning his system
+and kind of starting to integrate.
+And so that part is looking promising.
+But my thinking is that I've proven now
+that I can convert, it started off
+with like a one-hour coaching call
+that I'd offered in a community.
+And so I've shown that I can kind of turn
+the one-hour coaching call into the $1,000
+so my thinking now is actually I want to offer
+kind of a dual model where basically I'll give
+a free hour of coaching first if they want
+or they can kind of pay up front
+and then the first session becomes a working session
+where we start the integration process.
+And so I'm building out a sales page for that this week
+is kind of what I view is the most likely
+like kind of risk free offer I can create
+that allows some people to kind of pay up front.
+And so if I could start pushing a funnel
+into that offer page, I feel like I should be able
+to generate calls and then at that point
+it's just a matter of showing what Marvin can do.
+So you have two businesses right now.
+You have the AI business and then you have
+the building public university.
+Yeah, and so the idea is actually kind of
+launching the one business as an example
+of me putting the principles of entrepreneurship
+from first principles to work as I've defined them.
+And so like my belief is like,
+if I can't run my own playbook,
+like it's not a good playbook.
+And so I've actually, that's why I spent like last three months
+or so really validating different ideas
+and kind of testing versions.
+And this feels like the actual like winner
+that is easy enough to explain.
+And I've got some examples that I'm able to create
+as I'm going and if through everything.
+Okay, got it.
+If you had to choose one business,
+which one would you want to double down on?
+Yeah, so I can't do one without the other.
+And this is extremely me focused,
+but my goal with all of this was actually
+to be the greatest entrepreneur and investor.
+That was my focus from day one
+and kind of realization, like my realization six years ago
+as an engineer that like I wasn't thinking big enough.
+And then as I started thinking bigger, I was like,
+well, like let's just aim for the top
+and kind of see how the greats do it, right?
+And so you know, you did the work with the best.
+I attempted to work with the best,
+but I didn't present myself nearly as well.
+So I had to kind of learn from the best via media.
+And I actually found like founders podcast
+from David's center and all of his stuff
+just absolutely phenomenal in kind of teaching me
+kind of the mentality and kind of how to think
+about entrepreneurship.
+And then Jim O'Shaughnessy and the Infinite Loops podcast
+is another absolutely phenomenal one.
+And actually Jim is the one I did kind of a public application
+to work with last year,
+because I realized that I needed to understand more about
+how markets worked and just kind of the investing process
+and all of that.
+And I was able to get his attention for a little bit
+and he told me that they like movies, not snapshots.
+And so I was trying to kind of showcase work over time,
+still haven't done a great job at that,
+but I still think there is a chance
+to kind of pull all of this together.
+And so one of the things that I'm looking at
+is how do I turn this launch of the business
+and university together into a movie that showcases
+my thought process and basically compresses
+all of my ideas into something that's actually understandable
+and usable by people who are extremely good at what they do.
+Because frankly, it's like I've been terrible at talking to them
+because I tend to use too many words.
+I don't simplify things well.
+I think deeply about things.
+And that is one of my greatest strengths
+and online communicating has been my greatest weakness
+by far.
+So how do you know when you will be successful
+with these two businesses?
+Do you have like a goal for each of them?
+Like what does success look like
+so that you can show the movie for GM, for example?
+Yeah, I think honestly it's all about student success.
+And so I want students to exceed what I'm doing.
+So basically I want to create examples of things
+that I'm doing in specific aspects of the business.
+And I want students to copy those patterns,
+apply them to their own business, but more successfully,
+to kind of showcase, it's all about understanding
+and kind of seeing the opportunities in your business.
+And those opportunities are unique to you
+and your specific business.
+And so this is one of the reasons
+that teaching entrepreneurship tends to be so difficult
+because you're trying to teach people
+to recognize opportunities that they may not be able
+to recognize.
+And so what I'm trying to do is I like opportunities
+and things that I'm looking for in my own business
+and showcasing how I'm doing that so that they can actually
+see how that works.
+And then ultimately I'd love to start giving them pieces
+of the business as it's working in order
+to let them experiment with it.
+And basically run experiments on a business
+it's not their own to see how it would play out
+so they don't have to take on the risk,
+but they can have a system that lets them experiment
+kind of based on how they view the world.
+Because ultimately I kind of see this as allowing students
+to compete on various aspects of the business
+to where like it doesn't matter which student wins.
+The business is a whole wins because we're kind of all
+working together to make this business a success.
+And so in a way the students in the business
+are designed to become employees in the business
+by helping out on various aspects without formally
+like hiring them and you know going through that process.
+It's more of an apprenticeship model
+where they kind of are able to demonstrate
+what they can do experiment with things
+as they kind of build up trust within the system
+and then you know giving them the opportunity
+to create something that they can use to take to their own gym
+right that is a compression.
+If it's a movie of the work they've done.
+And so I actually have this kind of gets into
+the deeper like engineering architecture of it.
+But I've got this open source project called Creator APIs
+that I've been building out.
+And the idea is to reward humans not models.
+And so it basically allows you to layer on
+human created data on top of AI workflows
+and reward the humans that contributed
+into various queries.
+And the first product that I've been planning out for this
+is called Enchanted Notebook.
+And it allows you to kind of start with a question
+and trace through different human stories.
+And they've been pulling it from kind of the Twitter archives.
+There's a community archive project
+that has like almost 400 accounts in it.
+But I'm pulling all of these human stories together.
+And I want people to start using those
+to think about the futures they want to create.
+And the goal is to kind of generate different assets
+that come together to create a movie trailer.
+Because in this idea of creating a movie for gym,
+I realize like a trailer is such a powerful artifact
+if you're able to create it well
+because it conveys so much information.
+And this is what shorts creators do extremely well, right?
+They can tell incredible stories in such high windows
+and so I see a future where kind of these explorations
+lead to funding.
+And so I'm seeing this basically product line
+that builds up on top of this,
+where all of your source material can kind of eventually
+get pulled into various movies.
+And then you essentially get residual checks
+for the work that you've done online and sharing online
+by kind of contributing human details
+into all these stories that are getting told
+where you're not necessarily the main character, right?
+Which is different from kind of the internet as we know it
+where we reward people for being the main character.
+And so I think there's a really cool future there.
+But that is beyond the initial business model at this point.
+That's one of the demonstrations of the technology
+I'm kind of building out, but realize that it's not
+the cash flowing one yet.
+So I want to get that part started first
+and then we can start working on more of the open source
+bits and pieces that are kind of coming out
+of the client work right now.
+Got it.
+I mean, I like the vision.
+I think you're able to think strategically
+about what you want to do.
+The feedback I'd give is when we're starting a business,
+we want to think about what do we need to do the next week,
+the next two weeks to drive the business forward.
+And so I guess the question for you,
+let's go through the six P's for the building
+public university.
+And if we can nail that, I think it allows us
+to market that more effectively.
+So yeah, let's do that.
+Okay, let me actually just,
+I can just share my screen up here.
+I had chat GPT pull it out for me
+from the conversation we've been working on.
+So yeah, this is the,
+who is building public university for?
+So there's a bunch of different groups,
+it all comes down to who wants more agency in the AI era.
+So it's people who don't feel like they have leverage
+currently.
+And so I think curiosity is the other piece
+that is important.
+And so.
+How do you define builder or founder?
+What does that mean?
+So I think the builders are anybody
+who is taking action on a better future.
+And so I'm actually intentionally open on this definition.
+I spend a lot of time on Twitter, and specifically kind of the IndieHacker worlds.
+And I see a lot of it's people who are rebelling against
+the status quo of employment,
+and they're trying to build products on their own.
+And a lot of times they end up focusing too much on the building
+and not enough on the marketing,
+because the marketing and communications of the product is uncomfortable.
+And this is what we're trying to do.
+We're trying to build products on their own.
+And a lot of times they end up focusing too much on the building
+that's uncomfortable.
+And this is entirely a first person account of exactly
+like what I struggled with for a long time,
+because building was easy, right?
+So I wanted to just kind of build and build and build.
+And so what I've been looking to do is how do I
+take people who are building but not selling
+and connecting with the people who are selling but not building?
+And I kind of look at that as kind of the creator world,
+where the creator is selling their own story ultimately.
+And that's all you really need in order to be successful
+in kind of the internet age, right?
+You have to have a firm grasp on your story and like where you want to go
+and be able to communicate it in a way that others can attach to
+and want to help you along your way.
+And so I look at kind of builders and creators
+and kind of like the two polarities that ultimately
+combine into founder when they kind of bridge that gap
+between the future that they want to create
+and kind of what they're able to build now,
+which as I've probably demonstrated,
+I'm exactly the state where like I have a pretty clear idea
+of the future that I want to create
+and I'm much less clear on specifically how I can communicate that now.
+Okay, okay, cool.
+Okay, so on to positioning.
+So why this instead of another course,
+it's open source first principles university
+and it's built for adaptability.
+It's a constantly running lab.
+We don't lecture on much because we don't know exactly
+what the future is going to hold.
+We know that we can create leverage around our own time,
+but we have to open up kind of optionality to the future.
+And so having it designed this way,
+my goal is to actually have different people pop up
+competing universities that all basically run the same structure
+so that we can aggregate that data.
+And then if we go into the promise,
+it's all about turning AI into personal leverage.
+If you're not using AI to push your ideas into reality
+and testing them, getting feedback on what you're actually doing,
+you know, you're not actually building that leverage.
+And so that's why the main metric is that payback period
+that we're focusing on, right?
+Like how quickly do you take information
+and turn that into revenue by leveraging the skills
+and knowledge you already have?
+The proof.
+Again, it's kind of this whole I went first, right?
+I'm doing it in public while also teaching it.
+And so I'm explaining the things I'm implementing
+as I'm kind of building them, setting them up,
+kind of behind the scenes on planning out the YouTube videos
+and how I've kind of started with some that are mostly just talking head,
+easy for me to turn on the camera and record with
+and then set up some systems that chopped that up,
+distributed kind of according to these six Ps
+as we break out some experiments from it.
+And then kind of looking at now,
+going deeper into the video packaging,
+combining it.
+Is there any proof of the methods that you will be teaching
+or documenting have worked?
+So I've got a dashboard that is starting to show the metrics.
+And basically I'm trying to open up the entire funnel
+and show where I'm looking at the attention at the top
+versus what's like the time that goes into create the asset
+and all related assets.
+So the first thing that I've been able to show this week
+is by just adding in this basic marketing flow
+to the first building public university video.
+We were able to drive an extra,
+think roughly about 40 views of the video.
+We were only getting about 10 views on average per video
+for the last couple of weeks.
+I've got a buddy who's been helping me get the channel warmed up
+for a while and we've got a good baseline now.
+So we're already starting to show some leverage being created
+so that the next video we're focusing on,
+we have a goal of a thousand views
+because we're actually like,
+like I'm working on kind of,
+actually it's based a lot on your breakdown format
+of the video that works.
+I have it in another chat,
+but with the start of Valley video,
+I'm putting in more production value to that
+and showing ideally how the top of funnel feeds
+into the kind of business aspect
+and kind of booking calls per week.
+So I've kind of set up a metric that I'm looking for,
+at least five calls per week.
+It's set up to be relatively,
+it should be relatively easy to convert
+if I am able to actually push attention
+to kind of the sales pages I said that I'm building out
+because I'm comfortable enough that I can
+package it up in a way now that should sell.
+It's just about actually like,
+holding the work into the video now
+and making it something that is watchable
+without knowing anything about me
+or being interested in the project specifically
+that I'm working on.
+Where most of the stuff up until now has been
+kind of a more of a vlog style,
+like here's what I'm working on here,
+thinking about now I'm starting to focus on like,
+okay, every video itself becomes
+a very specific asset for the business.
+Are you open to delaying the launch
+of building public university
+while you scale this other business
+to a little bit more revenue
+so that you have more to share?
+Because it feels like I love the idea of like,
+I'm teaching you and documenting in real time
+but it almost feels a little bit early
+because it's like the business is just getting off the ground.
+Well, the goal is actually to have it observable
+from the very beginning.
+And so that's something like,
+the university is intentionally launching
+a little bit messy.
+And I've got a few people that I've been testing with.
+I basically was able to validate the university idea
+about a month ago with five initial signups.
+So I showed that there was some interest in it
+and then basically stopped focusing on getting more students
+and focused more on solidifying the business model.
+And then now that the business model is kind of solidified,
+like I said, a go live of October 1st
+for kind of this starting at zero moment
+and then documenting it as I go through.
+But really the early students are mostly there
+to observe and ask questions.
+And they're basically people who have invested
+somewhat in my story already.
+So like, the university isn't going to be the main revenue driver
+at first.
+Most of my focus is actually building out the business.
+And then ultimately,
+as people observe what I'm doing
+and start asking questions and become interested
+and start doing that,
+the university should actually start growing more on its own
+as a function of the results that I'm getting for myself
+and my students versus me focusing
+on selling the university itself, if that makes sense.
+Yeah.
+I almost feel like it's tough
+because you have to drive demand for both of these products.
+And so it's like, I would rather you build this AI business document
+everything, yes.
+But then once you get it to a certain level
+where it's like people are asking you, hey, how did you do it?
+How did you do it?
+How did you do it?
+Then it's like, okay, now I will launch the university
+and maybe I start a second offer and build it live with them
+so that they can get the full experience.
+But now you have this shining example of proof of like, hey,
+I've done this before.
+It works.
+It's done extremely well.
+Like the stuff I'm teaching you is proven.
+Because like the only potential downside here is like, okay,
+as you're building this business, you get your first few students in,
+like what happens if the AI business doesn't work out?
+Right?
+Because it's still improving.
+Does that ruin the credibility for the university
+and for new students?
+Honestly, at this point, I don't see a chance of it really failing
+because I've been in AI for 15 years now or so.
+And I really started looking at AI, three LLMs
+with actually healthcare machine learning models.
+And I saw kind of early on where AI was headed.
+And I ended up being an early engineer at Hoppy AI
+when they kind of were taking off.
+I joined just before chat GPT came out
+and that kind of created a wave.
+And so that's what we need to include here.
+Okay, you see that's, yeah, that makes perfect sense now.
+You say that because like, it's.
+That there is a lot of.
+I guess that's.
+I'm really bad at thinking about that stuff as proof
+that needs included because it's like I.
+I don't see working there as proof I could do something.
+I see doing something as proof I could do something.
+And that's.
+It's backwards from how I have to think of it.
+Like you have to.
+Create something that is easy for people to.
+Grasp, right?
+And so.
+Well, there's two skepticism's here that this first skepticism is like,
+do you know AI?
+And so that's where it's like, hey, I was an early engineer at Hoppy AI,
+you know, early AI, et cetera.
+And then the second skepticism is like, okay, yes, you know, AI.
+But how do you turn into a business?
+Right?
+That's totally a separate skill set.
+And so that's where I'm asking like, hey,
+maybe we want to build this business out a little bit further
+so that we have some stories and proof that we can use in our copy.
+Because it's like.
+Especially for positioning this as the university,
+it's like, we want to show that like.
+This is proven because we don't want to teach things that aren't proven.
+And so like if I was a potential student,
+the questions I go through before I like invest in a course or a mentorship is like.
+Does this person have the business or life that I want?
+Has this person helped other people get the business or life that I want?
+Has this person helped many people get the life or business that I want?
+And then has this person helped many people like me get the business and life that I want?
+And so you can kind of stack your way up and like climb the ladder of proof.
+And so right now, like we don't have a ton of that.
+And so we have to rely on your years of experience as an engineer or being early to AI,
+working at Poppy to show the things that we do have.
+So that this is like a no brainer.
+Yeah, yeah, that makes sense.
+So let's let's go back up to the promise.
+If you had to say like the core outcome that the people that you're targeting want in like one sentence like what do they want?
+They want to make more money with less time and energy invested.
+Awesome. And are these people do they have a nine to five?
+Are they solo per new or freelancer creator?
+Like what does like if you had to say like their type of business, how do they want to make money?
+I think I'm.
+I think probably targeting solo printers is the right move because they are the ones who are building out all of the systems.
+That are kind of handling things in a way they already understand.
+But they aren't necessarily like technical and probably they're seeing AI is something that they're starting to leverage.
+But they feel like they're they're spending time on it and they don't know.
+If they're actually getting results with it or not, that's kind of I want to help people who aren't certain about where AI is actually creating value for them.
+For the five people that signed up who were they and what was your pitch to them?
+So mostly I've got kind of a collection. So I've got one person who is interested in kind of the crypto research I've been doing and kind of following along that aspect of it.
+There is another one who is a founder of a platform called Buildhop.
+They're working on similar to product hunt, but the idea is basically that you get guaranteed feedback.
+And so they've gamified this feedback mechanism. It's a very cool site.
+I've got another guy who is a kind of he's his focus has been primarily on Bitcoin and that sort of thing.
+He does some writing on sub stack and he's been playing around with AI in some ways.
+And so there's kind of and then I've got a couple other earlier stage founders in there that are building out one is specifically working on a startup around ESPN for youth sports essentially.
+And that's pretty cool. He's doing some neat things there. And then I've got a woman who has an AI startup motivate you it was started in the like during the pandemic and kind of has not grown the way that she had hoped.
+So yeah, we've got kind of a collection of students here for different backgrounds, which does exactly help that clarity position.
+But I think it's going to be interesting to kind of get feedback from them based is a based on my documentation of the stuff that I'm doing the examples I share.
+And my goal really with this group is to have a closer group of people that I could test ideas with essentially a smaller version of Twitter is kind of what I'm hoping for with this where people are interested in the ideas they're asking questions.
+And so yeah, I think the student makeup is it's all over the place right now.
+How are you going to scale this across hundreds of students if they're all from different backgrounds wanting different things.
+Well, that's that's actually the AI system. So Marvin's job is to personalize like he adapts to the people using the system. He learns like basically how you interact with him or how you've interacted with your AI systems previously.
+He doesn't make you adapt to him like he gives you more leverage with the stuff that you're already doing. So you don't have to adapt there. So actually this weird collective of people that I'm going to start integrating into kind of the Marvin system and start learning is actually going to help throughout how adaptable he can be in different environments because it really is this.
+So focus on an AI that gives the human leverage and to do that the AI has to use the humans understanding of the world as like the main structure to base everything off of and then ensure that the reflection of reality is actually in line with what the human understands.
+So that's really where the AI system will ultimately prove its value in being able to kind of handle different types of workflows and still give everybody involved leverage it gets into this idea of human power that I've been focusing on, which is like how much leverage doesn't AI system gives the group of people using it as they're all trying to do more.
+Okay.
+Let's prove that Marvin works.
+Well, that's that's what we're working on now with kind of the first client and the the main proof I've had is the I've been running him as an agent for the last six months or so.
+He's got his own YouTube account or not YouTube Twitter account rather.
+Well, I guess question. So if Marvin is helping the one client on the AI business and Marvin's also helping the students, what's the difference?
+There isn't one and that's the that's the kind of like for it's the same technology.
+Doing both things and it's actually extremely cheap to run, which is what I've been focusing in on is how do I get this system as efficient as possible by removing a bunch of the work that I've been doing that I shouldn't have been doing.
+And so, why would someone pay you $1,000 to use Marvin if they can just pay $2 and use Marvin?
+Because the people paying $2 aren't focused on necessarily like they don't necessarily have a working business that they are trying to integrate with.
+I still think kind of that exploration phase. And so I kind of look at as I look at it as like an introductory onboarding session that can remove basically stretches out the onboarding time and doesn't require this direct time commitment.
+Whereas someone who has a running business that they want to optimize every day that they're not optimizing is basically increased spend that they have less efficiency.
+And so ultimately I'm looking at the university is helping people on board to the concept of AI and really the productized version of AI is my accountability for everything that Marvin is doing and you know promising, right.
+So you kind of have the student level, which is the structure of Marvin and the ideas behind Marvin and access to some of Marvin's capabilities, but I'm not necessarily promising that I'm going to be integrating him into your business, you know, monitoring stuff,
+during the calibration phase. And then, you know, creating that that maintenance phase, but it does create a potential onboarding into that flow.
+They can actually skip kind of the onboarding phase and go into that direct MRR.
+If Marvin has learned enough about the business to kind of just go into that, which I think is a potentially interesting wrinkle to the model.
+Okay.
+How can I best help you get both of these off the ground?
+Well, honestly, this conversation has been super helpful because like even just pulling into the idea of the proof and the early AI job and kind of pulling more of that context into the storytelling I'm doing, I haven't been particularly great at that.
+And it's probably because I got fired from there, like two and a half years in. So it's one of those and I'm like, you know, doesn't feel great, but.
+Yeah, I think I think I need to get into more of that and.
+Okay, so I'll give you so I know we have like 13 minutes and I want to make sure I leave you with some some ideas where you can take and run with.
+To me, it's like if I were running this business, I would want, I would want to do a few things. I think number one is I would want to get this AI business to at least 10k a month.
+So right now you're at 1k and the reason I want to do that is because then you can you can show that this process works yourself that you went from, you know, your early to AI, early engineer and then you leverage AI to start a business and make 10k and I think that is a great storyline that other people desire and want.
+And so that is a great story to build.
+And then in terms of like the outcome for building public university, I think like the best frame here would be like build a lean AI business in 14 days or an XYZ days, because I think it speaks to the idea of like a lot of these people, I don't know if they necessarily want to build a whole on, you know,
+start a business, but like building a lean AI business that is that is desirable. It's like everyone can do that on the side of their job. Everyone can do that.
+You know, the promise is like, hey, you can do this with AI like take you know starting a business in the old days used to take a ton of time and now it's like you can use AI you can use Marvin to start your lean AI business and so that would be probably the outcome or the promise that I would want.
+And then in terms of the avatar, it's like, I would really want to narrow it down to like one type of person. And so maybe they're in crypto and whatever they are, but like you teach one thing right now, which is like learn how to use Marvin to spin up a lean business and maybe the lean business is in crypto or the lean business is an AI startup.
+But like it has to like we want to keep it a straight line so that it's very clear for people of like who is Leo, what's his story, what does he offer and how does he help and then it makes it really clear for copywriting.
+Because even just like this call like, you know, the five different students is like, oh man, like I don't even know how do you own that positioning of like I help all of these people right.
+And so that would be like the North Star positioning frame. And then in terms of promotion, as you build this, this first business, the AI business, it's like, yeah, document your story on YouTube and Twitter and LinkedIn.
+And as you build more proof as you get more results, you actually manufacture your own momentum. So then by the time you get to that 10k, it's like you have an army of people who have followed you from the beginning that are like, oh my gosh, teach me how do I do it.
+I want to do it too. Then you launch building public university because we do both at the same time. It's like ideally it's like, yeah, you could teach both, but it's it's very difficult because let's say the business gets busier or you have to like lock in. It's like, okay, then you sacrifice some students or hey, you get so busy teaching your first 10 students is like the business kind of suffers. And so if you listen to center, it's like you'll notice the number one theme across everything, aside from staying in the game is focus.
+And so if you commit to nothing, you'll be distracted by everything. And so we want to just commit to one thing, get it to a point where we can then show that as proof so that we can do the other thing if that's still interesting.
+But otherwise, it's like, there's going to be so much you're going to be you're going to be fighting uphill. If you're like, join my university and people like, why, like, how do I know it works? Who are you? Like, why should I listen to you?
+Like that, that kind of thing. And so we want to just eliminate that from the get go. And that is how you went on social media because people will give you three seconds of their time before they scroll. And if they have that thought, they're not going to rethink it. Right. And they're just going to keep going. And so we want to be very clear about who I am, how I help, why you should listen.
+And that's how we start to get people interested in what we have to offer.
+I think I have started on Twitter specifically. And I haven't, I've started the expression to kind of the Facebook Instagram meta ecosystem as well.
+But the persona of uncle vibe coder is kind of this way to easily give people something to look at and go, I get the vibe. Right. Like, so kind of it's old school engineering and kind of mixed with some like new school meme coin economics. Right. So you have kind of this double layer integration.
+And so maybe that really is the focus of the positioning and kind of into that like crypto, but with the the engineering background and kind of the focus on actual like maintain systems. I think that might actually be the winning positioning to focus on and not worry too much about anyone outside of that.
+Are you doing this full time? Is this your full time thing? Yeah.
+There's almost an angle of like leading into the fact that you got fired of like, hey, I was an engineer for 15 years. I was early at an AI startup. I saw the power of AI. I leveraged it to help the startup grow. I got fired. And then I realized, man, like, you know, we're fighting against two battles right now, which is like, well, AI replace us. And then just the fact that there is no such thing as job security.
+And so that is why I'm passionate about teaching people how to build and lean AI business. That is a positioning that you can, you can kind of like dominate because it's truth. You know, it's, it's honest. And I think in a world where everyone's claiming these big things. It's like being truthful. It's like, yo, I'm not anyone super special. But I was an engineer for 15 years. I know AI. And I did it myself. And I want to help other people do it. And that is that is a position that we can own. There we go. Yeah. I like that a lot actually that that makes a lot of sense.
+Awesome.
+All right. Let's see.
+I'm curious for the last couple minutes here. Is there anything I can help you with with the book launch or anything.
+I actually, I kind of love the idea of like, I love the fact that I'm getting your books one at a time right now.
+And I'm thinking I might actually do like a video series with that because I think it could be fun right of kind of this unboxing over time and then using that as kind of a recurring theme to connect around and share some of the progress.
+But yeah, I love it if there's, there's anything even just based on the conversation that might be able to help you with.
+Yeah, you know what would be awesome is like, I just love I like helping people win. So like the thing that you could do for me is like, I would love you to win and keep me updated on how everything goes.
+Because like, truly that that would make me super happy to see to see you just do things. And yeah, I would love to love to hear about as you win.
+But sounds great. Well, I will update you as soon as I hit my first 10k month then because that sounds like the first milestone that'll help me get in that trust. And so when we do that, I'll send you that update.
+Awesome. Sounds good, man.
+All right, Jay, I appreciate it. This was incredibly helpful gave me a time to think about and yeah, I think it'll be extremely helpful for all current and future students of building public university.
+Really appreciate you taking the time.
+Amazing. It was a great meeting you, man. Great meeting you. Take care, Jay. Take care.

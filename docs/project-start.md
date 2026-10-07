@@ -14,6 +14,8 @@ Status: clean local experiment workspace initialized from the supplied architect
   - Recording duration: 3157.098667 seconds (52m 37s), stereo AAC, 48 kHz.
   - Transcript outputs are generated under `docs/transcripts/` and must be treated as source-derived working material pending listening/review.
 
+Publication status: Leo confirmed that Jay approved recording and publication to the YouTube channel; the transcript is therefore approved for this public repository as a narrower, source-linked working artifact. The raw recording remains at its original local path and is not copied here.
+
 ## Initial working thesis
 
 Build the smallest auditable loop that can answer: how much value was created by a human contribution, what evidence supports that claim, and what value is returned to that contributor?

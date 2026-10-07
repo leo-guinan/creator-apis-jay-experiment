@@ -1,0 +1,2129 @@
+WEBVTT
+
+00:00.000 --> 00:02.000
+There we go.
+
+00:02.000 --> 00:03.000
+Awesome.
+
+00:03.000 --> 00:05.000
+Yeah, so I'm watching Building Public University, which
+
+00:05.000 --> 00:07.600
+is a first principal's university.
+
+00:07.600 --> 00:09.200
+And so I started with the question
+
+00:09.200 --> 00:12.640
+of what is a university at its most basic level.
+
+00:12.640 --> 00:14.360
+And it's a professor who's willing to teach
+
+00:14.360 --> 00:17.640
+and a student who's willing to learn.
+
+00:17.640 --> 00:24.560
+And so I've set up this structure around that where basically
+
+00:24.560 --> 00:27.800
+each student pays for kind of their network position.
+
+00:27.800 --> 00:31.680
+First student pays a dollar, the second student pays $2.
+
+00:31.680 --> 00:35.000
+And the goal is, if I'm a good professor over time,
+
+00:35.000 --> 00:38.200
+this network of students that I have will grow.
+
+00:38.200 --> 00:41.480
+And then the objective function of a university
+
+00:41.480 --> 00:45.320
+is to minimize the paybacks, the median payback period
+
+00:45.320 --> 00:46.520
+for students.
+
+00:46.520 --> 00:49.360
+And so basically, if I'm not teaching you stuff
+
+00:49.360 --> 00:52.280
+that it gives you leverage over your time,
+
+00:52.280 --> 00:56.360
+I'm not doing my job well as a university.
+
+00:56.360 --> 00:58.440
+And this all actually stems from the research I've
+
+00:58.440 --> 01:00.880
+been doing over the past six years or so
+
+01:00.880 --> 01:06.280
+on entrepreneurship and investing from first principles.
+
+01:06.280 --> 01:09.200
+I've been exploring money from a thermodynamic angle
+
+01:09.200 --> 01:14.560
+and how do we minimize the cost of work getting done.
+
+01:14.560 --> 01:18.200
+I've started doing some stouting for the Wolfram Institute
+
+01:18.200 --> 01:20.480
+with one of their blockchain researchers.
+
+01:20.480 --> 01:23.400
+And so this week, I'm getting into the process
+
+01:23.400 --> 01:25.760
+of communicating it to the world, which
+
+01:25.760 --> 01:27.960
+is the part that I am not particularly good at.
+
+01:27.960 --> 01:31.560
+So it happened to be a perfect time for this call.
+
+01:31.560 --> 01:35.320
+I've actually been working on using the game Stardew Valley
+
+01:35.320 --> 01:38.840
+as an analogy, if you're familiar with it at all.
+
+01:38.840 --> 01:39.880
+I don't think so.
+
+01:39.880 --> 01:43.120
+OK, so it's basically like, it's a cozy game,
+
+01:43.120 --> 01:44.520
+it's kind of the genre.
+
+01:44.520 --> 01:46.520
+And the whole idea is that you build out a farm
+
+01:46.520 --> 01:49.600
+and you kind of build relationships with people in the town.
+
+01:49.600 --> 01:55.160
+And you can kind of build out this nice calm kind of farming
+
+01:55.160 --> 01:56.160
+life.
+
+01:56.160 --> 02:01.000
+And the story is actually kind of the pound versus this mega
+
+02:01.000 --> 02:04.360
+corp coming in with cheaper prices that kind of destroying
+
+02:04.360 --> 02:05.360
+the relationships.
+
+02:05.360 --> 02:07.840
+And it allows you to kind of just do everything with money
+
+02:07.840 --> 02:12.200
+versus some of the relationship building stuff.
+
+02:12.200 --> 02:15.880
+And so as it turns out, it has this perfect realization
+
+02:15.880 --> 02:21.200
+of player energy to money generation.
+
+02:21.200 --> 02:24.840
+And so starting off early game, you have to plant the crops
+
+02:24.840 --> 02:27.240
+and go out and like manually water them.
+
+02:27.240 --> 02:29.680
+A little bit into the game, you get sprinklers, right?
+
+02:29.680 --> 02:32.840
+So now instead of watering the crops each day,
+
+02:32.840 --> 02:34.160
+that's done automatically.
+
+02:34.160 --> 02:37.760
+And so that energy is returned to the human player
+
+02:37.760 --> 02:42.920
+to decide what else to kind of expand into.
+
+02:42.920 --> 02:44.920
+And so with AI, I think basically,
+
+02:44.920 --> 02:48.240
+we just keep adding sprinklers and then bigger and bigger
+
+02:48.240 --> 02:49.040
+fields.
+
+02:49.040 --> 02:52.080
+And we're not actually like taking advantage
+
+02:52.080 --> 02:56.600
+of freeing up human time to actually be more human.
+
+02:56.600 --> 02:58.800
+And so my main focus is helping people
+
+02:58.800 --> 03:03.760
+understand how to leverage AI to create magic for themselves.
+
+03:03.760 --> 03:07.200
+And I kind of define magic is like work not done.
+
+03:07.200 --> 03:11.640
+And so I've been building this AI system that
+
+03:11.640 --> 03:14.440
+integrates into existing businesses
+
+03:14.440 --> 03:16.880
+and basically over time calibrates
+
+03:16.880 --> 03:20.240
+on what all work is being done in the business.
+
+03:20.240 --> 03:25.240
+And then takes work out and shows that outcomes not only
+
+03:25.240 --> 03:27.840
+at least stay the same but actually improve over time
+
+03:27.840 --> 03:33.040
+because you're doing less work, but more meaningful work.
+
+03:33.040 --> 03:34.600
+And that's where I'm headed.
+
+03:34.600 --> 03:38.080
+And just yeah, right now it's a matter of getting
+
+03:38.080 --> 03:40.760
+the copyrighted down.
+
+03:40.760 --> 03:44.480
+And actually your six peas have been helping immensely
+
+03:44.480 --> 03:46.200
+a bit to kind of build a get into the system.
+
+03:46.200 --> 03:48.120
+So that as I create YouTube videos,
+
+03:48.120 --> 03:52.160
+I can just break down the major ideas and actually
+
+03:52.160 --> 03:54.320
+like create specific CTAs.
+
+03:54.320 --> 03:57.200
+And I've already seen like traffic going into the video
+
+03:57.200 --> 03:59.840
+that I started this week with.
+
+03:59.840 --> 04:02.240
+But yeah, I love just maybe your initial thoughts
+
+04:02.240 --> 04:05.080
+and like what stands out to you and maybe what isn't
+
+04:05.080 --> 04:08.080
+being communicated as well.
+
+04:08.080 --> 04:10.600
+Yeah, well, first off, I love the idea.
+
+04:10.600 --> 04:16.160
+I think the world needs more alternative education sources.
+
+04:16.160 --> 04:18.320
+I actually like to shirt the you have too.
+
+04:18.320 --> 04:19.840
+Oh, thank you.
+
+04:19.840 --> 04:21.040
+Do you have the six peas?
+
+04:21.040 --> 04:23.520
+Like we can walk through it because I think I'm most
+
+04:23.520 --> 04:25.720
+curious about who we're trying to target
+
+04:25.720 --> 04:30.160
+and then what the core promises that we are delivering
+
+04:30.160 --> 04:32.640
+to these people.
+
+04:32.640 --> 04:37.000
+Let me pull up where I was working on that.
+
+04:37.000 --> 04:45.920
+And then what channels are you thinking of promoting this on?
+
+04:45.920 --> 04:48.440
+I show YouTube.
+
+04:48.440 --> 04:50.800
+Yeah, so I've been mostly working
+
+04:50.800 --> 04:54.560
+on Twitter LinkedIn and YouTube.
+
+04:54.560 --> 04:57.200
+So I've kind of got Twitter.
+
+04:57.200 --> 05:01.880
+I have some subs back to and that's kind of my longer form.
+
+05:01.880 --> 05:06.840
+But I kind of look at Twitter as kind of my daily notebook.
+
+05:06.840 --> 05:09.040
+It's not particularly reliable.
+
+05:09.040 --> 05:10.720
+But it's a great place to just quickly
+
+05:10.720 --> 05:16.640
+workshop ideas, see how to cat like different crazings, right?
+
+05:16.640 --> 05:21.400
+And LinkedIn now that I've got kind of and I've got my first client
+
+05:21.400 --> 05:26.280
+and I've started to actually integrate into a system
+
+05:26.280 --> 05:28.800
+and gained a lot more clarity on what I'm doing.
+
+05:28.800 --> 05:31.720
+And so kind of the focus this week
+
+05:31.720 --> 05:34.080
+is integrating into that LinkedIn system
+
+05:34.080 --> 05:39.760
+and starting to grow the actual business aspect of it.
+
+05:39.760 --> 05:42.160
+Because part of what I'm doing with building public university
+
+05:42.160 --> 05:47.320
+too is I basically set up my business to start from zero at
+
+05:47.320 --> 05:50.600
+so starting October 1st, I set a $100 a day burn rate
+
+05:50.600 --> 05:54.080
+that is just like showing up and I've got a public dashboard
+
+05:54.080 --> 05:57.720
+that's going to show this over time.
+
+05:57.720 --> 05:59.240
+Because I want to kind of demonstrate
+
+05:59.240 --> 06:04.280
+my entire funnel growing from like basically a zero audience
+
+06:04.280 --> 06:07.920
+up to something generating meaningful revenue.
+
+06:07.960 --> 06:10.320
+So I've got about five students right now
+
+06:10.320 --> 06:14.760
+that I'm kind of starting to bring in and demonstrate this.
+
+06:16.560 --> 06:20.720
+But it's kind of a weird thing.
+
+06:20.720 --> 06:26.040
+And the reason is like I don't have a great understanding
+
+06:26.040 --> 06:30.520
+of specifically who my users are.
+
+06:30.520 --> 06:32.880
+I've got an idea of who my users can be.
+
+06:32.880 --> 06:36.040
+Because like right now the marketing is all on like everything
+
+06:36.040 --> 06:37.880
+that AI can do, right?
+
+06:37.920 --> 06:40.240
+You can get so much done and it feels great.
+
+06:40.240 --> 06:42.600
+You feel so productive.
+
+06:42.600 --> 06:45.520
+And like my argument is basically like actually
+
+06:45.520 --> 06:48.240
+you should be doing less with AI if you're using it right.
+
+06:50.160 --> 06:55.160
+And so like the first client I found is actually
+
+06:55.160 --> 06:58.880
+so he's a creator with about 1500 newsletter subscribers.
+
+06:59.920 --> 07:04.680
+He wants to be able to leverage that more for his business
+
+07:05.840 --> 07:07.280
+but doesn't quite understand how.
+
+07:07.400 --> 07:11.360
+So we're focusing on how do we like rapidly experiment
+
+07:11.360 --> 07:15.800
+with different ideas and see what resonates with his audience
+
+07:15.800 --> 07:20.040
+to kind of make that accessible.
+
+07:20.040 --> 07:24.680
+And so that's the part where like right now
+
+07:24.680 --> 07:28.800
+I'm actually testing kind of multiple audiences
+
+07:28.800 --> 07:31.880
+with this kind of general framing
+
+07:31.880 --> 07:33.920
+and seeing who's actually resonating
+
+07:33.920 --> 07:36.280
+with it the most right now.
+
+07:36.280 --> 07:39.000
+And I think there's something here around creators
+
+07:39.000 --> 07:43.280
+who are feeling like the stuff that they're doing
+
+07:43.280 --> 07:47.040
+is giving them worse results in the age of AI
+
+07:47.040 --> 07:50.840
+because I feel like a lot of the systems
+
+07:50.840 --> 07:52.520
+that people have built up for themselves
+
+07:52.520 --> 07:54.520
+just aren't cutting it anymore.
+
+07:56.640 --> 07:57.480
+Okay.
+
+07:57.480 --> 08:01.120
+So you help creators leverage AI the right way
+
+08:01.120 --> 08:03.680
+to drive business results?
+
+08:03.680 --> 08:05.280
+Yes.
+
+08:05.960 --> 08:09.560
+And then what's the business model for the university?
+
+08:09.560 --> 08:12.000
+So you said it's like for a student pays a dollar
+
+08:12.000 --> 08:13.320
+second student pays two dollars
+
+08:13.320 --> 08:15.520
+and probably many students you work with.
+
+08:16.920 --> 08:18.440
+You know, like keep growing.
+
+08:18.440 --> 08:21.440
+So that's the university's business model
+
+08:21.440 --> 08:23.320
+and then the AI systems business model
+
+08:23.320 --> 08:25.320
+is actually a little different.
+
+08:25.320 --> 08:28.000
+So it actually starts off with like a $1,000 payment
+
+08:28.000 --> 08:30.840
+for a, for the calibration for that phase
+
+08:30.840 --> 08:33.800
+where basically Marvin, my AI system,
+
+08:33.800 --> 08:36.040
+his goal is to pay for himself
+
+08:36.040 --> 08:39.760
+and prove that he can generate results for the business.
+
+08:39.760 --> 08:43.760
+At that point, the goal is to turn that into a 250-month
+
+08:43.760 --> 08:45.200
+recurring revenue model.
+
+08:45.200 --> 08:47.680
+It's basically just maintaining the connections
+
+08:47.680 --> 08:50.560
+and running the stuff that we already know how to run.
+
+08:52.200 --> 08:56.480
+And so that part hasn't been validated fully yet.
+
+08:56.480 --> 08:58.240
+But as I said, I still work with the first client
+
+08:58.240 --> 09:01.800
+in this kind of $1,000 calibration phase.
+
+09:01.840 --> 09:06.160
+But we're seeing kind of already progress
+
+09:06.160 --> 09:08.560
+of how Marvin is learning his system
+
+09:08.560 --> 09:10.160
+and kind of starting to integrate.
+
+09:11.160 --> 09:13.160
+And so that part is looking promising.
+
+09:14.280 --> 09:17.080
+But my thinking is that I've proven now
+
+09:17.080 --> 09:19.600
+that I can convert, it started off
+
+09:19.600 --> 09:21.120
+with like a one-hour coaching call
+
+09:21.120 --> 09:22.880
+that I'd offered in a community.
+
+09:24.600 --> 09:28.200
+And so I've shown that I can kind of turn
+
+09:28.200 --> 09:31.760
+the one-hour coaching call into the $1,000
+
+09:32.760 --> 09:36.200
+so my thinking now is actually I want to offer
+
+09:36.200 --> 09:39.960
+kind of a dual model where basically I'll give
+
+09:39.960 --> 09:42.560
+a free hour of coaching first if they want
+
+09:42.560 --> 09:44.000
+or they can kind of pay up front
+
+09:44.000 --> 09:46.960
+and then the first session becomes a working session
+
+09:46.960 --> 09:49.360
+where we start the integration process.
+
+09:49.360 --> 09:54.200
+And so I'm building out a sales page for that this week
+
+09:54.200 --> 09:57.920
+is kind of what I view is the most likely
+
+09:57.920 --> 10:00.120
+like kind of risk free offer I can create
+
+10:00.200 --> 10:03.160
+that allows some people to kind of pay up front.
+
+10:03.160 --> 10:05.880
+And so if I could start pushing a funnel
+
+10:05.880 --> 10:09.840
+into that offer page, I feel like I should be able
+
+10:09.840 --> 10:13.120
+to generate calls and then at that point
+
+10:13.120 --> 10:17.120
+it's just a matter of showing what Marvin can do.
+
+10:18.760 --> 10:20.400
+So you have two businesses right now.
+
+10:20.400 --> 10:23.960
+You have the AI business and then you have
+
+10:23.960 --> 10:26.680
+the building public university.
+
+10:26.680 --> 10:29.920
+Yeah, and so the idea is actually kind of
+
+10:29.920 --> 10:33.400
+launching the one business as an example
+
+10:33.400 --> 10:37.480
+of me putting the principles of entrepreneurship
+
+10:37.480 --> 10:40.880
+from first principles to work as I've defined them.
+
+10:40.880 --> 10:44.040
+And so like my belief is like,
+
+10:44.040 --> 10:45.800
+if I can't run my own playbook,
+
+10:45.800 --> 10:47.560
+like it's not a good playbook.
+
+10:47.560 --> 10:50.720
+And so I've actually, that's why I spent like last three months
+
+10:50.720 --> 10:53.920
+or so really validating different ideas
+
+10:53.920 --> 10:55.640
+and kind of testing versions.
+
+10:55.640 --> 10:58.880
+And this feels like the actual like winner
+
+10:58.920 --> 11:00.960
+that is easy enough to explain.
+
+11:00.960 --> 11:03.360
+And I've got some examples that I'm able to create
+
+11:03.360 --> 11:05.640
+as I'm going and if through everything.
+
+11:07.320 --> 11:08.320
+Okay, got it.
+
+11:11.880 --> 11:13.280
+If you had to choose one business,
+
+11:13.280 --> 11:15.720
+which one would you want to double down on?
+
+11:17.440 --> 11:20.080
+Yeah, so I can't do one without the other.
+
+11:20.080 --> 11:24.640
+And this is extremely me focused,
+
+11:24.640 --> 11:28.200
+but my goal with all of this was actually
+
+11:28.200 --> 11:31.680
+to be the greatest entrepreneur and investor.
+
+11:31.680 --> 11:33.760
+That was my focus from day one
+
+11:33.760 --> 11:36.640
+and kind of realization, like my realization six years ago
+
+11:36.640 --> 11:41.320
+as an engineer that like I wasn't thinking big enough.
+
+11:41.320 --> 11:43.800
+And then as I started thinking bigger, I was like,
+
+11:43.800 --> 11:46.000
+well, like let's just aim for the top
+
+11:46.000 --> 11:48.000
+and kind of see how the greats do it, right?
+
+11:48.000 --> 11:51.000
+And so you know, you did the work with the best.
+
+11:51.000 --> 11:53.000
+I attempted to work with the best,
+
+11:53.000 --> 11:56.280
+but I didn't present myself nearly as well.
+
+11:56.360 --> 12:01.360
+So I had to kind of learn from the best via media.
+
+12:02.080 --> 12:05.560
+And I actually found like founders podcast
+
+12:05.560 --> 12:08.560
+from David's center and all of his stuff
+
+12:08.560 --> 12:12.200
+just absolutely phenomenal in kind of teaching me
+
+12:12.200 --> 12:15.880
+kind of the mentality and kind of how to think
+
+12:15.880 --> 12:17.480
+about entrepreneurship.
+
+12:18.520 --> 12:21.840
+And then Jim O'Shaughnessy and the Infinite Loops podcast
+
+12:21.840 --> 12:24.160
+is another absolutely phenomenal one.
+
+12:24.160 --> 12:29.160
+And actually Jim is the one I did kind of a public application
+
+12:29.680 --> 12:30.760
+to work with last year,
+
+12:30.760 --> 12:33.800
+because I realized that I needed to understand more about
+
+12:33.800 --> 12:36.920
+how markets worked and just kind of the investing process
+
+12:36.920 --> 12:37.800
+and all of that.
+
+12:38.920 --> 12:42.280
+And I was able to get his attention for a little bit
+
+12:42.280 --> 12:45.400
+and he told me that they like movies, not snapshots.
+
+12:45.400 --> 12:50.120
+And so I was trying to kind of showcase work over time,
+
+12:50.120 --> 12:52.400
+still haven't done a great job at that,
+
+12:52.400 --> 12:55.160
+but I still think there is a chance
+
+12:55.160 --> 12:57.440
+to kind of pull all of this together.
+
+12:57.440 --> 12:59.320
+And so one of the things that I'm looking at
+
+12:59.320 --> 13:04.320
+is how do I turn this launch of the business
+
+13:05.280 --> 13:10.280
+and university together into a movie that showcases
+
+13:10.760 --> 13:13.320
+my thought process and basically compresses
+
+13:13.320 --> 13:18.000
+all of my ideas into something that's actually understandable
+
+13:18.000 --> 13:23.000
+and usable by people who are extremely good at what they do.
+
+13:24.200 --> 13:27.400
+Because frankly, it's like I've been terrible at talking to them
+
+13:27.400 --> 13:28.840
+because I tend to use too many words.
+
+13:28.840 --> 13:30.080
+I don't simplify things well.
+
+13:30.080 --> 13:31.680
+I think deeply about things.
+
+13:32.800 --> 13:35.600
+And that is one of my greatest strengths
+
+13:35.600 --> 13:38.760
+and online communicating has been my greatest weakness
+
+13:38.760 --> 13:39.600
+by far.
+
+13:42.080 --> 13:45.120
+So how do you know when you will be successful
+
+13:45.120 --> 13:45.960
+with these two businesses?
+
+13:45.960 --> 13:48.640
+Do you have like a goal for each of them?
+
+13:48.640 --> 13:50.440
+Like what does success look like
+
+13:50.440 --> 13:54.800
+so that you can show the movie for GM, for example?
+
+13:54.800 --> 13:59.800
+Yeah, I think honestly it's all about student success.
+
+14:01.600 --> 14:06.480
+And so I want students to exceed what I'm doing.
+
+14:06.480 --> 14:09.160
+So basically I want to create examples of things
+
+14:09.160 --> 14:12.960
+that I'm doing in specific aspects of the business.
+
+14:13.000 --> 14:15.880
+And I want students to copy those patterns,
+
+14:15.880 --> 14:19.320
+apply them to their own business, but more successfully,
+
+14:19.320 --> 14:24.560
+to kind of showcase, it's all about understanding
+
+14:24.560 --> 14:28.520
+and kind of seeing the opportunities in your business.
+
+14:28.520 --> 14:33.160
+And those opportunities are unique to you
+
+14:33.160 --> 14:34.720
+and your specific business.
+
+14:34.720 --> 14:35.840
+And so this is one of the reasons
+
+14:35.840 --> 14:38.120
+that teaching entrepreneurship tends to be so difficult
+
+14:38.120 --> 14:40.000
+because you're trying to teach people
+
+14:40.000 --> 14:45.000
+to recognize opportunities that they may not be able
+
+14:45.000 --> 14:46.000
+to recognize.
+
+14:47.160 --> 14:51.800
+And so what I'm trying to do is I like opportunities
+
+14:51.800 --> 14:55.440
+and things that I'm looking for in my own business
+
+14:55.440 --> 15:00.440
+and showcasing how I'm doing that so that they can actually
+
+15:01.120 --> 15:02.680
+see how that works.
+
+15:02.680 --> 15:06.120
+And then ultimately I'd love to start giving them pieces
+
+15:06.120 --> 15:08.280
+of the business as it's working in order
+
+15:08.280 --> 15:10.440
+to let them experiment with it.
+
+15:10.440 --> 15:13.720
+And basically run experiments on a business
+
+15:13.720 --> 15:16.040
+it's not their own to see how it would play out
+
+15:16.040 --> 15:18.760
+so they don't have to take on the risk,
+
+15:18.760 --> 15:23.760
+but they can have a system that lets them experiment
+
+15:24.240 --> 15:28.040
+kind of based on how they view the world.
+
+15:28.920 --> 15:32.200
+Because ultimately I kind of see this as allowing students
+
+15:32.200 --> 15:34.800
+to compete on various aspects of the business
+
+15:34.800 --> 15:38.600
+to where like it doesn't matter which student wins.
+
+15:38.600 --> 15:43.280
+The business is a whole wins because we're kind of all
+
+15:43.280 --> 15:46.320
+working together to make this business a success.
+
+15:46.320 --> 15:49.280
+And so in a way the students in the business
+
+15:49.280 --> 15:52.280
+are designed to become employees in the business
+
+15:53.480 --> 15:57.360
+by helping out on various aspects without formally
+
+15:57.360 --> 16:00.560
+like hiring them and you know going through that process.
+
+16:00.560 --> 16:02.640
+It's more of an apprenticeship model
+
+16:02.640 --> 16:06.440
+where they kind of are able to demonstrate
+
+16:06.440 --> 16:08.520
+what they can do experiment with things
+
+16:08.520 --> 16:12.680
+as they kind of build up trust within the system
+
+16:12.680 --> 16:15.320
+and then you know giving them the opportunity
+
+16:15.320 --> 16:19.800
+to create something that they can use to take to their own gym
+
+16:19.800 --> 16:21.520
+right that is a compression.
+
+16:21.520 --> 16:24.880
+If it's a movie of the work they've done.
+
+16:24.880 --> 16:29.880
+And so I actually have this kind of gets into
+
+16:30.640 --> 16:33.760
+the deeper like engineering architecture of it.
+
+16:34.840 --> 16:38.840
+But I've got this open source project called Creator APIs
+
+16:38.840 --> 16:40.320
+that I've been building out.
+
+16:40.320 --> 16:43.080
+And the idea is to reward humans not models.
+
+16:43.080 --> 16:47.520
+And so it basically allows you to layer on
+
+16:47.520 --> 16:51.520
+human created data on top of AI workflows
+
+16:51.520 --> 16:54.520
+and reward the humans that contributed
+
+16:54.520 --> 16:57.320
+into various queries.
+
+16:57.320 --> 17:02.320
+And the first product that I've been planning out for this
+
+17:02.920 --> 17:04.920
+is called Enchanted Notebook.
+
+17:04.920 --> 17:07.120
+And it allows you to kind of start with a question
+
+17:08.120 --> 17:10.400
+and trace through different human stories.
+
+17:10.400 --> 17:13.640
+And they've been pulling it from kind of the Twitter archives.
+
+17:13.640 --> 17:15.280
+There's a community archive project
+
+17:15.280 --> 17:17.760
+that has like almost 400 accounts in it.
+
+17:19.040 --> 17:21.480
+But I'm pulling all of these human stories together.
+
+17:22.640 --> 17:26.760
+And I want people to start using those
+
+17:26.760 --> 17:29.680
+to think about the futures they want to create.
+
+17:29.680 --> 17:32.480
+And the goal is to kind of generate different assets
+
+17:32.480 --> 17:34.960
+that come together to create a movie trailer.
+
+17:36.040 --> 17:39.560
+Because in this idea of creating a movie for gym,
+
+17:39.560 --> 17:43.280
+I realize like a trailer is such a powerful artifact
+
+17:43.280 --> 17:44.720
+if you're able to create it well
+
+17:44.720 --> 17:47.880
+because it conveys so much information.
+
+17:47.880 --> 17:51.160
+And this is what shorts creators do extremely well, right?
+
+17:51.160 --> 17:56.160
+They can tell incredible stories in such high windows
+
+17:57.680 --> 18:02.680
+and so I see a future where kind of these explorations
+
+18:02.960 --> 18:06.000
+lead to funding.
+
+18:06.000 --> 18:11.000
+And so I'm seeing this basically product line
+
+18:12.520 --> 18:14.120
+that builds up on top of this,
+
+18:14.120 --> 18:18.040
+where all of your source material can kind of eventually
+
+18:18.040 --> 18:20.880
+get pulled into various movies.
+
+18:20.880 --> 18:22.880
+And then you essentially get residual checks
+
+18:22.880 --> 18:26.120
+for the work that you've done online and sharing online
+
+18:26.120 --> 18:29.120
+by kind of contributing human details
+
+18:29.120 --> 18:33.480
+into all these stories that are getting told
+
+18:33.480 --> 18:36.880
+where you're not necessarily the main character, right?
+
+18:36.880 --> 18:39.440
+Which is different from kind of the internet as we know it
+
+18:39.440 --> 18:42.640
+where we reward people for being the main character.
+
+18:44.200 --> 18:48.920
+And so I think there's a really cool future there.
+
+18:50.920 --> 18:54.840
+But that is beyond the initial business model at this point.
+
+18:55.280 --> 18:59.560
+That's one of the demonstrations of the technology
+
+18:59.560 --> 19:03.160
+I'm kind of building out, but realize that it's not
+
+19:03.160 --> 19:05.440
+the cash flowing one yet.
+
+19:05.440 --> 19:07.080
+So I want to get that part started first
+
+19:07.080 --> 19:10.480
+and then we can start working on more of the open source
+
+19:10.480 --> 19:12.280
+bits and pieces that are kind of coming out
+
+19:12.280 --> 19:13.640
+of the client work right now.
+
+19:15.680 --> 19:16.520
+Got it.
+
+19:16.520 --> 19:18.200
+I mean, I like the vision.
+
+19:18.200 --> 19:22.360
+I think you're able to think strategically
+
+19:22.360 --> 19:24.240
+about what you want to do.
+
+19:24.960 --> 19:27.960
+The feedback I'd give is when we're starting a business,
+
+19:27.960 --> 19:32.520
+we want to think about what do we need to do the next week,
+
+19:32.520 --> 19:35.800
+the next two weeks to drive the business forward.
+
+19:35.800 --> 19:39.080
+And so I guess the question for you,
+
+19:39.080 --> 19:43.720
+let's go through the six P's for the building
+
+19:43.720 --> 19:45.560
+public university.
+
+19:45.560 --> 19:50.600
+And if we can nail that, I think it allows us
+
+19:50.600 --> 19:52.480
+to market that more effectively.
+
+19:55.120 --> 19:56.280
+So yeah, let's do that.
+
+19:57.240 --> 19:59.320
+Okay, let me actually just,
+
+19:59.320 --> 20:01.200
+I can just share my screen up here.
+
+20:01.200 --> 20:04.080
+I had chat GPT pull it out for me
+
+20:04.080 --> 20:06.040
+from the conversation we've been working on.
+
+20:09.040 --> 20:10.920
+So yeah, this is the,
+
+20:10.920 --> 20:12.800
+who is building public university for?
+
+20:15.040 --> 20:18.800
+So there's a bunch of different groups,
+
+20:19.320 --> 20:22.800
+it all comes down to who wants more agency in the AI era.
+
+20:22.800 --> 20:25.080
+So it's people who don't feel like they have leverage
+
+20:25.080 --> 20:25.920
+currently.
+
+20:28.000 --> 20:31.680
+And so I think curiosity is the other piece
+
+20:31.680 --> 20:33.280
+that is important.
+
+20:33.280 --> 20:34.120
+And so.
+
+20:34.120 --> 20:36.040
+How do you define builder or founder?
+
+20:36.040 --> 20:36.960
+What does that mean?
+
+20:38.200 --> 20:43.200
+So I think the builders are anybody
+
+20:43.440 --> 20:46.440
+who is taking action on a better future.
+
+20:46.440 --> 20:51.440
+And so I'm actually intentionally open on this definition.
+
+20:51.440 --> 20:57.320
+I spend a lot of time on Twitter, and specifically kind of the IndieHacker worlds.
+
+20:57.320 --> 21:04.200
+And I see a lot of it's people who are rebelling against
+
+21:04.200 --> 21:09.200
+the status quo of employment,
+
+21:09.200 --> 21:14.200
+and they're trying to build products on their own.
+
+21:14.200 --> 21:19.200
+And a lot of times they end up focusing too much on the building
+
+21:19.200 --> 21:21.200
+and not enough on the marketing,
+
+21:21.200 --> 21:25.200
+because the marketing and communications of the product is uncomfortable.
+
+21:25.200 --> 21:27.200
+And this is what we're trying to do.
+
+21:27.200 --> 21:29.200
+We're trying to build products on their own.
+
+21:29.200 --> 21:33.200
+And a lot of times they end up focusing too much on the building
+
+21:33.200 --> 21:34.200
+that's uncomfortable.
+
+21:34.200 --> 21:37.200
+And this is entirely a first person account of exactly
+
+21:37.200 --> 21:40.200
+like what I struggled with for a long time,
+
+21:40.200 --> 21:42.200
+because building was easy, right?
+
+21:42.200 --> 21:45.200
+So I wanted to just kind of build and build and build.
+
+21:45.200 --> 21:49.200
+And so what I've been looking to do is how do I
+
+21:49.200 --> 21:52.200
+take people who are building but not selling
+
+21:52.200 --> 21:55.200
+and connecting with the people who are selling but not building?
+
+21:55.200 --> 21:58.200
+And I kind of look at that as kind of the creator world,
+
+21:58.200 --> 22:02.200
+where the creator is selling their own story ultimately.
+
+22:03.200 --> 22:10.200
+And that's all you really need in order to be successful
+
+22:10.200 --> 22:12.200
+in kind of the internet age, right?
+
+22:12.200 --> 22:15.200
+You have to have a firm grasp on your story and like where you want to go
+
+22:15.200 --> 22:20.200
+and be able to communicate it in a way that others can attach to
+
+22:20.200 --> 22:24.200
+and want to help you along your way.
+
+22:24.200 --> 22:29.200
+And so I look at kind of builders and creators
+
+22:29.200 --> 22:33.200
+and kind of like the two polarities that ultimately
+
+22:33.200 --> 22:38.200
+combine into founder when they kind of bridge that gap
+
+22:38.200 --> 22:42.200
+between the future that they want to create
+
+22:42.200 --> 22:45.200
+and kind of what they're able to build now,
+
+22:45.200 --> 22:47.200
+which as I've probably demonstrated,
+
+22:47.200 --> 22:50.200
+I'm exactly the state where like I have a pretty clear idea
+
+22:50.200 --> 22:52.200
+of the future that I want to create
+
+22:52.200 --> 22:57.200
+and I'm much less clear on specifically how I can communicate that now.
+
+23:00.200 --> 23:03.200
+Okay, okay, cool.
+
+23:05.200 --> 23:07.200
+Okay, so on to positioning.
+
+23:07.200 --> 23:12.200
+So why this instead of another course,
+
+23:12.200 --> 23:16.200
+it's open source first principles university
+
+23:16.200 --> 23:19.200
+and it's built for adaptability.
+
+23:19.200 --> 23:22.200
+It's a constantly running lab.
+
+23:22.200 --> 23:27.200
+We don't lecture on much because we don't know exactly
+
+23:27.200 --> 23:29.200
+what the future is going to hold.
+
+23:29.200 --> 23:32.200
+We know that we can create leverage around our own time,
+
+23:32.200 --> 23:37.200
+but we have to open up kind of optionality to the future.
+
+23:37.200 --> 23:41.200
+And so having it designed this way,
+
+23:41.200 --> 23:46.200
+my goal is to actually have different people pop up
+
+23:46.200 --> 23:51.200
+competing universities that all basically run the same structure
+
+23:51.200 --> 23:54.200
+so that we can aggregate that data.
+
+23:55.200 --> 23:59.200
+And then if we go into the promise,
+
+23:59.200 --> 24:02.200
+it's all about turning AI into personal leverage.
+
+24:02.200 --> 24:08.200
+If you're not using AI to push your ideas into reality
+
+24:08.200 --> 24:13.200
+and testing them, getting feedback on what you're actually doing,
+
+24:13.200 --> 24:16.200
+you know, you're not actually building that leverage.
+
+24:16.200 --> 24:22.200
+And so that's why the main metric is that payback period
+
+24:22.200 --> 24:24.200
+that we're focusing on, right?
+
+24:24.200 --> 24:26.200
+Like how quickly do you take information
+
+24:26.200 --> 24:30.200
+and turn that into revenue by leveraging the skills
+
+24:30.200 --> 24:33.200
+and knowledge you already have?
+
+24:35.200 --> 24:37.200
+The proof.
+
+24:37.200 --> 24:40.200
+Again, it's kind of this whole I went first, right?
+
+24:40.200 --> 24:43.200
+I'm doing it in public while also teaching it.
+
+24:43.200 --> 24:49.200
+And so I'm explaining the things I'm implementing
+
+24:49.200 --> 24:53.200
+as I'm kind of building them, setting them up,
+
+24:53.200 --> 24:58.200
+kind of behind the scenes on planning out the YouTube videos
+
+24:58.200 --> 25:04.200
+and how I've kind of started with some that are mostly just talking head,
+
+25:04.200 --> 25:08.200
+easy for me to turn on the camera and record with
+
+25:08.200 --> 25:11.200
+and then set up some systems that chopped that up,
+
+25:11.200 --> 25:14.200
+distributed kind of according to these six Ps
+
+25:14.200 --> 25:17.200
+as we break out some experiments from it.
+
+25:18.200 --> 25:22.200
+And then kind of looking at now,
+
+25:22.200 --> 25:27.200
+going deeper into the video packaging,
+
+25:27.200 --> 25:29.200
+combining it.
+
+25:29.200 --> 25:33.200
+Is there any proof of the methods that you will be teaching
+
+25:33.200 --> 25:36.200
+or documenting have worked?
+
+25:36.200 --> 25:46.200
+So I've got a dashboard that is starting to show the metrics.
+
+25:46.200 --> 25:49.200
+And basically I'm trying to open up the entire funnel
+
+25:49.200 --> 25:55.200
+and show where I'm looking at the attention at the top
+
+25:55.200 --> 26:01.200
+versus what's like the time that goes into create the asset
+
+26:01.200 --> 26:05.200
+and all related assets.
+
+26:05.200 --> 26:08.200
+So the first thing that I've been able to show this week
+
+26:08.200 --> 26:12.200
+is by just adding in this basic marketing flow
+
+26:12.200 --> 26:15.200
+to the first building public university video.
+
+26:15.200 --> 26:20.200
+We were able to drive an extra,
+
+26:20.200 --> 26:24.200
+think roughly about 40 views of the video.
+
+26:24.200 --> 26:27.200
+We were only getting about 10 views on average per video
+
+26:27.200 --> 26:29.200
+for the last couple of weeks.
+
+26:29.200 --> 26:33.200
+I've got a buddy who's been helping me get the channel warmed up
+
+26:33.200 --> 26:37.200
+for a while and we've got a good baseline now.
+
+26:37.200 --> 26:44.200
+So we're already starting to show some leverage being created
+
+26:44.200 --> 26:47.200
+so that the next video we're focusing on,
+
+26:47.200 --> 26:49.200
+we have a goal of a thousand views
+
+26:49.200 --> 26:51.200
+because we're actually like,
+
+26:51.200 --> 26:54.200
+like I'm working on kind of,
+
+26:54.200 --> 26:59.200
+actually it's based a lot on your breakdown format
+
+26:59.200 --> 27:03.200
+of the video that works.
+
+27:03.200 --> 27:05.200
+I have it in another chat,
+
+27:05.200 --> 27:10.200
+but with the start of Valley video,
+
+27:10.200 --> 27:14.200
+I'm putting in more production value to that
+
+27:14.200 --> 27:19.200
+and showing ideally how the top of funnel feeds
+
+27:19.200 --> 27:26.200
+into the kind of business aspect
+
+27:26.200 --> 27:28.200
+and kind of booking calls per week.
+
+27:28.200 --> 27:31.200
+So I've kind of set up a metric that I'm looking for,
+
+27:31.200 --> 27:33.200
+at least five calls per week.
+
+27:33.200 --> 27:37.200
+It's set up to be relatively,
+
+27:37.200 --> 27:41.200
+it should be relatively easy to convert
+
+27:41.200 --> 27:46.200
+if I am able to actually push attention
+
+27:46.200 --> 27:52.200
+to kind of the sales pages I said that I'm building out
+
+27:52.200 --> 27:57.200
+because I'm comfortable enough that I can
+
+27:57.200 --> 28:02.200
+package it up in a way now that should sell.
+
+28:02.200 --> 28:09.200
+It's just about actually like,
+
+28:09.200 --> 28:14.200
+holding the work into the video now
+
+28:14.200 --> 28:18.200
+and making it something that is watchable
+
+28:18.200 --> 28:21.200
+without knowing anything about me
+
+28:21.200 --> 28:23.200
+or being interested in the project specifically
+
+28:23.200 --> 28:24.200
+that I'm working on.
+
+28:24.200 --> 28:26.200
+Where most of the stuff up until now has been
+
+28:26.200 --> 28:29.200
+kind of a more of a vlog style,
+
+28:29.200 --> 28:31.200
+like here's what I'm working on here,
+
+28:31.200 --> 28:34.200
+thinking about now I'm starting to focus on like,
+
+28:34.200 --> 28:37.200
+okay, every video itself becomes
+
+28:37.200 --> 28:43.200
+a very specific asset for the business.
+
+28:43.200 --> 28:46.200
+Are you open to delaying the launch
+
+28:46.200 --> 28:48.200
+of building public university
+
+28:48.200 --> 28:51.200
+while you scale this other business
+
+28:51.200 --> 28:53.200
+to a little bit more revenue
+
+28:53.200 --> 28:55.200
+so that you have more to share?
+
+28:55.200 --> 28:58.200
+Because it feels like I love the idea of like,
+
+28:58.200 --> 29:01.200
+I'm teaching you and documenting in real time
+
+29:01.200 --> 29:03.200
+but it almost feels a little bit early
+
+29:03.200 --> 29:07.200
+because it's like the business is just getting off the ground.
+
+29:07.200 --> 29:11.200
+Well, the goal is actually to have it observable
+
+29:11.200 --> 29:12.200
+from the very beginning.
+
+29:12.200 --> 29:15.200
+And so that's something like,
+
+29:15.200 --> 29:18.200
+the university is intentionally launching
+
+29:18.200 --> 29:19.200
+a little bit messy.
+
+29:19.200 --> 29:25.200
+And I've got a few people that I've been testing with.
+
+29:25.200 --> 29:30.200
+I basically was able to validate the university idea
+
+29:30.200 --> 29:33.200
+about a month ago with five initial signups.
+
+29:33.200 --> 29:35.200
+So I showed that there was some interest in it
+
+29:35.200 --> 29:39.200
+and then basically stopped focusing on getting more students
+
+29:39.200 --> 29:44.200
+and focused more on solidifying the business model.
+
+29:44.200 --> 29:48.200
+And then now that the business model is kind of solidified,
+
+29:48.200 --> 29:52.200
+like I said, a go live of October 1st
+
+29:52.200 --> 29:56.200
+for kind of this starting at zero moment
+
+29:56.200 --> 30:00.200
+and then documenting it as I go through.
+
+30:00.200 --> 30:04.200
+But really the early students are mostly there
+
+30:04.200 --> 30:07.200
+to observe and ask questions.
+
+30:07.200 --> 30:11.200
+And they're basically people who have invested
+
+30:11.200 --> 30:13.200
+somewhat in my story already.
+
+30:13.200 --> 30:17.200
+So like, the university isn't going to be the main revenue driver
+
+30:17.200 --> 30:18.200
+at first.
+
+30:18.200 --> 30:22.200
+Most of my focus is actually building out the business.
+
+30:22.200 --> 30:24.200
+And then ultimately,
+
+30:24.200 --> 30:26.200
+as people observe what I'm doing
+
+30:26.200 --> 30:29.200
+and start asking questions and become interested
+
+30:29.200 --> 30:31.200
+and start doing that,
+
+30:31.200 --> 30:34.200
+the university should actually start growing more on its own
+
+30:34.200 --> 30:38.200
+as a function of the results that I'm getting for myself
+
+30:38.200 --> 30:41.200
+and my students versus me focusing
+
+30:41.200 --> 30:46.200
+on selling the university itself, if that makes sense.
+
+30:46.200 --> 30:47.200
+Yeah.
+
+30:47.200 --> 30:49.200
+I almost feel like it's tough
+
+30:49.200 --> 30:52.200
+because you have to drive demand for both of these products.
+
+30:52.200 --> 30:56.200
+And so it's like, I would rather you build this AI business document
+
+30:56.200 --> 30:57.200
+everything, yes.
+
+30:57.200 --> 30:59.200
+But then once you get it to a certain level
+
+30:59.200 --> 31:01.200
+where it's like people are asking you, hey, how did you do it?
+
+31:01.200 --> 31:02.200
+How did you do it?
+
+31:02.200 --> 31:03.200
+How did you do it?
+
+31:03.200 --> 31:05.200
+Then it's like, okay, now I will launch the university
+
+31:05.200 --> 31:09.200
+and maybe I start a second offer and build it live with them
+
+31:09.200 --> 31:11.200
+so that they can get the full experience.
+
+31:11.200 --> 31:14.200
+But now you have this shining example of proof of like, hey,
+
+31:14.200 --> 31:15.200
+I've done this before.
+
+31:15.200 --> 31:16.200
+It works.
+
+31:16.200 --> 31:17.200
+It's done extremely well.
+
+31:17.200 --> 31:19.200
+Like the stuff I'm teaching you is proven.
+
+31:19.200 --> 31:23.200
+Because like the only potential downside here is like, okay,
+
+31:23.200 --> 31:26.200
+as you're building this business, you get your first few students in,
+
+31:26.200 --> 31:28.200
+like what happens if the AI business doesn't work out?
+
+31:28.200 --> 31:29.200
+Right?
+
+31:29.200 --> 31:30.200
+Because it's still improving.
+
+31:30.200 --> 31:33.200
+Does that ruin the credibility for the university
+
+31:33.200 --> 31:35.200
+and for new students?
+
+31:35.200 --> 31:40.200
+Honestly, at this point, I don't see a chance of it really failing
+
+31:40.200 --> 31:50.200
+because I've been in AI for 15 years now or so.
+
+31:50.200 --> 31:55.200
+And I really started looking at AI, three LLMs
+
+31:55.200 --> 31:59.200
+with actually healthcare machine learning models.
+
+31:59.200 --> 32:05.200
+And I saw kind of early on where AI was headed.
+
+32:05.200 --> 32:08.200
+And I ended up being an early engineer at Hoppy AI
+
+32:09.200 --> 32:11.200
+when they kind of were taking off.
+
+32:11.200 --> 32:14.200
+I joined just before chat GPT came out
+
+32:14.200 --> 32:18.200
+and that kind of created a wave.
+
+32:18.200 --> 32:22.200
+And so that's what we need to include here.
+
+32:22.200 --> 32:25.200
+Okay, you see that's, yeah, that makes perfect sense now.
+
+32:25.200 --> 32:28.200
+You say that because like, it's.
+
+32:28.200 --> 32:36.200
+That there is a lot of.
+
+32:36.200 --> 32:39.200
+I guess that's.
+
+32:39.200 --> 32:41.200
+I'm really bad at thinking about that stuff as proof
+
+32:41.200 --> 32:44.200
+that needs included because it's like I.
+
+32:44.200 --> 32:47.200
+I don't see working there as proof I could do something.
+
+32:47.200 --> 32:49.200
+I see doing something as proof I could do something.
+
+32:49.200 --> 32:51.200
+And that's.
+
+32:51.200 --> 32:53.200
+It's backwards from how I have to think of it.
+
+32:53.200 --> 32:55.200
+Like you have to.
+
+32:55.200 --> 32:58.200
+Create something that is easy for people to.
+
+32:58.200 --> 32:59.200
+Grasp, right?
+
+32:59.200 --> 33:01.200
+And so.
+
+33:01.200 --> 33:04.200
+Well, there's two skepticism's here that this first skepticism is like,
+
+33:04.200 --> 33:07.200
+do you know AI?
+
+33:07.200 --> 33:10.200
+And so that's where it's like, hey, I was an early engineer at Hoppy AI,
+
+33:10.200 --> 33:12.200
+you know, early AI, et cetera.
+
+33:12.200 --> 33:15.200
+And then the second skepticism is like, okay, yes, you know, AI.
+
+33:15.200 --> 33:16.200
+But how do you turn into a business?
+
+33:16.200 --> 33:17.200
+Right?
+
+33:17.200 --> 33:18.200
+That's totally a separate skill set.
+
+33:18.200 --> 33:20.200
+And so that's where I'm asking like, hey,
+
+33:20.200 --> 33:22.200
+maybe we want to build this business out a little bit further
+
+33:22.200 --> 33:26.200
+so that we have some stories and proof that we can use in our copy.
+
+33:26.200 --> 33:28.200
+Because it's like.
+
+33:28.200 --> 33:30.200
+Especially for positioning this as the university,
+
+33:30.200 --> 33:33.200
+it's like, we want to show that like.
+
+33:33.200 --> 33:36.200
+This is proven because we don't want to teach things that aren't proven.
+
+33:36.200 --> 33:39.200
+And so like if I was a potential student,
+
+33:39.200 --> 33:44.200
+the questions I go through before I like invest in a course or a mentorship is like.
+
+33:44.200 --> 33:47.200
+Does this person have the business or life that I want?
+
+33:47.200 --> 33:51.200
+Has this person helped other people get the business or life that I want?
+
+33:51.200 --> 33:55.200
+Has this person helped many people get the life or business that I want?
+
+33:55.200 --> 33:59.200
+And then has this person helped many people like me get the business and life that I want?
+
+33:59.200 --> 34:03.200
+And so you can kind of stack your way up and like climb the ladder of proof.
+
+34:03.200 --> 34:06.200
+And so right now, like we don't have a ton of that.
+
+34:06.200 --> 34:11.200
+And so we have to rely on your years of experience as an engineer or being early to AI,
+
+34:11.200 --> 34:15.200
+working at Poppy to show the things that we do have.
+
+34:15.200 --> 34:19.200
+So that this is like a no brainer.
+
+34:19.200 --> 34:27.200
+Yeah, yeah, that makes sense.
+
+34:27.200 --> 34:31.200
+So let's let's go back up to the promise.
+
+34:31.200 --> 34:48.200
+If you had to say like the core outcome that the people that you're targeting want in like one sentence like what do they want?
+
+34:48.200 --> 34:56.200
+They want to make more money with less time and energy invested.
+
+34:56.200 --> 35:00.200
+Awesome. And are these people do they have a nine to five?
+
+35:00.200 --> 35:03.200
+Are they solo per new or freelancer creator?
+
+35:03.200 --> 35:10.200
+Like what does like if you had to say like their type of business, how do they want to make money?
+
+35:10.200 --> 35:14.200
+I think I'm.
+
+35:14.200 --> 35:25.200
+I think probably targeting solo printers is the right move because they are the ones who are building out all of the systems.
+
+35:25.200 --> 35:32.200
+That are kind of handling things in a way they already understand.
+
+35:32.200 --> 35:48.200
+But they aren't necessarily like technical and probably they're seeing AI is something that they're starting to leverage.
+
+35:48.200 --> 35:53.200
+But they feel like they're they're spending time on it and they don't know.
+
+35:53.200 --> 36:05.200
+If they're actually getting results with it or not, that's kind of I want to help people who aren't certain about where AI is actually creating value for them.
+
+36:05.200 --> 36:10.200
+For the five people that signed up who were they and what was your pitch to them?
+
+36:10.200 --> 36:26.200
+So mostly I've got kind of a collection. So I've got one person who is interested in kind of the crypto research I've been doing and kind of following along that aspect of it.
+
+36:26.200 --> 36:33.200
+There is another one who is a founder of a platform called Buildhop.
+
+36:33.200 --> 36:41.200
+They're working on similar to product hunt, but the idea is basically that you get guaranteed feedback.
+
+36:41.200 --> 36:47.200
+And so they've gamified this feedback mechanism. It's a very cool site.
+
+36:47.200 --> 37:00.200
+I've got another guy who is a kind of he's his focus has been primarily on Bitcoin and that sort of thing.
+
+37:00.200 --> 37:09.200
+He does some writing on sub stack and he's been playing around with AI in some ways.
+
+37:09.200 --> 37:28.200
+And so there's kind of and then I've got a couple other earlier stage founders in there that are building out one is specifically working on a startup around ESPN for youth sports essentially.
+
+37:28.200 --> 37:52.200
+And that's pretty cool. He's doing some neat things there. And then I've got a woman who has an AI startup motivate you it was started in the like during the pandemic and kind of has not grown the way that she had hoped.
+
+37:52.200 --> 38:01.200
+So yeah, we've got kind of a collection of students here for different backgrounds, which does exactly help that clarity position.
+
+38:01.200 --> 38:14.200
+But I think it's going to be interesting to kind of get feedback from them based is a based on my documentation of the stuff that I'm doing the examples I share.
+
+38:14.200 --> 38:38.200
+And my goal really with this group is to have a closer group of people that I could test ideas with essentially a smaller version of Twitter is kind of what I'm hoping for with this where people are interested in the ideas they're asking questions.
+
+38:38.200 --> 38:48.200
+And so yeah, I think the student makeup is it's all over the place right now.
+
+38:48.200 --> 38:55.200
+How are you going to scale this across hundreds of students if they're all from different backgrounds wanting different things.
+
+38:55.200 --> 39:12.200
+Well, that's that's actually the AI system. So Marvin's job is to personalize like he adapts to the people using the system. He learns like basically how you interact with him or how you've interacted with your AI systems previously.
+
+39:12.200 --> 39:41.200
+He doesn't make you adapt to him like he gives you more leverage with the stuff that you're already doing. So you don't have to adapt there. So actually this weird collective of people that I'm going to start integrating into kind of the Marvin system and start learning is actually going to help throughout how adaptable he can be in different environments because it really is this.
+
+39:41.200 --> 40:05.200
+So focus on an AI that gives the human leverage and to do that the AI has to use the humans understanding of the world as like the main structure to base everything off of and then ensure that the reflection of reality is actually in line with what the human understands.
+
+40:05.200 --> 40:34.200
+So that's really where the AI system will ultimately prove its value in being able to kind of handle different types of workflows and still give everybody involved leverage it gets into this idea of human power that I've been focusing on, which is like how much leverage doesn't AI system gives the group of people using it as they're all trying to do more.
+
+40:36.200 --> 40:38.200
+Okay.
+
+40:40.200 --> 40:43.200
+Let's prove that Marvin works.
+
+40:43.200 --> 40:59.200
+Well, that's that's what we're working on now with kind of the first client and the the main proof I've had is the I've been running him as an agent for the last six months or so.
+
+40:59.200 --> 41:06.200
+He's got his own YouTube account or not YouTube Twitter account rather.
+
+41:06.200 --> 41:13.200
+Well, I guess question. So if Marvin is helping the one client on the AI business and Marvin's also helping the students, what's the difference?
+
+41:13.200 --> 41:20.200
+There isn't one and that's the that's the kind of like for it's the same technology.
+
+41:20.200 --> 41:39.200
+Doing both things and it's actually extremely cheap to run, which is what I've been focusing in on is how do I get this system as efficient as possible by removing a bunch of the work that I've been doing that I shouldn't have been doing.
+
+41:40.200 --> 41:49.200
+And so, why would someone pay you $1,000 to use Marvin if they can just pay $2 and use Marvin?
+
+41:52.200 --> 42:04.200
+Because the people paying $2 aren't focused on necessarily like they don't necessarily have a working business that they are trying to integrate with.
+
+42:04.200 --> 42:25.200
+I still think kind of that exploration phase. And so I kind of look at as I look at it as like an introductory onboarding session that can remove basically stretches out the onboarding time and doesn't require this direct time commitment.
+
+42:25.200 --> 42:38.200
+Whereas someone who has a running business that they want to optimize every day that they're not optimizing is basically increased spend that they have less efficiency.
+
+42:38.200 --> 43:00.200
+And so ultimately I'm looking at the university is helping people on board to the concept of AI and really the productized version of AI is my accountability for everything that Marvin is doing and you know promising, right.
+
+43:00.200 --> 43:20.200
+So you kind of have the student level, which is the structure of Marvin and the ideas behind Marvin and access to some of Marvin's capabilities, but I'm not necessarily promising that I'm going to be integrating him into your business, you know, monitoring stuff,
+
+43:20.200 --> 43:31.200
+during the calibration phase. And then, you know, creating that that maintenance phase, but it does create a potential onboarding into that flow.
+
+43:31.200 --> 43:39.200
+They can actually skip kind of the onboarding phase and go into that direct MRR.
+
+43:39.200 --> 43:53.200
+If Marvin has learned enough about the business to kind of just go into that, which I think is a potentially interesting wrinkle to the model.
+
+43:53.200 --> 43:56.200
+Okay.
+
+43:56.200 --> 44:02.200
+How can I best help you get both of these off the ground?
+
+44:02.200 --> 44:27.200
+Well, honestly, this conversation has been super helpful because like even just pulling into the idea of the proof and the early AI job and kind of pulling more of that context into the storytelling I'm doing, I haven't been particularly great at that.
+
+44:27.200 --> 44:38.200
+And it's probably because I got fired from there, like two and a half years in. So it's one of those and I'm like, you know, doesn't feel great, but.
+
+44:38.200 --> 44:47.200
+Yeah, I think I think I need to get into more of that and.
+
+44:47.200 --> 44:57.200
+Okay, so I'll give you so I know we have like 13 minutes and I want to make sure I leave you with some some ideas where you can take and run with.
+
+45:00.200 --> 45:10.200
+To me, it's like if I were running this business, I would want, I would want to do a few things. I think number one is I would want to get this AI business to at least 10k a month.
+
+45:10.200 --> 45:30.200
+So right now you're at 1k and the reason I want to do that is because then you can you can show that this process works yourself that you went from, you know, your early to AI, early engineer and then you leverage AI to start a business and make 10k and I think that is a great storyline that other people desire and want.
+
+45:30.200 --> 45:34.200
+And so that is a great story to build.
+
+45:34.200 --> 45:54.200
+And then in terms of like the outcome for building public university, I think like the best frame here would be like build a lean AI business in 14 days or an XYZ days, because I think it speaks to the idea of like a lot of these people, I don't know if they necessarily want to build a whole on, you know,
+
+45:54.200 --> 46:03.200
+start a business, but like building a lean AI business that is that is desirable. It's like everyone can do that on the side of their job. Everyone can do that.
+
+46:03.200 --> 46:18.200
+You know, the promise is like, hey, you can do this with AI like take you know starting a business in the old days used to take a ton of time and now it's like you can use AI you can use Marvin to start your lean AI business and so that would be probably the outcome or the promise that I would want.
+
+46:18.200 --> 46:38.200
+And then in terms of the avatar, it's like, I would really want to narrow it down to like one type of person. And so maybe they're in crypto and whatever they are, but like you teach one thing right now, which is like learn how to use Marvin to spin up a lean business and maybe the lean business is in crypto or the lean business is an AI startup.
+
+46:38.200 --> 46:52.200
+But like it has to like we want to keep it a straight line so that it's very clear for people of like who is Leo, what's his story, what does he offer and how does he help and then it makes it really clear for copywriting.
+
+46:52.200 --> 47:02.200
+Because even just like this call like, you know, the five different students is like, oh man, like I don't even know how do you own that positioning of like I help all of these people right.
+
+47:02.200 --> 47:16.200
+And so that would be like the North Star positioning frame. And then in terms of promotion, as you build this, this first business, the AI business, it's like, yeah, document your story on YouTube and Twitter and LinkedIn.
+
+47:16.200 --> 47:29.200
+And as you build more proof as you get more results, you actually manufacture your own momentum. So then by the time you get to that 10k, it's like you have an army of people who have followed you from the beginning that are like, oh my gosh, teach me how do I do it.
+
+47:29.200 --> 47:55.200
+I want to do it too. Then you launch building public university because we do both at the same time. It's like ideally it's like, yeah, you could teach both, but it's it's very difficult because let's say the business gets busier or you have to like lock in. It's like, okay, then you sacrifice some students or hey, you get so busy teaching your first 10 students is like the business kind of suffers. And so if you listen to center, it's like you'll notice the number one theme across everything, aside from staying in the game is focus.
+
+47:55.200 --> 48:07.200
+And so if you commit to nothing, you'll be distracted by everything. And so we want to just commit to one thing, get it to a point where we can then show that as proof so that we can do the other thing if that's still interesting.
+
+48:07.200 --> 48:19.200
+But otherwise, it's like, there's going to be so much you're going to be you're going to be fighting uphill. If you're like, join my university and people like, why, like, how do I know it works? Who are you? Like, why should I listen to you?
+
+48:19.200 --> 48:37.200
+Like that, that kind of thing. And so we want to just eliminate that from the get go. And that is how you went on social media because people will give you three seconds of their time before they scroll. And if they have that thought, they're not going to rethink it. Right. And they're just going to keep going. And so we want to be very clear about who I am, how I help, why you should listen.
+
+48:37.200 --> 48:43.200
+And that's how we start to get people interested in what we have to offer.
+
+48:43.200 --> 48:58.200
+I think I have started on Twitter specifically. And I haven't, I've started the expression to kind of the Facebook Instagram meta ecosystem as well.
+
+48:58.200 --> 49:24.200
+But the persona of uncle vibe coder is kind of this way to easily give people something to look at and go, I get the vibe. Right. Like, so kind of it's old school engineering and kind of mixed with some like new school meme coin economics. Right. So you have kind of this double layer integration.
+
+49:24.200 --> 49:50.200
+And so maybe that really is the focus of the positioning and kind of into that like crypto, but with the the engineering background and kind of the focus on actual like maintain systems. I think that might actually be the winning positioning to focus on and not worry too much about anyone outside of that.
+
+49:50.200 --> 49:56.200
+Are you doing this full time? Is this your full time thing? Yeah.
+
+49:56.200 --> 50:18.200
+There's almost an angle of like leading into the fact that you got fired of like, hey, I was an engineer for 15 years. I was early at an AI startup. I saw the power of AI. I leveraged it to help the startup grow. I got fired. And then I realized, man, like, you know, we're fighting against two battles right now, which is like, well, AI replace us. And then just the fact that there is no such thing as job security.
+
+50:18.200 --> 50:47.200
+And so that is why I'm passionate about teaching people how to build and lean AI business. That is a positioning that you can, you can kind of like dominate because it's truth. You know, it's, it's honest. And I think in a world where everyone's claiming these big things. It's like being truthful. It's like, yo, I'm not anyone super special. But I was an engineer for 15 years. I know AI. And I did it myself. And I want to help other people do it. And that is that is a position that we can own. There we go. Yeah. I like that a lot actually that that makes a lot of sense.
+
+50:49.200 --> 50:51.200
+Awesome.
+
+50:54.200 --> 50:57.200
+All right. Let's see.
+
+50:57.200 --> 51:06.200
+I'm curious for the last couple minutes here. Is there anything I can help you with with the book launch or anything.
+
+51:06.200 --> 51:13.200
+I actually, I kind of love the idea of like, I love the fact that I'm getting your books one at a time right now.
+
+51:14.200 --> 51:31.200
+And I'm thinking I might actually do like a video series with that because I think it could be fun right of kind of this unboxing over time and then using that as kind of a recurring theme to connect around and share some of the progress.
+
+51:31.200 --> 51:39.200
+But yeah, I love it if there's, there's anything even just based on the conversation that might be able to help you with.
+
+51:39.200 --> 51:50.200
+Yeah, you know what would be awesome is like, I just love I like helping people win. So like the thing that you could do for me is like, I would love you to win and keep me updated on how everything goes.
+
+51:50.200 --> 52:00.200
+Because like, truly that that would make me super happy to see to see you just do things. And yeah, I would love to love to hear about as you win.
+
+52:00.200 --> 52:12.200
+But sounds great. Well, I will update you as soon as I hit my first 10k month then because that sounds like the first milestone that'll help me get in that trust. And so when we do that, I'll send you that update.
+
+52:12.200 --> 52:14.200
+Awesome. Sounds good, man.
+
+52:14.200 --> 52:27.200
+All right, Jay, I appreciate it. This was incredibly helpful gave me a time to think about and yeah, I think it'll be extremely helpful for all current and future students of building public university.
+
+52:27.200 --> 52:30.200
+Really appreciate you taking the time.
+
+52:30.200 --> 52:36.200
+Amazing. It was a great meeting you, man. Great meeting you. Take care, Jay. Take care.
+
