@@ -43,6 +43,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/http-scenario-replay-contract.md` — end-to-end localhost route/conversion/report replay.
 - `docs/operator-scenario-selector.md` — fixed local read-only scenario selection in the dashboard.
 - `docs/health-readiness-contract.md` — local health endpoint and independent server checker.
+- `docs/restart-recovery-contract.md` — HTTP observation/report recovery across a local restart.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -86,4 +87,10 @@ Check the running local process before opening the dashboard:
 
 ```bash
 PYTHONPATH=src:scripts python3 scripts/check_local_server.py --base-url http://127.0.0.1:8080
+```
+
+Check SQLite recovery across a bounded local restart:
+
+```bash
+PYTHONPATH=src:scripts python3 scripts/check_restart_recovery.py --output-dir examples/recovery-receipts
 ```

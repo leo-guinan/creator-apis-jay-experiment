@@ -76,4 +76,6 @@ The local operator selector is implemented in `src/creator_apis/api.py`, `script
 
 The health/readiness boundary is implemented in `src/creator_apis/api.py` and `scripts/check_local_server.py`, documented in `docs/health-readiness-contract.md`. It makes stale or incompatible local server processes observable before the operator trusts the dashboard.
 
+The restart recovery check is implemented in `scripts/check_restart_recovery.py` and documented in `docs/restart-recovery-contract.md`. It verifies that a bounded local server restart preserves the observed click, conversion, attribution, and report.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.

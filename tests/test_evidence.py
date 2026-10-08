@@ -709,5 +709,26 @@ class EvidenceLedgerTests(unittest.TestCase):
             self.assertEqual(receipt["database_unchanged"], True)
 
 
+    def test_restart_recovery_preserves_http_observations_and_report(self):
+        root = Path(__file__).parents[1]
+        script = root / "scripts" / "check_restart_recovery.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            result = subprocess.run(
+                [sys.executable, str(script), "--output-dir", directory],
+                check=True, capture_output=True, text=True, env=environment,
+            )
+            receipt = json.loads((Path(directory) / "restart-recovery.json").read_text(encoding="utf-8"))
+
+        self.assertIn("verified", result.stdout)
+        self.assertEqual(receipt["status"], "verified")
+        self.assertEqual(receipt["before_restart"]["report"]["counts"]["conversions"], 1)
+        self.assertEqual(receipt["after_restart"]["report"]["counts"]["conversions"], 1)
+        self.assertEqual(receipt["after_restart"]["report"]["attributions"][0]["classification"], "direct")
+        self.assertTrue(receipt["report_unchanged"])
+        self.assertTrue(receipt["database_unchanged_after_restart"])
+
+
 if __name__ == "__main__":
     unittest.main()

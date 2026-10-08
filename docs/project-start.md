@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, and local health/readiness checks implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, local health/readiness checks, and restart recovery implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -179,6 +179,20 @@ Verification:
 - independent checker receipt passed;
 - report and dashboard checks passed;
 - 25 tests passed;
+- `compileall` and `git diff --check` passed.
+
+## Completed fourteenth slice
+
+Added `scripts/check_restart_recovery.py`. It drives a route click and conversion through HTTP, stops the local server, starts a new server against the same SQLite file, and verifies the report and direct attribution survive unchanged.
+
+Verification:
+
+- route redirect and conversion before restart passed;
+- restarted health endpoint passed;
+- report retained one direct conversion;
+- report remained unchanged;
+- SQLite hash remained unchanged during post-restart readback;
+- 26 tests passed;
 - `compileall` and `git diff --check` passed.
 
 ## Next slice
