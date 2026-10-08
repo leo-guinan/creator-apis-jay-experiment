@@ -66,4 +66,6 @@ The local synthetic conversion endpoint is implemented in `src/creator_apis/api.
 
 The local scenario runner is implemented in `scripts/run_synthetic_scenarios.py` and documented in `docs/scenario-runner-contract.md`. It preserves direct, ambiguous, and no-click receipts so the evidence rules can be inspected without relying on a hand-authored single happy path.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is independent readback around these local receipts and the dashboard.
+The independent verifier is implemented in `scripts/verify_synthetic_scenarios.py` and documented in `docs/scenario-verification-contract.md`. It recomputes reports from reopened SQLite state and preserves artifact hashes; it does not treat a self-generated receipt as sufficient evidence of persistence.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is independent HTTP readback around the local report server and dashboard.

@@ -1,0 +1,25 @@
+{
+  "scenarios": {
+    "ambiguous": {
+      "database_sha256": "f7506eebf94f5c1bb7e73d4890b78757caf8249c0a51121006d9b9727a67a5e4",
+      "errors": [],
+      "receipt_sha256": "0dd7ffd9629f470dafa9f5b585ab0ff54e0d7408c3d87f841a38d8024532d59c",
+      "status": "verified"
+    },
+    "direct": {
+      "database_sha256": "518103fe6602dad964a9329fb7dd1f5ef487a642b2d5722060db561b84e259f7",
+      "errors": [],
+      "receipt_sha256": "4ce83c58c58e2dddae36dd93c67c9d1e7f044fb448c737d1c9fe63381b985f28",
+      "status": "verified"
+    },
+    "no-click": {
+      "database_sha256": "5078fc760aeff587967ed5220cd26bfb4f66184116e8df355937936f2aecded7",
+      "errors": [],
+      "receipt_sha256": "657d3de567731f61233799a529ea5dcaca0fb875820da2ebb08ea09d75014d2f",
+      "status": "verified"
+    }
+  },
+  "scenarios_verified": 3,
+  "status": "verified",
+  "verification_version": "v1"
+}

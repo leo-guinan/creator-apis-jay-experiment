@@ -490,6 +490,38 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(report["attributions"][0]["classification"], "direct")
         self.assertEqual(report["royalty"]["accrued_amount_cents"], 10_000)
 
+    def test_scenario_verifier_recomputes_sqlite_reports_and_writes_receipt(self):
+        root = Path(__file__).parents[1]
+        runner = root / "scripts" / "run_synthetic_scenarios.py"
+        verifier = root / "scripts" / "verify_synthetic_scenarios.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            subprocess.run(
+                [sys.executable, str(runner), "--output-dir", directory],
+                check=True,
+                capture_output=True,
+                text=True,
+                env=environment,
+            )
+            result = subprocess.run(
+                [sys.executable, str(verifier), "--receipt-dir", directory],
+                check=True,
+                capture_output=True,
+                text=True,
+                env=environment,
+            )
+            verification = json.loads((Path(directory) / "verification.json").read_text(encoding="utf-8"))
+
+        self.assertIn("verified=3", result.stdout)
+        self.assertEqual(verification["status"], "verified")
+        self.assertEqual(verification["scenarios_verified"], 3)
+        self.assertEqual(set(verification["scenarios"]), {"direct", "ambiguous", "no-click"})
+        for scenario in verification["scenarios"].values():
+            self.assertEqual(scenario["status"], "verified")
+            self.assertTrue(scenario["database_sha256"])
+            self.assertTrue(scenario["receipt_sha256"])
+
     def test_scenario_runner_preserves_direct_ambiguous_and_no_click_receipts(self):
         script = Path(__file__).parents[1] / "scripts" / "run_synthetic_scenarios.py"
         with tempfile.TemporaryDirectory() as directory:

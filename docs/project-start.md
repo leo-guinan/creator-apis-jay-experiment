@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -122,9 +122,21 @@ Verification:
 - `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 20 tests passed.
 - `compileall` and `git diff --check` passed.
 
+## Completed ninth slice
+
+Added `scripts/verify_synthetic_scenarios.py`. It independently reopens the scenario SQLite databases, recomputes each report, compares it with the preserved JSON receipt, and records SHA-256 hashes in `examples/scenario-receipts/verification.json`.
+
+Verification:
+
+- `direct`: verified;
+- `ambiguous`: verified;
+- `no-click`: verified;
+- 3 of 3 scenarios verified;
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 21 tests passed.
+
 ## Next slice
 
-Add independent readback checks around the scenario receipts and dashboard, then decide whether the local operator workflow needs a small scenario selector. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add an independent HTTP readback check for the local report server and dashboard, then decide whether the local operator workflow needs a small scenario selector. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

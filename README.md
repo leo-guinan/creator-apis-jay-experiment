@@ -21,6 +21,7 @@ PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --port 8080
 PYTHONPATH=src:scripts python3 scripts/persist_synthetic_sqlite.py
 PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --sqlite examples/synthetic-ledger.sqlite --port 8080
 PYTHONPATH=src:scripts python3 scripts/run_synthetic_scenarios.py
+PYTHONPATH=src:scripts python3 scripts/verify_synthetic_scenarios.py
 ```
 
 The generated receipt is `examples/synthetic-evidence-receipt.json`. It is explicitly marked `fixture_status: synthetic` and includes YouTube and X placement/route records under one campaign and experiment.
@@ -37,6 +38,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/routing-contract.md` — local tracked-route redirect and session boundary.
 - `docs/conversion-contract.md` — local synthetic conversion and purchase-event boundary.
 - `docs/scenario-runner-contract.md` — preserved direct, ambiguous, and no-click report receipts.
+- `docs/scenario-verification-contract.md` — independent SQLite/report readback and artifact hashes.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -61,3 +63,5 @@ The local server also serves the browser dashboard at `/`. It is a read-only cli
 `POST /v1/conversions` is the local synthetic conversion boundary. It uses the route session cookie, writes a purchase event and conversion atomically, and leaves contributor selection to the evidence ledger. It does not verify payment or settle royalties.
 
 `scripts/run_synthetic_scenarios.py` exercises the full local path from clean SQLite fixtures and preserves receipts in `examples/scenario-receipts/`. The direct case accrues synthetic royalty; ambiguous and no-click cases remain `unknown` with zero royalty.
+
+`scripts/verify_synthetic_scenarios.py` independently reopens the SQLite files, recomputes reports, compares them with the JSON receipts, and writes `examples/scenario-receipts/verification.json` with artifact hashes.
