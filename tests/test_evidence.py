@@ -751,5 +751,24 @@ class EvidenceLedgerTests(unittest.TestCase):
             self.assertEqual(check["actual"], check["expected"])
 
 
+    def test_backup_restore_preserves_report_and_logical_state(self):
+        root = Path(__file__).parents[1]
+        script = root / "scripts" / "check_backup_restore.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            result = subprocess.run(
+                [sys.executable, str(script), "--output-dir", directory],
+                check=True, capture_output=True, text=True, env=environment,
+            )
+            receipt = json.loads((Path(directory) / "backup-restore.json").read_text(encoding="utf-8"))
+
+        self.assertIn("verified", result.stdout)
+        self.assertEqual(receipt["status"], "verified")
+        self.assertTrue(receipt["report_unchanged"])
+        self.assertTrue(receipt["logical_state_unchanged"])
+        self.assertEqual(receipt["restored_report"]["royalty"]["accrued_amount_cents"], 10_000)
+
+
 if __name__ == "__main__":
     unittest.main()

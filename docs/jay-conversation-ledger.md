@@ -80,4 +80,6 @@ The restart recovery check is implemented in `scripts/check_restart_recovery.py`
 
 The negative-path matrix is implemented in `scripts/check_negative_paths.py` and documented in `docs/negative-path-contract.md`. It preserves expected failure statuses and checks that rejected requests do not alter the logical ledger state.
 
+The backup/restore check is implemented in `scripts/check_backup_restore.py` and documented in `docs/backup-restore-contract.md`. It verifies that a bounded SQLite copy and restore preserves the report and complete logical ledger export.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.
