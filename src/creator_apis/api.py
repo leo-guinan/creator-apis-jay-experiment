@@ -1,5 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler
+from pathlib import Path
 from typing import Mapping
 from urllib.parse import parse_qs, urlsplit
 
@@ -41,10 +42,20 @@ class ReportingAPI:
         return self.store.append_event(event)
 
 
-def create_handler(api: ReportingAPI):
+def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = None):
+    dashboard_file: Path | None = Path(dashboard_path) if dashboard_path is not None else None
+
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            if parsed.path == "/" and dashboard_file is not None:
+                try:
+                    body = dashboard_file.read_bytes()
+                except OSError:
+                    self._send_json(404, {"error": "dashboard_not_found"})
+                    return
+                self._send_bytes(200, body, "text/html; charset=utf-8")
+                return
             if parsed.path != "/v1/reports":
                 self._send_json(404, {"error": "not_found"})
                 return
@@ -81,9 +92,15 @@ def create_handler(api: ReportingAPI):
             )
 
         def _send_json(self, status: int, payload: dict) -> None:
-            body = json.dumps(payload, sort_keys=True).encode("utf-8")
+            self._send_bytes(
+                status,
+                json.dumps(payload, sort_keys=True).encode("utf-8"),
+                "application/json",
+            )
+
+        def _send_bytes(self, status: int, body: bytes, content_type: str) -> None:
             self.send_response(status)
-            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(len(body)))
             self.end_headers()
             self.wfile.write(body)

@@ -19,8 +19,9 @@ def main() -> None:
         api = ReportingAPI(store=SQLiteLedgerStore(Path(args.sqlite)))
     else:
         api = ReportingAPI(LedgerStore.load(Path(args.ledger)))
-    server = HTTPServer((args.host, args.port), create_handler(api))
-    print(f"serving http://{args.host}:{args.port}/v1/reports")
+    dashboard = Path(__file__).resolve().parents[1] / "app" / "index.html"
+    server = HTTPServer((args.host, args.port), create_handler(api, dashboard_path=dashboard))
+    print(f"serving http://{args.host}:{args.port}/")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

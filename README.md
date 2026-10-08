@@ -32,6 +32,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/v0-evidence-ledger-contract.md` — record model and direct-attribution rules.
 - `docs/reporting-contract.md` — read-only report shape, filters, and boundaries.
 - `docs/event-ingestion-contract.md` — durable event write boundary and idempotence rules.
+- `docs/dashboard-contract.md` — local read-only dashboard surface and security boundary.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
 - `docs/transcripts/` — approved timestamped transcript artifacts from the Jay recording.
@@ -47,3 +48,5 @@ Campaign and experiment identifiers now propagate through records, events, conve
 `LedgerReport` provides scoped counts, placement/channel coverage, event counts, conversion classifications, evidence traces, and directly attributable royalty totals without mutating the ledger. `LedgerStore` persists and reloads JSON exports. `SQLiteLedgerStore` provides durable append-only event storage with WAL journaling. `POST /v1/events` is idempotent for identical replays, rejects conflicting event IDs and unknown routes, and `GET /v1/reports` reloads from SQLite on every request.
 
 Malformed paths, query parameters, and event payloads return bounded errors; no external platform or payment integration is implied.
+
+The local server also serves the browser dashboard at `/`. It is a read-only client of `GET /v1/reports`; it does not write events or replace the attribution model.

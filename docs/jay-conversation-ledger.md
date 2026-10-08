@@ -58,4 +58,6 @@ The read-only reporting surface is implemented in `src/creator_apis/reporting.py
 
 JSON persistence is implemented in `src/creator_apis/store.py`; SQLite event persistence is in `src/creator_apis/sqlite_store.py`; the versioned local HTTP boundary is in `src/creator_apis/api.py`; and the persisted fixture is `examples/synthetic-ledger.json`. `POST /v1/events` is idempotent for identical replays, while `GET /v1/reports` returns an explicit `v1` envelope from the durable store.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a browser-facing dashboard after the authentication and deployment boundaries are decided.
+The local browser dashboard is implemented in `app/index.html` and documented in `docs/dashboard-contract.md`. It is read-only and renders the report without changing attribution semantics.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an authentication/deployment decision before any non-local exposure.

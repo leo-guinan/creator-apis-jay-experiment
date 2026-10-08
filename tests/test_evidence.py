@@ -348,6 +348,35 @@ class EvidenceLedgerTests(unittest.TestCase):
                 thread.join(timeout=2)
                 server.server_close()
 
+    def test_dashboard_asset_declares_read_only_report_contract(self):
+        dashboard = Path(__file__).parents[1] / "app" / "index.html"
+        source = dashboard.read_text(encoding="utf-8")
+
+        self.assertIn("Creator APIs report", source)
+        self.assertIn("/v1/reports", source)
+        self.assertIn("fixture_status", source)
+        self.assertIn("placements_by_channel", source)
+
+    def test_http_root_serves_dashboard_asset(self):
+        dashboard = Path(__file__).parents[1] / "app" / "index.html"
+        server = __import__("http.server").server.HTTPServer(
+            ("127.0.0.1", 0),
+            create_handler(ReportingAPI(self.ledger), dashboard_path=dashboard),
+        )
+        thread = Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with urlopen(f"http://127.0.0.1:{server.server_port}/") as response:
+                body = response.read().decode()
+                content_type = response.headers["Content-Type"]
+        finally:
+            server.shutdown()
+            thread.join(timeout=2)
+            server.server_close()
+
+        self.assertIn("Creator APIs report", body)
+        self.assertEqual(content_type, "text/html; charset=utf-8")
+
 
 if __name__ == "__main__":
     unittest.main()

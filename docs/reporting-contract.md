@@ -40,3 +40,5 @@ Response envelope:
 The report is descriptive, not causal beyond the ledger's direct join rule. It excludes out-of-scope records, preserves unknown and ambiguous attribution, and never creates a payout or sends an external message. It does not import platform metrics, query a payment provider, or claim validated economics.
 
 The current server is a local reference process with no authentication, TLS, rate limiting, or multi-tenant isolation. It must not be exposed publicly as a production service.
+
+The browser client at `/` is documented in `docs/dashboard-contract.md` and is read-only.

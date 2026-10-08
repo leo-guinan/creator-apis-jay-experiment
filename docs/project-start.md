@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, and versioned event/report APIs implemented and published.
+Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, and local dashboard implemented and published.
 
 ## Source inputs
 
@@ -76,9 +76,20 @@ Verification:
 - HTTP `GET /v1/reports` reflected the durable event.
 - Unknown route ingestion returned HTTP 400.
 
+## Completed fifth slice
+
+Added `app/index.html`, a read-only same-origin dashboard served at `/`. It displays fixture status, scope, channel coverage, placements/routes, attribution, and direct royalty totals from `GET /v1/reports`.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 15 tests passed.
+- Dashboard source contract checks passed.
+- Local HTTP readback returned `Content-Type: text/html; charset=utf-8` and 5,289 bytes of dashboard HTML.
+- Dashboard API readback returned `api_version: v1` and 2 placements.
+
 ## Next slice
 
-Add a browser-facing dashboard only after deciding the authentication and deployment boundary. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Decide authentication and deployment boundaries before exposing the dashboard beyond localhost. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 
