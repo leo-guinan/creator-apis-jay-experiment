@@ -1,0 +1,69 @@
+{
+  "fixture_status": "synthetic",
+  "receipt_version": "v1",
+  "report": {
+    "attributions": [
+      {
+        "campaign_id": "campaign:jay-14day-001",
+        "classification": "unknown",
+        "contributor_id": null,
+        "conversion_id": "conversion:scenario-no-click",
+        "evidence_event_ids": [],
+        "experiment_id": "experiment:ai-roi-am",
+        "reason": "no_valid_route_click",
+        "trace": []
+      }
+    ],
+    "counts": {
+      "artifacts": 1,
+      "content_blocks": 1,
+      "contributors": 1,
+      "conversions": 1,
+      "events": 1,
+      "placements": 2,
+      "records": 8,
+      "routes": 2,
+      "sources": 1
+    },
+    "events_by_type": {
+      "purchase": 1
+    },
+    "fixture_status": "synthetic",
+    "placements": [
+      {
+        "artifact_id": "artifact:jay-clip-v1",
+        "channel": "x",
+        "placement_id": "placement:x-jay-clip-v1",
+        "route_ids": [
+          "route:jay-x-001"
+        ]
+      },
+      {
+        "artifact_id": "artifact:jay-clip-v1",
+        "channel": "youtube",
+        "placement_id": "placement:youtube-jay-clip-v1",
+        "route_ids": [
+          "route:jay-youtube-001"
+        ]
+      }
+    ],
+    "placements_by_channel": {
+      "x": 1,
+      "youtube": 1
+    },
+    "royalty": {
+      "accrued_amount_cents": 0,
+      "direct_collected_amount_cents": 0,
+      "rate": 0.1
+    },
+    "scope": {
+      "campaign_id": "campaign:jay-14day-001",
+      "experiment_id": "experiment:ai-roi-am"
+    }
+  },
+  "scenario": "no-click",
+  "storage": {
+    "database": "no-click.sqlite",
+    "mode": "local_sqlite"
+  }
+}

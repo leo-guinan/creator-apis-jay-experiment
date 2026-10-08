@@ -1,6 +1,9 @@
 import unittest
 import json
 import http.client
+import os
+import subprocess
+import sys
 import tempfile
 from pathlib import Path
 from threading import Thread
@@ -486,6 +489,35 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(report["counts"]["conversions"], 1)
         self.assertEqual(report["attributions"][0]["classification"], "direct")
         self.assertEqual(report["royalty"]["accrued_amount_cents"], 10_000)
+
+    def test_scenario_runner_preserves_direct_ambiguous_and_no_click_receipts(self):
+        script = Path(__file__).parents[1] / "scripts" / "run_synthetic_scenarios.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(script.parents[1] / "src") + ":" + str(script.parent)
+            result = subprocess.run(
+                [sys.executable, str(script), "--output-dir", directory],
+                check=True,
+                capture_output=True,
+                text=True,
+                env=environment,
+            )
+            receipts = {
+                path.stem: json.loads(path.read_text(encoding="utf-8"))
+                for path in Path(directory).glob("*.json")
+            }
+
+        self.assertIn("direct", result.stdout)
+        self.assertEqual(set(receipts), {"direct", "ambiguous", "no-click"})
+        self.assertEqual(receipts["direct"]["report"]["attributions"][0]["classification"], "direct")
+        self.assertEqual(receipts["direct"]["report"]["royalty"]["accrued_amount_cents"], 10_000)
+        self.assertEqual(receipts["ambiguous"]["report"]["attributions"][0]["classification"], "unknown")
+        self.assertEqual(receipts["ambiguous"]["report"]["attributions"][0]["reason"], "ambiguous_route_clicks")
+        self.assertEqual(receipts["no-click"]["report"]["attributions"][0]["reason"], "no_valid_route_click")
+        self.assertEqual(receipts["no-click"]["report"]["royalty"]["accrued_amount_cents"], 0)
+        for receipt in receipts.values():
+            self.assertEqual(receipt["fixture_status"], "synthetic")
+            self.assertEqual(receipt["report"]["fixture_status"], "synthetic")
 
     def test_local_conversion_endpoint_rejects_missing_session(self):
         with tempfile.TemporaryDirectory() as directory:

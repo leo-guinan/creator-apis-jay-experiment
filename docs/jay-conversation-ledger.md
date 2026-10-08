@@ -64,4 +64,6 @@ The local tracked-route endpoint is implemented in `src/creator_apis/api.py` and
 
 The local synthetic conversion endpoint is implemented in `src/creator_apis/api.py` and `src/creator_apis/sqlite_store.py`, documented in `docs/conversion-contract.md`. It writes a purchase event and conversion from the route session, while leaving contributor selection and royalty eligibility to the evidence ledger.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a preserved local scenario runner for direct, ambiguous, and no-click outcomes.
+The local scenario runner is implemented in `scripts/run_synthetic_scenarios.py` and documented in `docs/scenario-runner-contract.md`. It preserves direct, ambiguous, and no-click receipts so the evidence rules can be inspected without relying on a hand-authored single happy path.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is independent readback around these local receipts and the dashboard.

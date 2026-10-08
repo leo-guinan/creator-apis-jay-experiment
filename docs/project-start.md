@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -111,9 +111,20 @@ Verification:
 - Conversion without a session returned HTTP 400 and wrote no conversion.
 - `compileall` and `git diff --check` passed.
 
+## Completed eighth slice
+
+Added `scripts/run_synthetic_scenarios.py`. It creates clean SQLite ledgers and preserves JSON report receipts for direct, ambiguous, and no-click conversion paths. The receipts are committed review artifacts; the SQLite databases remain ignored local state.
+
+Verification:
+
+- Scenario runner output: `direct=direct/10,000`, `ambiguous=unknown/0`, `no-click=unknown/0`.
+- `examples/scenario-receipts/{direct,ambiguous,no-click}.json` read back successfully.
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 20 tests passed.
+- `compileall` and `git diff --check` passed.
+
 ## Next slice
 
-Add a local scenario runner that exercises direct, ambiguous, and no-click paths from a clean SQLite fixture and emits preserved report receipts. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add independent readback checks around the scenario receipts and dashboard, then decide whether the local operator workflow needs a small scenario selector. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 
