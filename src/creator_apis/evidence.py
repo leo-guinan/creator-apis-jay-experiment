@@ -1,4 +1,4 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from typing import Any
 
 
@@ -10,6 +10,9 @@ class AttributionResult:
     trace: list[str]
     evidence_event_ids: list[str]
     fixture_status: str
+    campaign_id: str | None = None
+    experiment_id: str | None = None
+    reason: str | None = None
 
 
 @dataclass(frozen=True)
@@ -20,15 +23,25 @@ class RoyaltyAccrual:
     rate: float
     amount_cents: int
     fixture_status: str
+    campaign_id: str | None = None
+    experiment_id: str | None = None
 
 
 class EvidenceLedger:
     """Small append-only evidence ledger for the synthetic v0 trace."""
 
-    def __init__(self, fixture_status: str = "synthetic"):
+    def __init__(
+        self,
+        fixture_status: str = "synthetic",
+        *,
+        campaign_id: str | None = None,
+        experiment_id: str | None = None,
+    ):
         if not fixture_status:
             raise ValueError("fixture_status is required")
         self.fixture_status = fixture_status
+        self.campaign_id = campaign_id
+        self.experiment_id = experiment_id
         self.records: dict[str, dict[str, Any]] = {}
         self.events: list[dict[str, Any]] = []
         self.conversions: dict[str, dict[str, Any]] = {}
@@ -40,6 +53,8 @@ class EvidenceLedger:
             "record_type": record_type,
             "record_id": record_id,
             "fixture_status": self.fixture_status,
+            "campaign_id": self.campaign_id,
+            "experiment_id": self.experiment_id,
             **fields,
         }
 
@@ -61,13 +76,43 @@ class EvidenceLedger:
             self._require(block_id)
         self._put("artifact", artifact_id, block_ids=list(block_ids))
 
-    def add_placement(self, placement_id: str, artifact_id: str, channel: str) -> None:
+    def add_placement(
+        self,
+        placement_id: str,
+        artifact_id: str,
+        channel: str,
+        *,
+        campaign_id: str | None = None,
+        experiment_id: str | None = None,
+    ) -> None:
         self._require(artifact_id)
-        self._put("placement", placement_id, artifact_id=artifact_id, channel=channel)
+        self._put(
+            "placement",
+            placement_id,
+            artifact_id=artifact_id,
+            channel=channel,
+            campaign_id=campaign_id or self.campaign_id,
+            experiment_id=experiment_id or self.experiment_id,
+        )
 
-    def add_route(self, route_id: str, placement_id: str, destination: str) -> None:
-        self._require(placement_id)
-        self._put("route", route_id, placement_id=placement_id, destination=destination)
+    def add_route(
+        self,
+        route_id: str,
+        placement_id: str,
+        destination: str,
+        *,
+        campaign_id: str | None = None,
+        experiment_id: str | None = None,
+    ) -> None:
+        placement = self._require(placement_id)
+        self._put(
+            "route",
+            route_id,
+            placement_id=placement_id,
+            destination=destination,
+            campaign_id=campaign_id or placement["campaign_id"],
+            experiment_id=experiment_id or placement["experiment_id"],
+        )
 
     def record_event(
         self,
@@ -77,11 +122,12 @@ class EvidenceLedger:
         session_id: str | None = None,
         route_id: str | None = None,
         metadata: dict[str, Any] | None = None,
+        campaign_id: str | None = None,
+        experiment_id: str | None = None,
     ) -> None:
         if any(event["event_id"] == event_id for event in self.events):
             raise ValueError(f"duplicate event id: {event_id}")
-        if route_id is not None:
-            self._require(route_id)
+        route = self._require(route_id) if route_id is not None else None
         self.events.append(
             {
                 "event_id": event_id,
@@ -90,6 +136,8 @@ class EvidenceLedger:
                 "route_id": route_id,
                 "metadata": dict(metadata or {}),
                 "fixture_status": self.fixture_status,
+                "campaign_id": campaign_id or (route and route["campaign_id"]) or self.campaign_id,
+                "experiment_id": experiment_id or (route and route["experiment_id"]) or self.experiment_id,
             }
         )
 
@@ -100,6 +148,8 @@ class EvidenceLedger:
         session_id: str,
         amount_cents: int,
         purchase_event_id: str,
+        campaign_id: str | None = None,
+        experiment_id: str | None = None,
     ) -> None:
         if conversion_id in self.conversions:
             raise ValueError(f"duplicate conversion id: {conversion_id}")
@@ -111,35 +161,45 @@ class EvidenceLedger:
             "amount_cents": amount_cents,
             "purchase_event_id": purchase_event_id,
             "fixture_status": self.fixture_status,
+            "campaign_id": campaign_id or self.campaign_id,
+            "experiment_id": experiment_id or self.experiment_id,
         }
 
     def direct_attribution(self, conversion_id: str) -> AttributionResult:
         conversion = self._conversion(conversion_id)
-        matching_clicks = [
-            event
-            for event in self.events
-            if event["event_type"] == "route_click"
-            and event["session_id"] == conversion["session_id"]
-            and event["route_id"] is not None
-        ]
-        for click in matching_clicks:
-            trace = self._trace_for_route(click["route_id"])
-            if trace is not None:
-                return AttributionResult(
-                    conversion_id=conversion_id,
-                    classification="direct",
-                    contributor_id=trace[-1],
-                    trace=trace,
-                    evidence_event_ids=[click["event_id"], conversion["purchase_event_id"]],
-                    fixture_status=self.fixture_status,
-                )
+        candidates = []
+        for event in self.events:
+            if (
+                event["event_type"] == "route_click"
+                and event["session_id"] == conversion["session_id"]
+                and event["route_id"] is not None
+            ):
+                trace = self._trace_for_route(event["route_id"])
+                if trace is not None:
+                    candidates.append((event, trace))
+        if len(candidates) == 1:
+            click, trace = candidates[0]
+            route = self.records[click["route_id"]]
+            return AttributionResult(
+                conversion_id=conversion_id,
+                classification="direct",
+                contributor_id=trace[-1],
+                trace=trace,
+                evidence_event_ids=[click["event_id"], conversion["purchase_event_id"]],
+                fixture_status=self.fixture_status,
+                campaign_id=route["campaign_id"],
+                experiment_id=route["experiment_id"],
+            )
         return AttributionResult(
             conversion_id=conversion_id,
             classification="unknown",
             contributor_id=None,
             trace=[],
-            evidence_event_ids=[],
+            evidence_event_ids=[item[0]["event_id"] for item in candidates],
             fixture_status=self.fixture_status,
+            campaign_id=conversion["campaign_id"],
+            experiment_id=conversion["experiment_id"],
+            reason=("ambiguous_route_clicks" if len(candidates) > 1 else "no_valid_route_click"),
         )
 
     def accrue_royalty(self, conversion_id: str, *, rate: float) -> RoyaltyAccrual:
@@ -148,19 +208,23 @@ class EvidenceLedger:
         result = self.direct_attribution(conversion_id)
         if result.classification != "direct" or result.contributor_id is None:
             raise ValueError("conversion is not directly attributable")
-        amount = self._conversion(conversion_id)["amount_cents"]
+        conversion = self._conversion(conversion_id)
         return RoyaltyAccrual(
             conversion_id=conversion_id,
             contributor_id=result.contributor_id,
-            collected_amount_cents=amount,
+            collected_amount_cents=conversion["amount_cents"],
             rate=rate,
-            amount_cents=round(amount * rate),
+            amount_cents=round(conversion["amount_cents"] * rate),
             fixture_status=self.fixture_status,
+            campaign_id=result.campaign_id,
+            experiment_id=result.experiment_id,
         )
 
     def export(self) -> dict[str, Any]:
         return {
             "fixture_status": self.fixture_status,
+            "campaign_id": self.campaign_id,
+            "experiment_id": self.experiment_id,
             "records": {key: dict(value) for key, value in self.records.items()},
             "events": [dict(event) for event in self.events],
             "conversions": {key: dict(value) for key, value in self.conversions.items()},

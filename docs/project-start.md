@@ -42,9 +42,20 @@ Verification receipt:
 - Synthetic royalty at 10%: `$100` (`10,000` cents).
 - All exported records are explicitly marked `fixture_status: synthetic`.
 
+## Completed second slice
+
+Added campaign and experiment identifiers across records, events, conversions, and attribution results. Added independent YouTube and X placements/routes and an ambiguity guard: multiple valid route clicks in one session remain `unknown` rather than being assigned retroactively.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest tests/test_evidence.py -v` → 5 tests passed.
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 5 tests passed.
+- `PYTHONPATH=src python3 scripts/build_synthetic_receipt.py` → direct / 10,000 cents / synthetic.
+- Remote receipt contains both `placement:youtube-jay-clip-v1` and `placement:x-jay-clip-v1` under `experiment:ai-roi-am`.
+
 ## Next slice
 
-Add campaign/experiment identifiers and multiple placements/routes while preserving the same append-only event and direct-attribution boundaries. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add a read-only query/reporting surface over campaign, experiment, placement, route, event, conversion, attribution, and royalty records. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

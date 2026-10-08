@@ -5,7 +5,11 @@ from creator_apis.evidence import EvidenceLedger
 
 
 def build_fixture() -> tuple[EvidenceLedger, dict]:
-    ledger = EvidenceLedger(fixture_status="synthetic")
+    ledger = EvidenceLedger(
+        fixture_status="synthetic",
+        campaign_id="campaign:jay-14day-001",
+        experiment_id="experiment:ai-roi-am",
+    )
     ledger.add_contributor("contributor:jay", "Jay")
     ledger.add_source("source:jay-interview", "contributor:jay")
     ledger.add_content_block("block:work-not-done", "source:jay-interview")
@@ -14,6 +18,12 @@ def build_fixture() -> tuple[EvidenceLedger, dict]:
     ledger.add_route(
         "route:jay-youtube-001",
         "placement:youtube-jay-clip-v1",
+        "https://example.test/calibration",
+    )
+    ledger.add_placement("placement:x-jay-clip-v1", "artifact:jay-clip-v1", "x")
+    ledger.add_route(
+        "route:jay-x-001",
+        "placement:x-jay-clip-v1",
         "https://example.test/calibration",
     )
     ledger.record_event(

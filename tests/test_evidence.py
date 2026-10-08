@@ -5,7 +5,11 @@ from creator_apis.evidence import EvidenceLedger
 
 class EvidenceLedgerTests(unittest.TestCase):
     def setUp(self):
-        self.ledger = EvidenceLedger(fixture_status="synthetic")
+        self.ledger = EvidenceLedger(
+            fixture_status="synthetic",
+            campaign_id="campaign:jay-14day-001",
+            experiment_id="experiment:ai-roi-am",
+        )
         self.ledger.add_contributor("contributor:jay", "Jay")
         self.ledger.add_source("source:jay-interview", "contributor:jay")
         self.ledger.add_content_block("block:work-not-done", "source:jay-interview")
@@ -16,6 +20,14 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.ledger.add_route(
             "route:jay-youtube-001",
             "placement:youtube-jay-clip-v1",
+            "https://example.test/calibration",
+        )
+        self.ledger.add_placement(
+            "placement:x-jay-clip-v1", "artifact:jay-clip-v1", "x"
+        )
+        self.ledger.add_route(
+            "route:jay-x-001",
+            "placement:x-jay-clip-v1",
             "https://example.test/calibration",
         )
 
@@ -51,6 +63,59 @@ class EvidenceLedgerTests(unittest.TestCase):
         )
         self.assertEqual(accrual.amount_cents, 10_000)
         self.assertEqual(accrual.fixture_status, "synthetic")
+
+    def test_second_placement_has_same_experiment_and_traces_independently(self):
+        self.ledger.record_event(
+            "event:x-click-1",
+            "route_click",
+            session_id="session:x-1",
+            route_id="route:jay-x-001",
+        )
+        self.ledger.record_conversion(
+            "conversion:x-1",
+            session_id="session:x-1",
+            amount_cents=100_000,
+            purchase_event_id="event:x-purchase-1",
+        )
+
+        result = self.ledger.direct_attribution("conversion:x-1")
+        exported = self.ledger.export()
+
+        self.assertEqual(result.classification, "direct")
+        self.assertEqual(result.trace[0], "route:jay-x-001")
+        self.assertEqual(result.experiment_id, "experiment:ai-roi-am")
+        self.assertEqual(
+            exported["records"]["placement:x-jay-clip-v1"]["channel"], "x"
+        )
+
+    def test_multiple_route_clicks_in_one_session_are_ambiguous(self):
+        self.ledger.record_event(
+            "event:ambiguous-youtube-click",
+            "route_click",
+            session_id="session:ambiguous",
+            route_id="route:jay-youtube-001",
+        )
+        self.ledger.record_event(
+            "event:ambiguous-x-click",
+            "route_click",
+            session_id="session:ambiguous",
+            route_id="route:jay-x-001",
+        )
+        self.ledger.record_conversion(
+            "conversion:ambiguous",
+            session_id="session:ambiguous",
+            amount_cents=100_000,
+            purchase_event_id="event:ambiguous-purchase",
+        )
+
+        result = self.ledger.direct_attribution("conversion:ambiguous")
+
+        self.assertEqual(result.classification, "unknown")
+        self.assertEqual(result.reason, "ambiguous_route_clicks")
+        self.assertEqual(result.evidence_event_ids, [
+            "event:ambiguous-youtube-click",
+            "event:ambiguous-x-click",
+        ])
 
     def test_session_mismatch_stays_unknown_and_has_no_royalty(self):
         self.ledger.record_event(
@@ -89,6 +154,9 @@ class EvidenceLedgerTests(unittest.TestCase):
         ])
         self.assertEqual(exported["fixture_status"], "synthetic")
         self.assertEqual(exported["records"]["contributor:jay"]["fixture_status"], "synthetic")
+        self.assertEqual(exported["campaign_id"], "campaign:jay-14day-001")
+        self.assertEqual(exported["experiment_id"], "experiment:ai-roi-am")
+        self.assertEqual(exported["events"][0]["experiment_id"], "experiment:ai-roi-am")
 
 
 if __name__ == "__main__":

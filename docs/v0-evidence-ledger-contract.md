@@ -1,6 +1,6 @@
 # v0 evidence ledger contract
 
-Status: implemented local reference slice. Synthetic fixture only; no live customer, platform, payment, or royalty data.
+Status: implemented local reference slice with campaign/experiment identity and multiple placement routes. Synthetic fixture only; no live customer, platform, payment, or royalty data.
 
 ## Purpose
 
@@ -23,6 +23,8 @@ This is a protocol-shaped local fixture, not a production payment or attribution
 - `AttributionResult`: direct, assisted, or unknown classification with an evidence trace.
 - `RoyaltyAccrual`: calculated amount derived from collected revenue and an explicit royalty rate.
 
+Every record, event, and conversion carries `campaign_id` and `experiment_id`. Placements and routes may inherit the ledger scope or provide an explicit scope, so one artifact can be compared across channels without making external IDs the core identity.
+
 ## Direct attribution rule
 
 A conversion is `direct` only when:
@@ -34,6 +36,8 @@ A conversion is `direct` only when:
 5. Collected revenue is explicitly present and non-negative.
 
 A missing or mismatched join returns `unknown`; the ledger never fabricates credit.
+
+If more than one valid route click exists for the conversion's session, the result is `unknown` with reason `ambiguous_route_clicks`. The ledger does not pick a winning channel after the fact.
 
 ## Synthetic-data boundary
 
