@@ -24,7 +24,7 @@ PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --sqlite exampl
 
 The generated receipt is `examples/synthetic-evidence-receipt.json`. It is explicitly marked `fixture_status: synthetic` and includes YouTube and X placement/route records under one campaign and experiment.
 The generated report is `examples/synthetic-report.json`; it is a read-only summary of the same scoped fixture.
-The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored `examples/synthetic-ledger.sqlite`. The API serves `GET /v1/reports` from either source, accepts `POST /v1/events` when backed by SQLite, and tracks local route redirects at `GET /r/<route_id>`.
+The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored `examples/synthetic-ledger.sqlite`. The API serves `GET /v1/reports` from either source, accepts `POST /v1/events` and `POST /v1/conversions` when backed by SQLite, and tracks local route redirects at `GET /r/<route_id>`.
 
 ## Documentation
 
@@ -34,6 +34,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/event-ingestion-contract.md` — durable event write boundary and idempotence rules.
 - `docs/dashboard-contract.md` — local read-only dashboard surface and security boundary.
 - `docs/routing-contract.md` — local tracked-route redirect and session boundary.
+- `docs/conversion-contract.md` — local synthetic conversion and purchase-event boundary.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -54,3 +55,5 @@ Malformed paths, query parameters, and event payloads return bounded errors; no 
 The local server also serves the browser dashboard at `/`. It is a read-only client of `GET /v1/reports`; it does not write events or replace the attribution model. Keep it bound to `127.0.0.1`.
 
 `GET /r/<route_id>` is the first action-shaped boundary. It records a timestamped `route_click`, preserves a localhost session cookie, and redirects to the configured destination. It does not claim a conversion.
+
+`POST /v1/conversions` is the local synthetic conversion boundary. It uses the route session cookie, writes a purchase event and conversion atomically, and leaves contributor selection to the evidence ledger. It does not verify payment or settle royalties.

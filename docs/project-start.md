@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -100,9 +100,20 @@ Verification:
 - Route destination readback returned the configured calibration URL.
 - Unknown route readback returned HTTP 404.
 
+## Completed seventh slice
+
+Added local `POST /v1/conversions`. A conversion request can use the `capi_session` cookie created by a tracked route. SQLite persists the purchase event and conversion together, supports identical replay, rejects conflicting IDs, and leaves attribution to the evidence ledger.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 19 tests passed.
+- Route click followed by conversion produced one direct attribution and `10,000` synthetic royalty cents at the default 10% rate.
+- Conversion without a session returned HTTP 400 and wrote no conversion.
+- `compileall` and `git diff --check` passed.
+
 ## Next slice
 
-Add a local synthetic conversion-recording path so the route click can flow into a conversion without hand-authoring purchase JSON. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add a local scenario runner that exercises direct, ambiguous, and no-click paths from a clean SQLite fixture and emits preserved report receipts. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

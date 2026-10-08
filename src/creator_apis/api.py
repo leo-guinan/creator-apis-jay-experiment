@@ -44,6 +44,11 @@ class ReportingAPI:
             raise ValueError("event ingestion requires a durable store")
         return self.store.append_event(event)
 
+    def append_conversion(self, conversion: dict) -> tuple[dict, bool]:
+        if self.store is None:
+            raise ValueError("conversion ingestion requires a durable store")
+        return self.store.append_conversion(conversion)
+
     def route_destination(self, route_id: str) -> str:
         route = self._current_ledger().records.get(route_id)
         if route is None or route.get("record_type") != "route":
@@ -119,6 +124,30 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
 
         def do_POST(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            if parsed.path == "/v1/conversions":
+                try:
+                    length = int(self.headers.get("Content-Length", "0"))
+                    if length <= 0 or length > 64 * 1024:
+                        raise ValueError("request body must be between 1 and 65536 bytes")
+                    payload = json.loads(self.rfile.read(length))
+                    if not isinstance(payload, dict):
+                        raise ValueError("conversion body must be a JSON object")
+                    if not payload.get("session_id"):
+                        cookie = SimpleCookie()
+                        cookie.load(self.headers.get("Cookie", ""))
+                        session = cookie.get("capi_session")
+                        if session is None or not session.value:
+                            raise ValueError("session_id or capi_session cookie is required")
+                        payload["session_id"] = session.value
+                    conversion, created = api.append_conversion(payload)
+                except (TypeError, ValueError, json.JSONDecodeError) as exc:
+                    self._send_json(400, {"error": "invalid_request", "message": str(exc)})
+                    return
+                self._send_json(
+                    201 if created else 200,
+                    {"api_version": "v1", "created": created, "conversion": conversion},
+                )
+                return
             if parsed.path != "/v1/events":
                 self._send_json(404, {"error": "not_found"})
                 return

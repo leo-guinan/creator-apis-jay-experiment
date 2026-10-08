@@ -1,5 +1,6 @@
 import json
 import sqlite3
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -145,5 +146,71 @@ class SQLiteLedgerStore:
             connection.execute(
                 "INSERT INTO events(event_id, payload) VALUES (?, ?)",
                 (event_id, encoded),
+            )
+        return normalized, True
+
+    def append_conversion(self, conversion: dict[str, Any]) -> tuple[dict[str, Any], bool]:
+        allowed = {"conversion_id", "session_id", "amount_cents", "purchase_event_id", "campaign_id", "experiment_id"}
+        unknown = set(conversion) - allowed
+        if unknown:
+            raise ValueError(f"unknown conversion field: {sorted(unknown)[0]}")
+        conversion_id = conversion.get("conversion_id")
+        session_id = conversion.get("session_id")
+        amount_cents = conversion.get("amount_cents")
+        if not isinstance(conversion_id, str) or not conversion_id:
+            raise ValueError("conversion_id is required")
+        if not isinstance(session_id, str) or not session_id:
+            raise ValueError("session_id is required")
+        if isinstance(amount_cents, bool) or not isinstance(amount_cents, int):
+            raise ValueError("amount_cents must be an integer")
+        if amount_cents < 0:
+            raise ValueError("amount_cents cannot be negative")
+        ledger = self.load()
+        purchase_event_id = conversion.get("purchase_event_id") or f"event:purchase-{conversion_id}"
+        if not isinstance(purchase_event_id, str) or not purchase_event_id:
+            raise ValueError("purchase_event_id must be a non-empty string")
+        normalized = {
+            "conversion_id": conversion_id,
+            "session_id": session_id,
+            "amount_cents": amount_cents,
+            "purchase_event_id": purchase_event_id,
+            "fixture_status": ledger.fixture_status,
+            "campaign_id": conversion.get("campaign_id") or ledger.campaign_id,
+            "experiment_id": conversion.get("experiment_id") or ledger.experiment_id,
+        }
+        event = {
+            "event_id": purchase_event_id,
+            "event_type": "purchase",
+            "session_id": session_id,
+            "route_id": None,
+            "metadata": {"conversion_id": conversion_id, "amount_cents": amount_cents},
+            "observed_at": datetime.now(timezone.utc).isoformat(),
+            "fixture_status": ledger.fixture_status,
+            "campaign_id": normalized["campaign_id"],
+            "experiment_id": normalized["experiment_id"],
+        }
+        conversion_encoded = json.dumps(normalized, sort_keys=True)
+        event_encoded = json.dumps(event, sort_keys=True)
+        with sqlite3.connect(self.path) as connection:
+            existing_conversion = connection.execute(
+                "SELECT payload FROM conversions WHERE conversion_id = ?", (conversion_id,)
+            ).fetchone()
+            if existing_conversion is not None:
+                if existing_conversion[0] != conversion_encoded:
+                    raise ValueError(f"conversion id conflict: {conversion_id}")
+                return normalized, False
+            existing_event = connection.execute(
+                "SELECT payload FROM events WHERE event_id = ?", (purchase_event_id,)
+            ).fetchone()
+            if existing_event is not None and existing_event[0] != event_encoded:
+                raise ValueError(f"event id conflict: {purchase_event_id}")
+            if existing_event is None:
+                connection.execute(
+                    "INSERT INTO events(event_id, payload) VALUES (?, ?)",
+                    (purchase_event_id, event_encoded),
+                )
+            connection.execute(
+                "INSERT INTO conversions(conversion_id, payload) VALUES (?, ?)",
+                (conversion_id, conversion_encoded),
             )
         return normalized, True

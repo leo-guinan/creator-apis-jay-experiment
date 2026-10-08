@@ -62,4 +62,6 @@ The local browser dashboard is implemented in `app/index.html` and documented in
 
 The local tracked-route endpoint is implemented in `src/creator_apis/api.py` and documented in `docs/routing-contract.md`. It records timestamped clicks and preserves a session join before redirecting; a click remains an observation, not a conversion.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a local synthetic conversion-recording path.
+The local synthetic conversion endpoint is implemented in `src/creator_apis/api.py` and `src/creator_apis/sqlite_store.py`, documented in `docs/conversion-contract.md`. It writes a purchase event and conversion from the route session, while leaving contributor selection and royalty eligibility to the evidence ledger.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a preserved local scenario runner for direct, ambiguous, and no-click outcomes.

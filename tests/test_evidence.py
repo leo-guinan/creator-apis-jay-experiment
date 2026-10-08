@@ -442,6 +442,79 @@ class EvidenceLedgerTests(unittest.TestCase):
 
         self.assertEqual(response.status, 404)
 
+    def test_local_conversion_endpoint_uses_route_cookie_and_updates_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port)
+                connection.request("GET", "/r/route:jay-youtube-001")
+                click_response = connection.getresponse()
+                cookie = click_response.getheader("Set-Cookie").split(";", 1)[0]
+                click_response.read()
+
+                body = json.dumps({"conversion_id": "conversion:http-local", "amount_cents": 100_000})
+                connection.request(
+                    "POST", "/v1/conversions", body=body,
+                    headers={"Content-Type": "application/json", "Content-Length": str(len(body)), "Cookie": cookie},
+                )
+                conversion_response = connection.getresponse()
+                conversion_payload = json.loads(conversion_response.read())
+                connection.request(
+                    "POST", "/v1/conversions", body=body,
+                    headers={"Content-Type": "application/json", "Content-Length": str(len(body)), "Cookie": cookie},
+                )
+                replay_response = connection.getresponse()
+                replay_payload = json.loads(replay_response.read())
+                report = ReportingAPI(store=store).get_report()["report"]
+                connection.close()
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(conversion_response.status, 201)
+        self.assertEqual(replay_response.status, 200)
+        self.assertTrue(conversion_payload["created"])
+        self.assertFalse(replay_payload["created"])
+        self.assertEqual(conversion_payload["conversion"]["session_id"], cookie.split("=", 1)[1])
+        self.assertEqual(report["counts"]["conversions"], 1)
+        self.assertEqual(report["attributions"][0]["classification"], "direct")
+        self.assertEqual(report["royalty"]["accrued_amount_cents"], 10_000)
+
+    def test_local_conversion_endpoint_rejects_missing_session(self):
+        with tempfile.TemporaryDirectory() as directory:
+            store = SQLiteLedgerStore.create(Path(directory) / "ledger.sqlite", self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                body = json.dumps({"conversion_id": "conversion:no-session", "amount_cents": 100})
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port)
+                connection.request(
+                    "POST", "/v1/conversions", body=body,
+                    headers={"Content-Type": "application/json", "Content-Length": str(len(body))},
+                )
+                response = connection.getresponse()
+                response_payload = json.loads(response.read())
+                remaining_conversions = len(store.load().conversions)
+                connection.close()
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(response.status, 400)
+        self.assertEqual(response_payload["error"], "invalid_request")
+        self.assertEqual(remaining_conversions, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
