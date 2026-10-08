@@ -107,7 +107,7 @@ class SQLiteLedgerStore:
             return ledger
 
     def append_event(self, event: dict[str, Any]) -> tuple[dict[str, Any], bool]:
-        allowed = {"event_id", "event_type", "session_id", "route_id", "metadata", "campaign_id", "experiment_id"}
+        allowed = {"event_id", "event_type", "session_id", "route_id", "metadata", "campaign_id", "experiment_id", "observed_at"}
         unknown = set(event) - allowed
         if unknown:
             raise ValueError(f"unknown event field: {sorted(unknown)[0]}")
@@ -128,6 +128,7 @@ class SQLiteLedgerStore:
             "session_id": event.get("session_id"),
             "route_id": route_id,
             "metadata": dict(event.get("metadata") or {}),
+            "observed_at": event.get("observed_at"),
             "fixture_status": ledger.fixture_status,
             "campaign_id": event.get("campaign_id") or (route and route["campaign_id"]) or ledger.campaign_id,
             "experiment_id": event.get("experiment_id") or (route and route["experiment_id"]) or ledger.experiment_id,

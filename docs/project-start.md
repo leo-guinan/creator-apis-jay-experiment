@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -89,9 +89,20 @@ Verification:
 - Local HTTP readback returned `Content-Type: text/html; charset=utf-8` and 5,289 bytes of dashboard HTML.
 - Dashboard API readback returned `api_version: v1` and 2 placements.
 
+## Completed sixth slice
+
+Added local `GET /r/<route_id>` tracking. Valid routes append timestamped route-click events to SQLite, establish/reuse a localhost session cookie, and return a `302` redirect. Unknown routes fail with `404` and do not write an event.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 17 tests passed.
+- Two sequential redirects with the same cookie produced two append-only events with the same session ID.
+- Route destination readback returned the configured calibration URL.
+- Unknown route readback returned HTTP 404.
+
 ## Next slice
 
-Decide authentication and deployment boundaries before exposing the dashboard beyond localhost. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add a local synthetic conversion-recording path so the route click can flow into a conversion without hand-authoring purchase JSON. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

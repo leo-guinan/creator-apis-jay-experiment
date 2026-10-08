@@ -1,8 +1,11 @@
 import json
+import uuid
+from datetime import datetime, timezone
+from http.cookies import SimpleCookie
 from http.server import BaseHTTPRequestHandler
 from pathlib import Path
 from typing import Mapping
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, unquote, urlsplit
 
 from .reporting import LedgerReport
 
@@ -41,6 +44,12 @@ class ReportingAPI:
             raise ValueError("event ingestion requires a durable store")
         return self.store.append_event(event)
 
+    def route_destination(self, route_id: str) -> str:
+        route = self._current_ledger().records.get(route_id)
+        if route is None or route.get("record_type") != "route":
+            raise ValueError(f"unknown route id: {route_id}")
+        return route["destination"]
+
 
 def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = None):
     dashboard_file: Path | None = Path(dashboard_path) if dashboard_path is not None else None
@@ -48,6 +57,9 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            if parsed.path.startswith("/r/"):
+                self._redirect_route(unquote(parsed.path[3:]))
+                return
             if parsed.path == "/" and dashboard_file is not None:
                 try:
                     body = dashboard_file.read_bytes()
@@ -69,6 +81,41 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
                 self._send_json(400, {"error": "invalid_request", "message": str(exc)})
                 return
             self._send_json(200, payload)
+
+        def _redirect_route(self, route_id: str) -> None:
+            if not route_id:
+                self._send_json(400, {"error": "invalid_route"})
+                return
+            try:
+                destination = api.route_destination(route_id)
+                cookie = SimpleCookie()
+                cookie.load(self.headers.get("Cookie", ""))
+                session = cookie.get("capi_session")
+                is_new_session = session is None or not session.value
+                session_id = session.value if not is_new_session else f"session:{uuid.uuid4().hex}"
+                api.append_event(
+                    {
+                        "event_id": f"event:route-click-{uuid.uuid4().hex}",
+                        "event_type": "route_click",
+                        "session_id": session_id,
+                        "route_id": route_id,
+                        "observed_at": datetime.now(timezone.utc).isoformat(),
+                    }
+                )
+            except ValueError as exc:
+                status = 404 if str(exc).startswith("unknown route id") else 400
+                self._send_json(status, {"error": "invalid_route", "message": str(exc)})
+                return
+            self.send_response(302)
+            self.send_header("Location", destination)
+            self.send_header("Cache-Control", "no-store")
+            if is_new_session:
+                self.send_header(
+                    "Set-Cookie",
+                    f"capi_session={session_id}; Path=/; HttpOnly; SameSite=Lax",
+                )
+            self.send_header("Content-Length", "0")
+            self.end_headers()
 
         def do_POST(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)

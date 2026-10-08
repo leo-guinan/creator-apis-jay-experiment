@@ -32,4 +32,4 @@ Response:
 
 ## Boundaries
 
-Ingestion records observations only. It does not rewrite prior events, perform attribution at write time, send external messages, or settle royalties. The local reference server and dashboard have no authentication, TLS, rate limiting, CSP, or multi-tenant isolation and must not be exposed publicly. The dashboard boundary is documented in `docs/dashboard-contract.md`.
+Ingestion records observations only. It does not rewrite prior events, perform attribution at write time, send external messages, or settle royalties. The local reference server, tracked-route endpoint, and dashboard have no authentication, TLS, rate limiting, CSP, or multi-tenant isolation and must not be exposed publicly. The dashboard boundary is documented in `docs/dashboard-contract.md`; the route boundary is documented in `docs/routing-contract.md`.

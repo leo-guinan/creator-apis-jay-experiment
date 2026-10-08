@@ -1,5 +1,6 @@
 import unittest
 import json
+import http.client
 import tempfile
 from pathlib import Path
 from threading import Thread
@@ -376,6 +377,70 @@ class EvidenceLedgerTests(unittest.TestCase):
 
         self.assertIn("Creator APIs report", body)
         self.assertEqual(content_type, "text/html; charset=utf-8")
+
+    def test_route_redirect_records_durable_click_and_reuses_session_cookie(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port)
+                connection.request("GET", "/r/route:jay-youtube-001")
+                first = connection.getresponse()
+                cookie = first.getheader("Set-Cookie")
+                first_location = first.getheader("Location")
+                first.read()
+                connection.close()
+
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port)
+                connection.request(
+                    "GET",
+                    "/r/route:jay-youtube-001",
+                    headers={"Cookie": cookie.split(";", 1)[0]},
+                )
+                second = connection.getresponse()
+                second.read()
+                connection.close()
+                durable = SQLiteLedgerStore(path).load()
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        clicks = [event for event in durable.events if event["event_type"] == "route_click"]
+        self.assertEqual(first.status, 302)
+        self.assertEqual(second.status, 302)
+        self.assertEqual(first_location, "https://example.test/calibration")
+        self.assertIsNotNone(cookie)
+        self.assertEqual(len(clicks), 2)
+        self.assertEqual(clicks[0]["session_id"], clicks[1]["session_id"])
+        self.assertIn("observed_at", clicks[0])
+
+    def test_route_redirect_rejects_unknown_route(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                connection = http.client.HTTPConnection("127.0.0.1", server.server_port)
+                connection.request("GET", "/r/route:missing")
+                response = connection.getresponse()
+                response.read()
+                connection.close()
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(response.status, 404)
 
 
 if __name__ == "__main__":

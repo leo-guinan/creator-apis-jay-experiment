@@ -60,4 +60,6 @@ JSON persistence is implemented in `src/creator_apis/store.py`; SQLite event per
 
 The local browser dashboard is implemented in `app/index.html` and documented in `docs/dashboard-contract.md`. It is read-only and renders the report without changing attribution semantics.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an authentication/deployment decision before any non-local exposure.
+The local tracked-route endpoint is implemented in `src/creator_apis/api.py` and documented in `docs/routing-contract.md`. It records timestamped clicks and preserves a session join before redirecting; a click remains an observation, not a conversion.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a local synthetic conversion-recording path.
