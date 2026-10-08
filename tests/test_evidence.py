@@ -2,6 +2,7 @@ import unittest
 import json
 import http.client
 import os
+import sqlite3
 import subprocess
 import sys
 import tempfile
@@ -768,6 +769,25 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertTrue(receipt["report_unchanged"])
         self.assertTrue(receipt["logical_state_unchanged"])
         self.assertEqual(receipt["restored_report"]["royalty"]["accrued_amount_cents"], 10_000)
+
+
+    def test_event_integrity_chain_detects_payload_tampering(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            store.append_event({"event_id": "event:integrity-1", "event_type": "route_click", "session_id": "session:integrity", "route_id": "route:jay-youtube-001"})
+            store.append_event({"event_id": "event:integrity-2", "event_type": "landing_page_view", "session_id": "session:integrity"})
+            verified = store.verify_integrity()
+            with sqlite3.connect(path) as connection:
+                payload = json.loads(connection.execute("SELECT payload FROM events WHERE event_id = ?", ("event:integrity-1",)).fetchone()[0])
+                payload["session_id"] = "session:tampered"
+                connection.execute("UPDATE events SET payload = ? WHERE event_id = ?", (json.dumps(payload, sort_keys=True), "event:integrity-1"))
+            tampered = SQLiteLedgerStore(path).verify_integrity()
+
+        self.assertEqual(verified["status"], "verified")
+        self.assertEqual(verified["event_count"], 2)
+        self.assertEqual(tampered["status"], "failed")
+        self.assertTrue(tampered["errors"])
 
 
 if __name__ == "__main__":

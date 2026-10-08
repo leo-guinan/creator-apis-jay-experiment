@@ -82,4 +82,6 @@ The negative-path matrix is implemented in `scripts/check_negative_paths.py` and
 
 The backup/restore check is implemented in `scripts/check_backup_restore.py` and documented in `docs/backup-restore-contract.md`. It verifies that a bounded SQLite copy and restore preserves the report and complete logical ledger export.
 
+The tamper-evident event chain is implemented in `src/creator_apis/sqlite_store.py`, exposed through `GET /v1/integrity`, and documented in `docs/ledger-integrity-contract.md`. It makes event edits and deletions observable without claiming tamper prevention or public attestation.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.

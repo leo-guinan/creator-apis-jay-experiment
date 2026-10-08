@@ -1,3 +1,4 @@
+import hashlib
 import json
 import sqlite3
 from datetime import datetime, timezone
@@ -52,6 +53,35 @@ class SQLiteLedgerStore:
                 );
                 """
             )
+        self._ensure_integrity_chain()
+
+    @staticmethod
+    def _canonical_event(event: dict[str, Any]) -> dict[str, Any]:
+        return {
+            key: value
+            for key, value in event.items()
+            if key not in {"sequence", "previous_event_hash", "event_hash"}
+        }
+
+    @classmethod
+    def _chain_event(cls, event: dict[str, Any], sequence: int, previous_hash: str | None) -> dict[str, Any]:
+        chained = dict(event)
+        chained["sequence"] = sequence
+        chained["previous_event_hash"] = previous_hash
+        canonical = {"sequence": sequence, "previous_event_hash": previous_hash, "event": cls._canonical_event(event)}
+        chained["event_hash"] = hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+        return chained
+
+    def _ensure_integrity_chain(self) -> None:
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT event_id, payload FROM events ORDER BY rowid").fetchall()
+            if not rows or all({"sequence", "previous_event_hash", "event_hash"} <= set(json.loads(payload)) for _, payload in rows):
+                return
+            previous_hash = None
+            for sequence, (event_id, payload) in enumerate(rows, start=1):
+                chained = self._chain_event(json.loads(payload), sequence, previous_hash)
+                connection.execute("UPDATE events SET payload = ? WHERE event_id = ?", (json.dumps(chained, sort_keys=True), event_id))
+                previous_hash = chained["event_hash"]
 
     def _write_ledger(self, connection: sqlite3.Connection, ledger: EvidenceLedger) -> None:
         payload = ledger.export()
@@ -67,9 +97,14 @@ class SQLiteLedgerStore:
             "INSERT INTO records(record_id, payload) VALUES (?, ?)",
             [(key, json.dumps(value, sort_keys=True)) for key, value in payload["records"].items()],
         )
+        previous_hash = None
+        chained_events = []
+        for sequence, item in enumerate(payload["events"], start=1):
+            chained = self._chain_event(item, sequence, previous_hash)
+            chained_events.append((chained["event_id"], json.dumps(chained, sort_keys=True)))
+            previous_hash = chained["event_hash"]
         connection.executemany(
-            "INSERT INTO events(event_id, payload) VALUES (?, ?)",
-            [(item["event_id"], json.dumps(item, sort_keys=True)) for item in payload["events"]],
+            "INSERT INTO events(event_id, payload) VALUES (?, ?)", chained_events
         )
         connection.executemany(
             "INSERT INTO conversions(conversion_id, payload) VALUES (?, ?)",
@@ -134,20 +169,50 @@ class SQLiteLedgerStore:
             "campaign_id": event.get("campaign_id") or (route and route["campaign_id"]) or ledger.campaign_id,
             "experiment_id": event.get("experiment_id") or (route and route["experiment_id"]) or ledger.experiment_id,
         }
-        encoded = json.dumps(normalized, sort_keys=True)
         with sqlite3.connect(self.path) as connection:
             existing = connection.execute(
                 "SELECT payload FROM events WHERE event_id = ?", (event_id,)
             ).fetchone()
             if existing is not None:
-                if existing[0] != encoded:
+                existing_payload = json.loads(existing[0])
+                if self._canonical_event(existing_payload) != self._canonical_event(normalized):
                     raise ValueError(f"event id conflict: {event_id}")
-                return normalized, False
+                return existing_payload, False
+            row = connection.execute("SELECT payload FROM events ORDER BY rowid DESC LIMIT 1").fetchone()
+            previous_hash = json.loads(row[0]).get("event_hash") if row else None
+            sequence = connection.execute("SELECT COUNT(*) FROM events").fetchone()[0] + 1
+            chained = self._chain_event(normalized, sequence, previous_hash)
             connection.execute(
                 "INSERT INTO events(event_id, payload) VALUES (?, ?)",
-                (event_id, encoded),
+                (event_id, json.dumps(chained, sort_keys=True)),
             )
-        return normalized, True
+        return chained, True
+
+    def verify_integrity(self) -> dict[str, Any]:
+        errors: list[str] = []
+        previous_hash = None
+        expected_sequence = 1
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT event_id, payload FROM events ORDER BY rowid").fetchall()
+        for event_id, payload in rows:
+            event = json.loads(payload)
+            if event.get("event_id") != event_id:
+                errors.append(f"event id mismatch: {event_id}")
+            if event.get("sequence") != expected_sequence:
+                errors.append(f"sequence mismatch: {event_id}")
+            if event.get("previous_event_hash") != previous_hash:
+                errors.append(f"previous hash mismatch: {event_id}")
+            expected = self._chain_event(self._canonical_event(event), expected_sequence, previous_hash)["event_hash"]
+            if event.get("event_hash") != expected:
+                errors.append(f"event hash mismatch: {event_id}")
+            previous_hash = event.get("event_hash")
+            expected_sequence += 1
+        return {
+            "status": "verified" if not errors else "failed",
+            "event_count": len(rows),
+            "root_hash": previous_hash,
+            "errors": errors,
+        }
 
     def append_conversion(self, conversion: dict[str, Any]) -> tuple[dict[str, Any], bool]:
         allowed = {"conversion_id", "session_id", "amount_cents", "purchase_event_id", "campaign_id", "experiment_id"}
@@ -190,7 +255,6 @@ class SQLiteLedgerStore:
             "experiment_id": normalized["experiment_id"],
         }
         conversion_encoded = json.dumps(normalized, sort_keys=True)
-        event_encoded = json.dumps(event, sort_keys=True)
         with sqlite3.connect(self.path) as connection:
             existing_conversion = connection.execute(
                 "SELECT payload FROM conversions WHERE conversion_id = ?", (conversion_id,)
@@ -199,6 +263,11 @@ class SQLiteLedgerStore:
                 if existing_conversion[0] != conversion_encoded:
                     raise ValueError(f"conversion id conflict: {conversion_id}")
                 return normalized, False
+            row = connection.execute("SELECT payload FROM events ORDER BY rowid DESC LIMIT 1").fetchone()
+            previous_hash = json.loads(row[0]).get("event_hash") if row else None
+            sequence = connection.execute("SELECT COUNT(*) FROM events").fetchone()[0] + 1
+            event = self._chain_event(event, sequence, previous_hash)
+            event_encoded = json.dumps(event, sort_keys=True)
             existing_event = connection.execute(
                 "SELECT payload FROM events WHERE event_id = ?", (purchase_event_id,)
             ).fetchone()

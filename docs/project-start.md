@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, local health/readiness checks, restart recovery, negative-path validation, and backup/restore verification implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, local health/readiness checks, restart recovery, negative-path validation, backup/restore verification, and tamper-evident event integrity implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -218,6 +218,17 @@ Verification:
 - report remained identical;
 - logical ledger export remained identical;
 - 28 tests passed;
+- `compileall` and `git diff --check` passed.
+
+## Completed seventeenth slice
+
+Added sequence-linked event hashes to SQLite persistence, `GET /v1/integrity`, and `scripts/check_ledger_integrity.py`. The verifier detects payload edits, deletions, sequence gaps, reorderings, and hash mismatches while preserving the event-chain root hash.
+
+Verification:
+
+- clean two-event chain: verified;
+- payload tampering: detected;
+- 29 tests passed;
 - `compileall` and `git diff --check` passed.
 
 ## Next slice

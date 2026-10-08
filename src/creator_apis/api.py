@@ -47,6 +47,11 @@ class ReportingAPI:
             "read_only": True,
         }
 
+    def integrity(self) -> dict:
+        if self.store is None:
+            return {"status": "unavailable", "errors": ["integrity requires a SQLite store"]}
+        return self.store.verify_integrity()
+
     def get_report(self, params: Mapping[str, str] | None = None) -> dict:
         params = dict(params or {})
         allowed = {"campaign_id", "experiment_id", "royalty_rate", "scenario"}
@@ -89,6 +94,10 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
             parsed = urlsplit(self.path)
             if parsed.path == "/healthz":
                 self._send_json(200, api.health())
+                return
+            if parsed.path == "/v1/integrity":
+                payload = api.integrity()
+                self._send_json(200 if payload["status"] == "verified" else 503, {"api_version": "v1", **payload})
                 return
             if parsed.path == "/v1/scenarios":
                 self._send_json(200, {"api_version": "v1", "scenarios": api.available_scenarios()})
