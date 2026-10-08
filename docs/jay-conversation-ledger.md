@@ -74,4 +74,6 @@ The HTTP scenario replay harness is implemented in `scripts/replay_http_scenario
 
 The local operator selector is implemented in `src/creator_apis/api.py`, `scripts/serve_synthetic_report.py`, and `app/index.html`, documented in `docs/operator-scenario-selector.md`. It exposes only fixed synthetic scenarios and remains read-only.
 
+The health/readiness boundary is implemented in `src/creator_apis/api.py` and `scripts/check_local_server.py`, documented in `docs/health-readiness-contract.md`. It makes stale or incompatible local server processes observable before the operator trusts the dashboard.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.

@@ -27,12 +27,25 @@ class ReportingAPI:
             return self.scenario_stores[scenario].load()
         if self.store is not None:
             return self.store.load()
-        if self.ledger is None:
-            raise ValueError("default ledger is not configured")
-        return self.ledger
+        if self.ledger is not None:
+            return self.ledger
+        if self.scenario_stores:
+            return self.scenario_stores[sorted(self.scenario_stores)[0]].load()
+        raise ValueError("default ledger is not configured")
 
     def available_scenarios(self) -> list[str]:
         return sorted(self.scenario_stores)
+
+    def health(self) -> dict:
+        ledger = self._current_ledger()
+        return {
+            "status": "ok",
+            "api_version": "v1",
+            "fixture_status": ledger.fixture_status,
+            "storage": "sqlite" if self.store is not None or self.scenario_stores else "json",
+            "scenarios": self.available_scenarios(),
+            "read_only": True,
+        }
 
     def get_report(self, params: Mapping[str, str] | None = None) -> dict:
         params = dict(params or {})
@@ -74,6 +87,9 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            if parsed.path == "/healthz":
+                self._send_json(200, api.health())
+                return
             if parsed.path == "/v1/scenarios":
                 self._send_json(200, {"api_version": "v1", "scenarios": api.available_scenarios()})
                 return

@@ -42,6 +42,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/http-readback-contract.md` — independent localhost API/dashboard readback.
 - `docs/http-scenario-replay-contract.md` — end-to-end localhost route/conversion/report replay.
 - `docs/operator-scenario-selector.md` — fixed local read-only scenario selection in the dashboard.
+- `docs/health-readiness-contract.md` — local health endpoint and independent server checker.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -80,3 +81,9 @@ PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --scenario-dir 
 ```
 
 The dashboard selector only addresses the fixed server-side scenario names. It cannot select arbitrary files and has no mutation controls.
+
+Check the running local process before opening the dashboard:
+
+```bash
+PYTHONPATH=src:scripts python3 scripts/check_local_server.py --base-url http://127.0.0.1:8080
+```

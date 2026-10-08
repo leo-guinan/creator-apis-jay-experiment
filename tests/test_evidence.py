@@ -267,6 +267,41 @@ class EvidenceLedgerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ReportingAPI(self.ledger).get_report({"unexpected": "value"})
 
+    def test_health_endpoint_reports_local_read_only_mode(self):
+        with tempfile.TemporaryDirectory() as directory:
+            store = SQLiteLedgerStore.create(Path(directory) / "direct.sqlite", self.ledger)
+            api = ReportingAPI(store=store, scenario_stores={"direct": store})
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(api, dashboard_path=Path(__file__).parents[1] / "app" / "index.html")
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                with urlopen(f"http://127.0.0.1:{server.server_port}/healthz") as response:
+                    health = json.load(response)
+                checker = Path(__file__).parents[1] / "scripts" / "check_local_server.py"
+                environment = dict(os.environ)
+                environment["PYTHONPATH"] = str(Path(__file__).parents[1] / "src")
+                check = subprocess.run(
+                    [sys.executable, str(checker), "--base-url", f"http://127.0.0.1:{server.server_port}",
+                     "--output", str(Path(directory) / "health-check.json")],
+                    check=True, capture_output=True, text=True, env=environment,
+                )
+                health_check = json.loads((Path(directory) / "health-check.json").read_text(encoding="utf-8"))
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(health["status"], "ok")
+        self.assertEqual(health["api_version"], "v1")
+        self.assertEqual(health["fixture_status"], "synthetic")
+        self.assertEqual(health["storage"], "sqlite")
+        self.assertEqual(health["scenarios"], ["direct"])
+        self.assertTrue(health["read_only"])
+        self.assertIn("status=verified", check.stdout)
+        self.assertEqual(health_check["status"], "verified")
+
     def test_scenario_report_selection_is_fixed_and_read_only(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "direct.sqlite"

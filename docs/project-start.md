@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, and fixed local scenario dashboard selection implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, and local health/readiness checks implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -167,6 +167,18 @@ Verification:
 - selected report readback passed;
 - dashboard source includes scenario selection contract;
 - 24 tests passed;
+- `compileall` and `git diff --check` passed.
+
+## Completed thirteenth slice
+
+Added `GET /healthz` and `scripts/check_local_server.py`. The health document declares API version, synthetic fixture status, storage mode, fixed scenarios, and read-only mode. The checker verifies localhost scope, health, report, and dashboard readback and fails clearly for an old or incompatible server.
+
+Verification:
+
+- health endpoint readback passed;
+- independent checker receipt passed;
+- report and dashboard checks passed;
+- 25 tests passed;
 - `compileall` and `git diff --check` passed.
 
 ## Next slice
