@@ -387,6 +387,7 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertIn("placements_by_channel", source)
         self.assertIn("/v1/scenarios", source)
         self.assertIn("activeScenario", source)
+        self.assertIn("response.status === 404", source)
 
     def test_http_root_serves_dashboard_asset(self):
         dashboard = Path(__file__).parents[1] / "app" / "index.html"

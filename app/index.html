@@ -49,9 +49,15 @@
     let activeScenario = new URLSearchParams(location.search).get('scenario') || '';
     async function loadScenarios() {
       const response = await fetch('/v1/scenarios');
+      const select = document.querySelector('#scenario');
+      if (response.status === 404) {
+        activeScenario = '';
+        select.innerHTML = '<option value="">default</option>';
+        select.value = '';
+        return;
+      }
       if (!response.ok) throw new Error(`scenario request failed: ${response.status}`);
       const scenarios = await response.json();
-      const select = document.querySelector('#scenario');
       select.innerHTML = '<option value="">default</option>' + scenarios.scenarios.map(item => `<option value="${esc(item)}">${esc(item)}</option>`).join('');
       if (!scenarios.scenarios.includes(activeScenario)) activeScenario = '';
       select.value = activeScenario;
