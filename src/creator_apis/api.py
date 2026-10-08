@@ -13,18 +13,30 @@ from .reporting import LedgerReport
 class ReportingAPI:
     """Versioned reporting and bounded event-ingestion boundary."""
 
-    def __init__(self, ledger=None, *, store=None):
-        if ledger is None and store is None:
-            raise ValueError("ledger or store is required")
+    def __init__(self, ledger=None, *, store=None, scenario_stores=None):
+        if ledger is None and store is None and not scenario_stores:
+            raise ValueError("ledger, store, or scenario_stores is required")
         self.ledger = ledger
         self.store = store
+        self.scenario_stores = dict(scenario_stores or {})
 
-    def _current_ledger(self):
-        return self.store.load() if self.store is not None else self.ledger
+    def _current_ledger(self, scenario: str | None = None):
+        if scenario is not None:
+            if scenario not in self.scenario_stores:
+                raise ValueError(f"unknown scenario: {scenario}")
+            return self.scenario_stores[scenario].load()
+        if self.store is not None:
+            return self.store.load()
+        if self.ledger is None:
+            raise ValueError("default ledger is not configured")
+        return self.ledger
+
+    def available_scenarios(self) -> list[str]:
+        return sorted(self.scenario_stores)
 
     def get_report(self, params: Mapping[str, str] | None = None) -> dict:
         params = dict(params or {})
-        allowed = {"campaign_id", "experiment_id", "royalty_rate"}
+        allowed = {"campaign_id", "experiment_id", "royalty_rate", "scenario"}
         unknown = set(params) - allowed
         if unknown:
             raise ValueError(f"unknown query parameter: {sorted(unknown)[0]}")
@@ -32,7 +44,7 @@ class ReportingAPI:
         rate = 0.10 if rate_text in (None, "") else float(rate_text)
         if not 0 <= rate <= 1:
             raise ValueError("royalty_rate must be between 0 and 1")
-        report = LedgerReport(self._current_ledger()).summary(
+        report = LedgerReport(self._current_ledger(params.get("scenario"))).summary(
             campaign_id=params.get("campaign_id"),
             experiment_id=params.get("experiment_id"),
             royalty_rate=rate,
@@ -62,6 +74,9 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
     class Handler(BaseHTTPRequestHandler):
         def do_GET(self):  # noqa: N802 - stdlib handler contract
             parsed = urlsplit(self.path)
+            if parsed.path == "/v1/scenarios":
+                self._send_json(200, {"api_version": "v1", "scenarios": api.available_scenarios()})
+                return
             if parsed.path.startswith("/r/"):
                 self._redirect_route(unquote(parsed.path[3:]))
                 return

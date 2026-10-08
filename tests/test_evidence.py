@@ -267,6 +267,31 @@ class EvidenceLedgerTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ReportingAPI(self.ledger).get_report({"unexpected": "value"})
 
+    def test_scenario_report_selection_is_fixed_and_read_only(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "direct.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            api = ReportingAPI(scenario_stores={"direct": store})
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(api)
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                with urlopen(f"http://127.0.0.1:{server.server_port}/v1/scenarios") as response:
+                    scenarios = json.load(response)
+                with urlopen(f"http://127.0.0.1:{server.server_port}/v1/reports?scenario=direct") as response:
+                    report = json.load(response)
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(scenarios["scenarios"], ["direct"])
+        self.assertEqual(report["report"]["fixture_status"], "synthetic")
+        with self.assertRaises(ValueError):
+            api.get_report({"scenario": "../outside"})
+
     def test_sqlite_event_survives_store_reload_and_changes_report(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "ledger.sqlite"
@@ -360,6 +385,8 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertIn("/v1/reports", source)
         self.assertIn("fixture_status", source)
         self.assertIn("placements_by_channel", source)
+        self.assertIn("/v1/scenarios", source)
+        self.assertIn("activeScenario", source)
 
     def test_http_root_serves_dashboard_asset(self):
         dashboard = Path(__file__).parents[1] / "app" / "index.html"

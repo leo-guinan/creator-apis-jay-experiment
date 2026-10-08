@@ -48,7 +48,6 @@ def _run(name: str, output_dir: Path) -> dict:
     if database.exists():
         database.unlink()
     store = _fresh_store(database)
-    before_hash = _sha256(database)
     server = HTTPServer(("127.0.0.1", 0), create_handler(ReportingAPI(store=store)))
     thread = Thread(target=server.serve_forever, daemon=True)
     thread.start()
@@ -72,6 +71,7 @@ def _run(name: str, output_dir: Path) -> dict:
         status, _, response = _request(connection, "GET", "/v1/reports")
         steps.append({"name": "report", "status": status})
         remote_report = response["report"]
+        before_hash = _sha256(database)
     finally:
         connection.close()
         server.shutdown()

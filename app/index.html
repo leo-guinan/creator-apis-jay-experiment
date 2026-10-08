@@ -32,6 +32,7 @@
 <body>
   <main>
     <div class="status" id="status">loading report</div>
+    <label class="scenario-control">Scenario <select id="scenario"><option value="">default</option></select></label>
     <h1>Creator APIs report</h1>
     <p class="dek">A read-only view of the evidence ledger: what was observed, which paths are traceable, and what remains unknown.</p>
     <div class="notice">Synthetic fixture. This is not a real payment, customer conversion, platform publication, or settled royalty.</div>
@@ -45,12 +46,24 @@
     const money = cents => `$${(cents / 100).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
     const esc = value => String(value ?? "—").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
     const card = (label, value) => `<div class="card"><div class="label">${esc(label)}</div><div class="value">${esc(value)}</div></div>`;
+    let activeScenario = new URLSearchParams(location.search).get('scenario') || '';
+    async function loadScenarios() {
+      const response = await fetch('/v1/scenarios');
+      if (!response.ok) throw new Error(`scenario request failed: ${response.status}`);
+      const scenarios = await response.json();
+      const select = document.querySelector('#scenario');
+      select.innerHTML = '<option value="">default</option>' + scenarios.scenarios.map(item => `<option value="${esc(item)}">${esc(item)}</option>`).join('');
+      if (!scenarios.scenarios.includes(activeScenario)) activeScenario = '';
+      select.value = activeScenario;
+      select.onchange = () => { activeScenario = select.value; history.replaceState({}, '', activeScenario ? `/?scenario=${encodeURIComponent(activeScenario)}` : '/'); loadReport(); };
+    }
     async function loadReport() {
-      const response = await fetch('/v1/reports');
+      const query = activeScenario ? `?scenario=${encodeURIComponent(activeScenario)}` : '';
+      const response = await fetch(`/v1/reports${query}`);
       if (!response.ok) throw new Error(`report request failed: ${response.status}`);
       const payload = await response.json();
       const report = payload.report;
-      document.querySelector('#status').textContent = `${payload.api_version} · ${report.fixture_status}`;
+      document.querySelector('#status').textContent = `${payload.api_version} · ${report.fixture_status}${activeScenario ? ` · ${activeScenario}` : ''}`;
       document.querySelector('#cards').innerHTML = [
         card('events', report.counts.events),
         card('placements', report.counts.placements),
@@ -62,7 +75,7 @@
       document.querySelector('#placements').innerHTML = `<table><thead><tr><th>Channel</th><th>Artifact</th><th>Routes</th></tr></thead><tbody>${report.placements.map(item => `<tr><td>${esc(item.channel)}</td><td><code>${esc(item.artifact_id)}</code></td><td>${item.route_ids.map(esc).join('<br>')}</td></tr>`).join('')}</tbody></table>`;
       document.querySelector('#attributions').innerHTML = `<table><thead><tr><th>Conversion</th><th>Classification</th><th>Contributor</th><th>Trace</th></tr></thead><tbody>${report.attributions.map(item => `<tr><td><code>${esc(item.conversion_id)}</code></td><td>${esc(item.classification)}${item.reason ? `<br><span class="error">${esc(item.reason)}</span>` : ''}</td><td>${esc(item.contributor_id)}</td><td>${item.trace.map(esc).join(' → ') || '—'}</td></tr>`).join('')}</tbody></table>`;
     }
-    loadReport().catch(error => { document.querySelector('#status').textContent = 'report unavailable'; document.querySelector('#status').classList.add('error'); document.querySelector('#scope').innerHTML = `<span class="error">${esc(error.message)}</span>`; });
+    loadScenarios().then(loadReport).catch(error => { document.querySelector('#status').textContent = 'report unavailable'; document.querySelector('#status').classList.add('error'); document.querySelector('#scope').innerHTML = `<span class="error">${esc(error.message)}</span>`; });
   </script>
 </body>
 </html>

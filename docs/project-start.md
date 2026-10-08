@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, and fixed local scenario dashboard selection implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -157,9 +157,21 @@ Verification:
 - all database hashes unchanged by report readback;
 - `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 23 tests passed.
 
+## Completed twelfth slice
+
+Added a fixed local scenario selector. `--scenario-dir examples/scenario-receipts` exposes only `direct`, `ambiguous`, and `no-click` through `GET /v1/scenarios`; the dashboard uses the selected fixed name to read `GET /v1/reports?scenario=...`. No arbitrary filesystem paths or mutation controls were added.
+
+Verification:
+
+- fixed scenario list readback passed;
+- selected report readback passed;
+- dashboard source includes scenario selection contract;
+- 24 tests passed;
+- `compileall` and `git diff --check` passed.
+
 ## Next slice
 
-Decide whether the local operator workflow needs a small scenario selector, or continue hardening the existing API contracts. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Continue hardening the API contracts with explicit negative-path and recovery tests. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

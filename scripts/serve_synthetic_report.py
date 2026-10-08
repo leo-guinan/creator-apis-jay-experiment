@@ -12,10 +12,18 @@ def main() -> None:
     source = parser.add_mutually_exclusive_group()
     source.add_argument("--ledger", default="examples/synthetic-ledger.json")
     source.add_argument("--sqlite", help="load a durable SQLite ledger instead of JSON")
+    source.add_argument("--scenario-dir", help="serve fixed local scenarios from a directory of SQLite ledgers")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8080)
     args = parser.parse_args()
-    if args.sqlite:
+    if args.scenario_dir:
+        directory = Path(args.scenario_dir)
+        scenario_stores = {
+            name: SQLiteLedgerStore(directory / f"{name}.sqlite")
+            for name in ("direct", "ambiguous", "no-click")
+        }
+        api = ReportingAPI(store=scenario_stores["direct"], scenario_stores=scenario_stores)
+    elif args.sqlite:
         api = ReportingAPI(store=SQLiteLedgerStore(Path(args.sqlite)))
     else:
         api = ReportingAPI(LedgerStore.load(Path(args.ledger)))
