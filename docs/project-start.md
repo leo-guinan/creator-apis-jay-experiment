@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -134,9 +134,20 @@ Verification:
 - 3 of 3 scenarios verified;
 - `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 21 tests passed.
 
+## Completed tenth slice
+
+Added `scripts/verify_local_http.py`. Against a separately running localhost server, it recomputes the expected report from SQLite, compares `GET /v1/reports`, checks the dashboard response at `/`, and verifies the SQLite hash is unchanged by the readback.
+
+Verification:
+
+- HTTP report readback: verified;
+- dashboard readback: verified;
+- SQLite mutation check: verified unchanged;
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 22 tests passed.
+
 ## Next slice
 
-Add an independent HTTP readback check for the local report server and dashboard, then decide whether the local operator workflow needs a small scenario selector. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Decide whether the local operator workflow needs a small scenario selector, or continue hardening the existing API contracts. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

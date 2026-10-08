@@ -490,6 +490,45 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(report["attributions"][0]["classification"], "direct")
         self.assertEqual(report["royalty"]["accrued_amount_cents"], 10_000)
 
+    def test_http_verifier_matches_report_and_dashboard_readback(self):
+        root = Path(__file__).parents[1]
+        runner = root / "scripts" / "run_synthetic_scenarios.py"
+        verifier = root / "scripts" / "verify_local_http.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            subprocess.run(
+                [sys.executable, str(runner), "--output-dir", directory],
+                check=True, capture_output=True, text=True, env=environment,
+            )
+            store = SQLiteLedgerStore(Path(directory) / "direct.sqlite")
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0),
+                create_handler(
+                    ReportingAPI(store=store),
+                    dashboard_path=root / "app" / "index.html",
+                ),
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                result = subprocess.run(
+                    [sys.executable, str(verifier), "--base-url", f"http://127.0.0.1:{server.server_port}",
+                     "--sqlite", str(Path(directory) / "direct.sqlite"), "--output", str(Path(directory) / "http-verification.json")],
+                    check=True, capture_output=True, text=True, env=environment,
+                )
+                verification = json.loads((Path(directory) / "http-verification.json").read_text(encoding="utf-8"))
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertIn("verified", result.stdout)
+        self.assertEqual(verification["status"], "verified")
+        self.assertEqual(verification["report_status"], "verified")
+        self.assertEqual(verification["dashboard_status"], "verified")
+        self.assertEqual(verification["report"]["royalty"]["accrued_amount_cents"], 10_000)
+
     def test_scenario_verifier_recomputes_sqlite_reports_and_writes_receipt(self):
         root = Path(__file__).parents[1]
         runner = root / "scripts" / "run_synthetic_scenarios.py"

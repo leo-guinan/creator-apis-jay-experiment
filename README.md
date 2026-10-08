@@ -39,6 +39,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/conversion-contract.md` — local synthetic conversion and purchase-event boundary.
 - `docs/scenario-runner-contract.md` — preserved direct, ambiguous, and no-click report receipts.
 - `docs/scenario-verification-contract.md` — independent SQLite/report readback and artifact hashes.
+- `docs/http-readback-contract.md` — independent localhost API/dashboard readback.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -65,3 +66,5 @@ The local server also serves the browser dashboard at `/`. It is a read-only cli
 `scripts/run_synthetic_scenarios.py` exercises the full local path from clean SQLite fixtures and preserves receipts in `examples/scenario-receipts/`. The direct case accrues synthetic royalty; ambiguous and no-click cases remain `unknown` with zero royalty.
 
 `scripts/verify_synthetic_scenarios.py` independently reopens the SQLite files, recomputes reports, compares them with the JSON receipts, and writes `examples/scenario-receipts/verification.json` with artifact hashes.
+
+With the local server running, `scripts/verify_local_http.py` independently compares `GET /v1/reports` to a reopened SQLite report, checks the dashboard at `/`, and proves the database hash is unchanged by readback.
