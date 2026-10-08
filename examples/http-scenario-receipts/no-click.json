@@ -3,6 +3,14 @@
   "database_sha256_before": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
   "database_unchanged": true,
   "fixture_status": "synthetic",
+  "integrity": {
+    "api_version": "v1",
+    "errors": [],
+    "event_count": 1,
+    "root_hash": "1239d5fe31da2e2b38b919af3e9f5e0d161f3250b7150f89396f0cfa719d7e64",
+    "status": "verified"
+  },
+  "integrity_status": "verified",
   "receipt_version": "v1",
   "report": {
     "attributions": [
@@ -74,6 +82,10 @@
     },
     {
       "name": "report",
+      "status": 200
+    },
+    {
+      "name": "integrity",
       "status": 200
     }
   ]

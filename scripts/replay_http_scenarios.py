@@ -71,6 +71,8 @@ def _run(name: str, output_dir: Path) -> dict:
         status, _, response = _request(connection, "GET", "/v1/reports")
         steps.append({"name": "report", "status": status})
         remote_report = response["report"]
+        status, _, remote_integrity = _request(connection, "GET", "/v1/integrity")
+        steps.append({"name": "integrity", "status": status})
         before_hash = _sha256(database)
     finally:
         connection.close()
@@ -78,15 +80,19 @@ def _run(name: str, output_dir: Path) -> dict:
         thread.join(timeout=2)
         server.server_close()
     expected = LedgerReport(SQLiteLedgerStore(database).load()).summary(royalty_rate=0.10)
+    expected_integrity = SQLiteLedgerStore(database).verify_integrity()
     after_hash = _sha256(database)
+    integrity_status = "verified" if remote_integrity == {"api_version": "v1", **expected_integrity} else "failed"
     report_status = "verified" if remote_report == expected else "failed"
     receipt = {
         "receipt_version": "v1",
         "scenario": name,
         "fixture_status": "synthetic",
-        "status": "verified" if report_status == "verified" and before_hash == after_hash else "failed",
+        "status": "verified" if report_status == "verified" and integrity_status == "verified" and before_hash == after_hash else "failed",
         "steps": steps,
         "report_status": report_status,
+        "integrity_status": integrity_status,
+        "integrity": remote_integrity,
         "database_unchanged": before_hash == after_hash,
         "database_sha256_before": before_hash,
         "database_sha256_after": after_hash,

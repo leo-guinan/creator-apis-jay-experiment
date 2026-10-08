@@ -1,8 +1,16 @@
 {
-  "database_sha256_after": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
-  "database_sha256_before": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
+  "database_sha256_after": "c261a14e46f20d5ec1db3c4b30e44851a2fb89e02ce2e23486a86e4d8130b085",
+  "database_sha256_before": "c261a14e46f20d5ec1db3c4b30e44851a2fb89e02ce2e23486a86e4d8130b085",
   "database_unchanged": true,
   "fixture_status": "synthetic",
+  "integrity": {
+    "api_version": "v1",
+    "errors": [],
+    "event_count": 2,
+    "root_hash": "c52fe5fd5a072b981a6d7a60c17ddc763764b691b1d62e5d8f55cfa900d9314d",
+    "status": "verified"
+  },
+  "integrity_status": "verified",
   "receipt_version": "v1",
   "report": {
     "attributions": [
@@ -12,7 +20,7 @@
         "contributor_id": "contributor:jay",
         "conversion_id": "conversion:http-direct",
         "evidence_event_ids": [
-          "event:route-click-5818ea0b53b046d39a8c711956fa46e1",
+          "event:route-click-d5125c240aad46f580cdf00b32746d70",
           "event:purchase-conversion:http-direct"
         ],
         "experiment_id": "experiment:ai-roi-am",
@@ -91,6 +99,10 @@
     },
     {
       "name": "report",
+      "status": 200
+    },
+    {
+      "name": "integrity",
       "status": 200
     }
   ]

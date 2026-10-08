@@ -78,6 +78,8 @@ def run_check(output_dir: str | Path) -> dict:
         backup.backup(restored)
     source_ledger = SQLiteLedgerStore(source_path).load()
     restored_ledger = SQLiteLedgerStore(restored_path).load()
+    source_integrity = SQLiteLedgerStore(source_path).verify_integrity()
+    restored_integrity = SQLiteLedgerStore(restored_path).verify_integrity()
     restored_report = LedgerReport(restored_ledger).summary(royalty_rate=0.10)
     restored_payload = {"api_version": "v1", "report": restored_report}
     receipt = {
@@ -86,9 +88,13 @@ def run_check(output_dir: str | Path) -> dict:
             click_status == 302 and conversion_status == 201 and report_status == 200
             and before_payload == restored_payload
             and source_ledger.export() == restored_ledger.export()
+            and source_integrity == restored_integrity
+            and source_integrity["status"] == "verified"
         ) else "failed",
         "before_report": before_payload["report"],
         "restored_report": restored_report,
+        "source_integrity": source_integrity,
+        "restored_integrity": restored_integrity,
         "report_unchanged": before_payload == restored_payload,
         "logical_state_unchanged": source_ledger.export() == restored_ledger.export(),
         "source_sha256": _sha256(source_path),

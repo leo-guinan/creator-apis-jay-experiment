@@ -28,7 +28,13 @@ def verify_receipts(receipt_dir: str | Path) -> tuple[dict[str, Any], int]:
         errors: list[str] = []
         try:
             receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-            actual_report = LedgerReport(SQLiteLedgerStore(database_path).load()).summary(royalty_rate=0.10)
+            store = SQLiteLedgerStore(database_path)
+            actual_report = LedgerReport(store.load()).summary(royalty_rate=0.10)
+            integrity = store.verify_integrity()
+            if integrity["status"] != "verified":
+                errors.append("SQLite integrity chain failed")
+            if receipt.get("integrity") != integrity:
+                errors.append("receipt integrity differs from SQLite verification")
             if receipt.get("fixture_status") != "synthetic":
                 errors.append("receipt fixture_status is not synthetic")
             if receipt.get("report") != actual_report:

@@ -19,7 +19,9 @@ def _sha256(path: Path) -> str:
 def verify_http(base_url: str, sqlite_path: str | Path, output: str | Path) -> dict:
     database = Path(sqlite_path)
     before_hash = _sha256(database)
-    expected = LedgerReport(SQLiteLedgerStore(database).load()).summary(royalty_rate=0.10)
+    store = SQLiteLedgerStore(database)
+    expected = LedgerReport(store.load()).summary(royalty_rate=0.10)
+    expected_integrity = store.verify_integrity()
     errors: list[str] = []
     try:
         with urlopen(f"{base_url.rstrip('/')}/v1/reports", timeout=5) as response:
@@ -35,6 +37,16 @@ def verify_http(base_url: str, sqlite_path: str | Path, output: str | Path) -> d
         report_status = "failed"
         errors.append(f"report readback error: {exc}")
         remote_report = None
+    try:
+        with urlopen(f"{base_url.rstrip('/')}/v1/integrity", timeout=5) as response:
+            remote_integrity = json.load(response)
+        integrity_status = "verified" if remote_integrity.get("status") == "verified" and remote_integrity == {"api_version": "v1", **expected_integrity} else "failed"
+        if integrity_status == "failed":
+            errors.append("HTTP integrity differs from SQLite verification")
+    except Exception as exc:  # noqa: BLE001
+        integrity_status = "failed"
+        remote_integrity = None
+        errors.append(f"integrity readback error: {exc}")
     try:
         with urlopen(f"{base_url.rstrip('/')}/", timeout=5) as response:
             dashboard = response.read().decode("utf-8")
@@ -57,6 +69,8 @@ def verify_http(base_url: str, sqlite_path: str | Path, output: str | Path) -> d
         "verification_version": "v1",
         "status": "verified" if not errors else "failed",
         "report_status": report_status,
+        "integrity_status": integrity_status,
+        "integrity": remote_integrity,
         "dashboard_status": dashboard_status,
         "database_sha256_before": before_hash,
         "database_sha256_after": after_hash,

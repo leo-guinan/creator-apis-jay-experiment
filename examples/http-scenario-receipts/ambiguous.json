@@ -3,6 +3,14 @@
   "database_sha256_before": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
   "database_unchanged": true,
   "fixture_status": "synthetic",
+  "integrity": {
+    "api_version": "v1",
+    "errors": [],
+    "event_count": 3,
+    "root_hash": "76f5b1dafa7b47f21d2c9ab53be145f5bf32fc81bf4748c5e9e0875ed66a464f",
+    "status": "verified"
+  },
+  "integrity_status": "verified",
   "receipt_version": "v1",
   "report": {
     "attributions": [
@@ -12,8 +20,8 @@
         "contributor_id": null,
         "conversion_id": "conversion:http-ambiguous",
         "evidence_event_ids": [
-          "event:route-click-681a5732568b4e9cbcae9ed2db3c9e0e",
-          "event:route-click-d2ffb4ab27614d95818ca45725c456ac"
+          "event:route-click-92fae5fa6a134883b66bd81b727858b0",
+          "event:route-click-db6bdfb581b54dd19d63444310dbf9aa"
         ],
         "experiment_id": "experiment:ai-roi-am",
         "reason": "ambiguous_route_clicks",
@@ -90,6 +98,10 @@
     },
     {
       "name": "report",
+      "status": 200
+    },
+    {
+      "name": "integrity",
       "status": 200
     }
   ]

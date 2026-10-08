@@ -1,5 +1,11 @@
 {
   "fixture_status": "synthetic",
+  "integrity": {
+    "errors": [],
+    "event_count": 2,
+    "root_hash": "6501ea9c43e4df3f2508b148143d8e66ab4f791c2b5cd1c7acc8136a273e31d5",
+    "status": "verified"
+  },
   "receipt_version": "v1",
   "report": {
     "attributions": [

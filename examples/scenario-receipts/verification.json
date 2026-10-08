@@ -1,21 +1,21 @@
 {
   "scenarios": {
     "ambiguous": {
-      "database_sha256": "f7506eebf94f5c1bb7e73d4890b78757caf8249c0a51121006d9b9727a67a5e4",
+      "database_sha256": "536896cd7f8eb7659d905b0273f032b7a2b82326cad14837de6a2a085d584a85",
       "errors": [],
-      "receipt_sha256": "0dd7ffd9629f470dafa9f5b585ab0ff54e0d7408c3d87f841a38d8024532d59c",
+      "receipt_sha256": "499339dd134c27148909593fcd7cf23b0334fafb355e8b9ec6502c11cd81a25d",
       "status": "verified"
     },
     "direct": {
-      "database_sha256": "518103fe6602dad964a9329fb7dd1f5ef487a642b2d5722060db561b84e259f7",
+      "database_sha256": "99b3c0e2e2a63a423c338dcf510ab1daedd0018a0ae6236d47bc4b333c8fa1a8",
       "errors": [],
-      "receipt_sha256": "4ce83c58c58e2dddae36dd93c67c9d1e7f044fb448c737d1c9fe63381b985f28",
+      "receipt_sha256": "8d05c894b3574013fb5ea563a12db872ca3cc1892f5a7c8e1583774974dd6c93",
       "status": "verified"
     },
     "no-click": {
-      "database_sha256": "5078fc760aeff587967ed5220cd26bfb4f66184116e8df355937936f2aecded7",
+      "database_sha256": "aa77b41c5d9d7ad1beb45b05a4212060589af491e8d99b8761cf14686f5ed7bf",
       "errors": [],
-      "receipt_sha256": "657d3de567731f61233799a529ea5dcaca0fb875820da2ebb08ea09d75014d2f",
+      "receipt_sha256": "28bbac17097d83218047b02c6ae302f0cc5796c8d5eff8da6faa44e365ba8d46",
       "status": "verified"
     }
   },

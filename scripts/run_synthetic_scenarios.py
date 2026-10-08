@@ -82,11 +82,13 @@ def run_scenarios(output_dir: str | Path) -> list[Path]:
         store = _fresh_store(sqlite_path)
         scenario(store)
         report = LedgerReport(SQLiteLedgerStore(sqlite_path).load()).summary(royalty_rate=0.10)
+        integrity = SQLiteLedgerStore(sqlite_path).verify_integrity()
         receipt = {
             "receipt_version": "v1",
             "scenario": name,
             "fixture_status": "synthetic",
             "storage": {"mode": "local_sqlite", "database": sqlite_path.name},
+            "integrity": integrity,
             "report": report,
         }
         receipt_path = destination / f"{name}.json"
