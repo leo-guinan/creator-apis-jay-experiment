@@ -1,0 +1,97 @@
+{
+  "database_sha256_after": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
+  "database_sha256_before": "d78c40febe1ba7ec83660b78e3f6ab7bc45ab822b8f21b03b16b9cb4f3b3a259",
+  "database_unchanged": true,
+  "fixture_status": "synthetic",
+  "receipt_version": "v1",
+  "report": {
+    "attributions": [
+      {
+        "campaign_id": "campaign:jay-14day-001",
+        "classification": "direct",
+        "contributor_id": "contributor:jay",
+        "conversion_id": "conversion:http-direct",
+        "evidence_event_ids": [
+          "event:route-click-5818ea0b53b046d39a8c711956fa46e1",
+          "event:purchase-conversion:http-direct"
+        ],
+        "experiment_id": "experiment:ai-roi-am",
+        "reason": null,
+        "trace": [
+          "route:jay-youtube-001",
+          "placement:youtube-jay-clip-v1",
+          "artifact:jay-clip-v1",
+          "block:work-not-done",
+          "source:jay-interview",
+          "contributor:jay"
+        ]
+      }
+    ],
+    "counts": {
+      "artifacts": 1,
+      "content_blocks": 1,
+      "contributors": 1,
+      "conversions": 1,
+      "events": 2,
+      "placements": 2,
+      "records": 8,
+      "routes": 2,
+      "sources": 1
+    },
+    "events_by_type": {
+      "purchase": 1,
+      "route_click": 1
+    },
+    "fixture_status": "synthetic",
+    "placements": [
+      {
+        "artifact_id": "artifact:jay-clip-v1",
+        "channel": "x",
+        "placement_id": "placement:x-jay-clip-v1",
+        "route_ids": [
+          "route:jay-x-001"
+        ]
+      },
+      {
+        "artifact_id": "artifact:jay-clip-v1",
+        "channel": "youtube",
+        "placement_id": "placement:youtube-jay-clip-v1",
+        "route_ids": [
+          "route:jay-youtube-001"
+        ]
+      }
+    ],
+    "placements_by_channel": {
+      "x": 1,
+      "youtube": 1
+    },
+    "royalty": {
+      "accrued_amount_cents": 10000,
+      "direct_collected_amount_cents": 100000,
+      "rate": 0.1
+    },
+    "scope": {
+      "campaign_id": "campaign:jay-14day-001",
+      "experiment_id": "experiment:ai-roi-am"
+    }
+  },
+  "report_status": "verified",
+  "scenario": "direct",
+  "status": "verified",
+  "steps": [
+    {
+      "location": "https://example.test/calibration",
+      "name": "youtube_route",
+      "set_cookie": true,
+      "status": 302
+    },
+    {
+      "name": "conversion",
+      "status": 201
+    },
+    {
+      "name": "report",
+      "status": 200
+    }
+  ]
+}

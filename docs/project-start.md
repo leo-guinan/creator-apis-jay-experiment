@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, and local dashboard implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -144,6 +144,18 @@ Verification:
 - dashboard readback: verified;
 - SQLite mutation check: verified unchanged;
 - `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 22 tests passed.
+
+## Completed eleventh slice
+
+Added `scripts/replay_http_scenarios.py`. It creates clean SQLite ledgers and drives direct, ambiguous, and no-click cases through `GET /r/<route_id>`, `POST /v1/conversions`, and `GET /v1/reports`. Each receipt records HTTP statuses, redirect/cookie behavior, final attribution, and before/after database hashes.
+
+Verification:
+
+- direct HTTP replay: verified, direct attribution;
+- ambiguous HTTP replay: verified, `unknown` with `ambiguous_route_clicks`;
+- no-click HTTP replay: verified, `unknown` with `no_valid_route_click`;
+- all database hashes unchanged by report readback;
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 23 tests passed.
 
 ## Next slice
 

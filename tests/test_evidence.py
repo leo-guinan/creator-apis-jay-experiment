@@ -618,6 +618,33 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(response_payload["error"], "invalid_request")
         self.assertEqual(remaining_conversions, 0)
 
+    def test_http_scenario_replay_exercises_end_to_end_user_path(self):
+        root = Path(__file__).parents[1]
+        script = root / "scripts" / "replay_http_scenarios.py"
+        with tempfile.TemporaryDirectory() as directory:
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            result = subprocess.run(
+                [sys.executable, str(script), "--output-dir", directory],
+                check=True, capture_output=True, text=True, env=environment,
+            )
+            receipts = {
+                path.stem: json.loads(path.read_text(encoding="utf-8"))
+                for path in Path(directory).glob("*.json")
+            }
+
+        self.assertIn("direct", result.stdout)
+        self.assertEqual(set(receipts), {"direct", "ambiguous", "no-click"})
+        self.assertEqual(receipts["direct"]["status"], "verified")
+        self.assertEqual(receipts["direct"]["steps"][0]["status"], 302)
+        self.assertTrue(receipts["direct"]["steps"][0]["set_cookie"])
+        self.assertEqual(receipts["direct"]["report"]["attributions"][0]["classification"], "direct")
+        self.assertEqual(receipts["ambiguous"]["report"]["attributions"][0]["reason"], "ambiguous_route_clicks")
+        self.assertEqual(receipts["no-click"]["report"]["attributions"][0]["reason"], "no_valid_route_click")
+        for receipt in receipts.values():
+            self.assertEqual(receipt["report_status"], "verified")
+            self.assertEqual(receipt["database_unchanged"], True)
+
 
 if __name__ == "__main__":
     unittest.main()

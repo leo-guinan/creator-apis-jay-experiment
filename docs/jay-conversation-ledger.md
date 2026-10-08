@@ -70,4 +70,6 @@ The independent verifier is implemented in `scripts/verify_synthetic_scenarios.p
 
 The independent HTTP verifier is implemented in `scripts/verify_local_http.py` and documented in `docs/http-readback-contract.md`. It compares the running localhost API to the reopened SQLite report, checks the dashboard, and confirms the read path leaves the database unchanged.
 
+The HTTP scenario replay harness is implemented in `scripts/replay_http_scenarios.py` and documented in `docs/http-scenario-replay-contract.md`. It proves the direct, ambiguous, and no-click paths through the actual route and conversion endpoints rather than writing those events directly to SQLite.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.
