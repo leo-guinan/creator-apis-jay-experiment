@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, local health/readiness checks, and restart recovery implemented. The source repository is public; the runtime is not.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, local route tracking, local synthetic conversions, scenario receipts, independent receipt verification, independent HTTP readback, HTTP scenario replay, fixed local scenario dashboard selection, local health/readiness checks, restart recovery, and negative-path validation implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -193,6 +193,18 @@ Verification:
 - report remained unchanged;
 - SQLite hash remained unchanged during post-restart readback;
 - 26 tests passed;
+- `compileall` and `git diff --check` passed.
+
+## Completed fifteenth slice
+
+Added `scripts/check_negative_paths.py`. It establishes a valid baseline, then checks unknown resources, malformed JSON, invalid amounts, unknown fields, missing sessions, and conflicting conversion IDs. It preserves expected/actual statuses and verifies the logical SQLite ledger state is unchanged by rejected requests.
+
+Verification:
+
+- 8 negative-path checks passed;
+- all actual statuses matched expected statuses;
+- logical ledger state remained unchanged;
+- 27 tests passed;
 - `compileall` and `git diff --check` passed.
 
 ## Next slice

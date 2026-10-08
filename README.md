@@ -44,6 +44,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/operator-scenario-selector.md` — fixed local read-only scenario selection in the dashboard.
 - `docs/health-readiness-contract.md` — local health endpoint and independent server checker.
 - `docs/restart-recovery-contract.md` — HTTP observation/report recovery across a local restart.
+- `docs/negative-path-contract.md` — local malformed, conflict, and unknown-resource checks.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
@@ -93,4 +94,10 @@ Check SQLite recovery across a bounded local restart:
 
 ```bash
 PYTHONPATH=src:scripts python3 scripts/check_restart_recovery.py --output-dir examples/recovery-receipts
+```
+
+Check local negative paths and logical ledger preservation:
+
+```bash
+PYTHONPATH=src:scripts python3 scripts/check_negative_paths.py --output-dir examples/negative-path-receipts
 ```

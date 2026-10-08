@@ -78,4 +78,6 @@ The health/readiness boundary is implemented in `src/creator_apis/api.py` and `s
 
 The restart recovery check is implemented in `scripts/check_restart_recovery.py` and documented in `docs/restart-recovery-contract.md`. It verifies that a bounded local server restart preserves the observed click, conversion, attribution, and report.
 
+The negative-path matrix is implemented in `scripts/check_negative_paths.py` and documented in `docs/negative-path-contract.md`. It preserves expected failure statuses and checks that rejected requests do not alter the logical ledger state.
+
 The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is an operator workflow decision, not public exposure.
