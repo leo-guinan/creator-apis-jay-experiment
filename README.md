@@ -1,6 +1,6 @@
 # Creator APIs — Jay Evidence Experiment
 
-This repository is a bounded, public working experiment for Creator APIs. It starts from the approved Jay + Leo conversation and tests whether a human contribution can be traced through derived content to a directly attributable value event.
+This repository is a bounded, public source-and-documentation experiment for Creator APIs. The runtime is intentionally local-only. It starts from the approved Jay + Leo conversation and tests whether a human contribution can be traced through derived content to a directly attributable value event.
 
 ## Current status
 
@@ -8,7 +8,7 @@ Implemented and verified locally:
 
 `campaign/experiment → contributor → source → content block → artifact → placement(s) → route click → purchase → direct attribution → synthetic royalty accrual`
 
-The implementation is a local Python reference slice. It does not publish to external platforms, process payments, settle royalties, or establish validated economics.
+The implementation is a local Python reference slice. It does not publish to external platforms, process payments, settle royalties, establish validated economics, or expose a public runtime.
 
 ## Run the verification
 
@@ -33,6 +33,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/reporting-contract.md` — read-only report shape, filters, and boundaries.
 - `docs/event-ingestion-contract.md` — durable event write boundary and idempotence rules.
 - `docs/dashboard-contract.md` — local read-only dashboard surface and security boundary.
+- `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
 - `docs/transcripts/` — approved timestamped transcript artifacts from the Jay recording.
@@ -49,4 +50,4 @@ Campaign and experiment identifiers now propagate through records, events, conve
 
 Malformed paths, query parameters, and event payloads return bounded errors; no external platform or payment integration is implied.
 
-The local server also serves the browser dashboard at `/`. It is a read-only client of `GET /v1/reports`; it does not write events or replace the attribution model.
+The local server also serves the browser dashboard at `/`. It is a read-only client of `GET /v1/reports`; it does not write events or replace the attribution model. Keep it bound to `127.0.0.1`.

@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, and local dashboard implemented and published.
+Status: local-only runtime validation with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, versioned APIs, and local dashboard implemented. The source repository is public; the runtime is not.
 
 ## Source inputs
 
@@ -25,6 +25,8 @@ The first bounded demonstration is Jay's contribution flowing through content bl
 ## Repository boundary
 
 This workspace is intentionally separate from the existing `/Users/leoguinan/Creator-APIs` repository, which contains unrelated modified and untracked architecture/deployment work. No existing implementation was copied into this experiment workspace.
+
+Runtime decision: keep the ledger, SQLite database, event-ingestion API, and dashboard bound to localhost while mechanism reliability is established. See `docs/decisions/0001-local-runtime.md`.
 
 ## Completed first slice
 

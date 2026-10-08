@@ -1,6 +1,6 @@
 # Local dashboard contract
 
-Status: implemented local reference dashboard. Read-only and synthetic-fixture oriented.
+Status: implemented local reference dashboard. Read-only, localhost-only, and synthetic-fixture oriented.
 
 ## Surface
 
@@ -17,3 +17,5 @@ The dashboard does not write events, calculate a second attribution model, or hi
 ## Boundary
 
 This is a same-origin local client of the existing report endpoint. The current server has no authentication, TLS, rate limiting, CSP, or multi-tenant isolation. It must not be deployed publicly without a separate security and deployment design.
+
+This local-only decision is accepted in `docs/decisions/0001-local-runtime.md`.

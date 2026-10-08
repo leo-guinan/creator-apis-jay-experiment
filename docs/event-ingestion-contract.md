@@ -1,6 +1,6 @@
 # Durable event ingestion contract
 
-Status: implemented local reference slice. SQLite-backed and local-only.
+Status: implemented local reference slice. SQLite-backed and localhost-only by decision.
 
 ## Endpoint
 
