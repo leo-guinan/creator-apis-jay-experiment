@@ -24,14 +24,22 @@ class LedgerReport:
                 and (experiment_id is None or item.get("experiment_id") == experiment_id)
             )
 
-        records = [record for record in self.ledger.records.values() if in_scope(record)]
+        records = sorted(
+            (record for record in self.ledger.records.values() if in_scope(record)),
+            key=lambda record: record["record_id"],
+        )
         by_type = Counter(record["record_type"] for record in records)
         placements = [record for record in records if record["record_type"] == "placement"]
         routes = [record for record in records if record["record_type"] == "route"]
-        events = [event for event in self.ledger.events if in_scope(event)]
+        events = sorted(
+            (event for event in self.ledger.events if in_scope(event)),
+            key=lambda event: event["event_id"],
+        )
         conversions = [
             conversion
-            for conversion in self.ledger.conversions.values()
+            for conversion in sorted(
+                self.ledger.conversions.values(), key=lambda item: item["conversion_id"]
+            )
             if in_scope(conversion)
         ]
 

@@ -1,0 +1,112 @@
+{
+  "campaign_id": "campaign:jay-14day-001",
+  "conversions": {
+    "conversion:1": {
+      "amount_cents": 100000,
+      "campaign_id": "campaign:jay-14day-001",
+      "conversion_id": "conversion:1",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "purchase_event_id": "event:purchase-1",
+      "session_id": "session:1"
+    }
+  },
+  "events": [
+    {
+      "campaign_id": "campaign:jay-14day-001",
+      "event_id": "event:click-1",
+      "event_type": "route_click",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "metadata": {},
+      "route_id": "route:jay-youtube-001",
+      "session_id": "session:1"
+    },
+    {
+      "campaign_id": "campaign:jay-14day-001",
+      "event_id": "event:purchase-1",
+      "event_type": "purchase_1000",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "metadata": {
+        "amount_cents": 100000
+      },
+      "route_id": null,
+      "session_id": "session:1"
+    }
+  ],
+  "experiment_id": "experiment:ai-roi-am",
+  "fixture_status": "synthetic",
+  "records": {
+    "artifact:jay-clip-v1": {
+      "block_ids": [
+        "block:work-not-done"
+      ],
+      "campaign_id": "campaign:jay-14day-001",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "record_id": "artifact:jay-clip-v1",
+      "record_type": "artifact"
+    },
+    "block:work-not-done": {
+      "campaign_id": "campaign:jay-14day-001",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "record_id": "block:work-not-done",
+      "record_type": "content_block",
+      "source_id": "source:jay-interview"
+    },
+    "contributor:jay": {
+      "campaign_id": "campaign:jay-14day-001",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "name": "Jay",
+      "record_id": "contributor:jay",
+      "record_type": "contributor"
+    },
+    "placement:x-jay-clip-v1": {
+      "artifact_id": "artifact:jay-clip-v1",
+      "campaign_id": "campaign:jay-14day-001",
+      "channel": "x",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "record_id": "placement:x-jay-clip-v1",
+      "record_type": "placement"
+    },
+    "placement:youtube-jay-clip-v1": {
+      "artifact_id": "artifact:jay-clip-v1",
+      "campaign_id": "campaign:jay-14day-001",
+      "channel": "youtube",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "record_id": "placement:youtube-jay-clip-v1",
+      "record_type": "placement"
+    },
+    "route:jay-x-001": {
+      "campaign_id": "campaign:jay-14day-001",
+      "destination": "https://example.test/calibration",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "placement_id": "placement:x-jay-clip-v1",
+      "record_id": "route:jay-x-001",
+      "record_type": "route"
+    },
+    "route:jay-youtube-001": {
+      "campaign_id": "campaign:jay-14day-001",
+      "destination": "https://example.test/calibration",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "placement_id": "placement:youtube-jay-clip-v1",
+      "record_id": "route:jay-youtube-001",
+      "record_type": "route"
+    },
+    "source:jay-interview": {
+      "campaign_id": "campaign:jay-14day-001",
+      "contributor_id": "contributor:jay",
+      "experiment_id": "experiment:ai-roi-am",
+      "fixture_status": "synthetic",
+      "record_id": "source:jay-interview",
+      "record_type": "source"
+    }
+  }
+}

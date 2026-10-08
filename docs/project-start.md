@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local experiment workspace with the synthetic evidence ledger and read-only reporting slice implemented and published.
+Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, persistence, and versioned API slices implemented and published.
 
 ## Source inputs
 
@@ -53,9 +53,20 @@ Verification:
 - `PYTHONPATH=src python3 scripts/build_synthetic_receipt.py` → direct / 10,000 cents / synthetic.
 - Remote receipt contains both `placement:youtube-jay-clip-v1` and `placement:x-jay-clip-v1` under `experiment:ai-roi-am`.
 
+## Completed third slice
+
+Added JSON persistence with report-equivalent round trips and a versioned read-only HTTP endpoint: `GET /v1/reports`.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 10 tests passed.
+- JSON store round trip preserved the complete scoped report.
+- Live local HTTP readback returned `api_version: v1`, two placements, and 10,000 synthetic royalty cents.
+- `examples/synthetic-ledger.json` is the persisted synthetic fixture.
+
 ## Next slice
 
-Add persistence and a stable API boundary for the report while preserving scoped, read-only behavior. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add durable event ingestion or a browser-facing dashboard only after deciding the persistence durability and authentication boundary. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

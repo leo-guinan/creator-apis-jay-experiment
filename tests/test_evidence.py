@@ -1,7 +1,14 @@
 import unittest
+import json
+import tempfile
+from pathlib import Path
+from threading import Thread
+from urllib.request import urlopen
 
+from creator_apis.api import ReportingAPI, create_handler
 from creator_apis.evidence import EvidenceLedger
 from creator_apis.reporting import LedgerReport
+from creator_apis.store import LedgerStore
 
 
 class EvidenceLedgerTests(unittest.TestCase):
@@ -196,6 +203,63 @@ class EvidenceLedgerTests(unittest.TestCase):
 
         self.assertEqual(summary["counts"]["placements"], 2)
         self.assertNotIn("linkedin", summary["placements_by_channel"])
+
+    def test_json_store_round_trip_preserves_report(self):
+        self.ledger.record_event(
+            "event:stored-click",
+            "route_click",
+            session_id="session:stored",
+            route_id="route:jay-youtube-001",
+        )
+        self.ledger.record_conversion(
+            "conversion:stored",
+            session_id="session:stored",
+            amount_cents=100_000,
+            purchase_event_id="event:stored-purchase",
+        )
+        expected = LedgerReport(self.ledger).summary(royalty_rate=0.10)
+
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.json"
+            LedgerStore.save(self.ledger, path)
+            restored = LedgerStore.load(path)
+
+        self.assertEqual(LedgerReport(restored).summary(royalty_rate=0.10), expected)
+
+    def test_versioned_http_report_endpoint_returns_json(self):
+        self.ledger.record_event(
+            "event:http-click",
+            "route_click",
+            session_id="session:http",
+            route_id="route:jay-youtube-001",
+        )
+        self.ledger.record_conversion(
+            "conversion:http",
+            session_id="session:http",
+            amount_cents=100_000,
+            purchase_event_id="event:http-purchase",
+        )
+        server = __import__("http.server").server.HTTPServer(
+            ("127.0.0.1", 0), create_handler(ReportingAPI(self.ledger))
+        )
+        thread = Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            with urlopen(
+                f"http://127.0.0.1:{server.server_port}/v1/reports?royalty_rate=0.1"
+            ) as response:
+                payload = json.load(response)
+            self.assertEqual(payload["api_version"], "v1")
+            self.assertEqual(payload["report"]["counts"]["conversions"], 1)
+            self.assertEqual(payload["report"]["royalty"]["accrued_amount_cents"], 10_000)
+        finally:
+            server.shutdown()
+            thread.join(timeout=2)
+            server.server_close()
+
+    def test_reporting_api_rejects_unknown_query_parameters(self):
+        with self.assertRaises(ValueError):
+            ReportingAPI(self.ledger).get_report({"unexpected": "value"})
 
 
 if __name__ == "__main__":

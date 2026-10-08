@@ -1,10 +1,10 @@
 # Read-only ledger reporting contract
 
-Status: implemented local reference slice. Synthetic fixture only.
+Status: implemented local reference slice with JSON persistence and a versioned HTTP boundary. Synthetic fixture only.
 
 ## Surface
 
-`LedgerReport(ledger).summary(...)` returns a JSON-serializable report without mutating the ledger.
+`LedgerReport(ledger).summary(...)` returns a JSON-serializable report without mutating the ledger. `LedgerStore` persists the ledger export and reloads it without changing the report. `GET /v1/reports` exposes the report through `ReportingAPI`.
 
 Optional scope filters:
 
@@ -13,6 +13,16 @@ Optional scope filters:
 - `royalty_rate` (set to `None` to report attribution without calculating royalty)
 
 When omitted, campaign and experiment scope defaults to the ledger's own IDs.
+
+HTTP example:
+
+`GET /v1/reports?campaign_id=campaign%3Ajay-14day-001&experiment_id=experiment%3Aai-roi-am&royalty_rate=0.1`
+
+Response envelope:
+
+```json
+{"api_version": "v1", "report": {"scope": {}, "counts": {}, "attributions": [], "royalty": {}}}
+```
 
 ## Report shape
 
@@ -28,3 +38,5 @@ When omitted, campaign and experiment scope defaults to the ledger's own IDs.
 ## Boundaries
 
 The report is descriptive, not causal beyond the ledger's direct join rule. It excludes out-of-scope records, preserves unknown and ambiguous attribution, and never creates a payout or sends an external message. It does not import platform metrics, query a payment provider, or claim validated economics.
+
+The current server is a local reference process with no authentication, TLS, rate limiting, or multi-tenant isolation. It must not be exposed publicly as a production service.

@@ -17,19 +17,19 @@
   },
   "placements": [
     {
-      "placement_id": "placement:youtube-jay-clip-v1",
-      "artifact_id": "artifact:jay-clip-v1",
-      "channel": "youtube",
-      "route_ids": [
-        "route:jay-youtube-001"
-      ]
-    },
-    {
       "placement_id": "placement:x-jay-clip-v1",
       "artifact_id": "artifact:jay-clip-v1",
       "channel": "x",
       "route_ids": [
         "route:jay-x-001"
+      ]
+    },
+    {
+      "placement_id": "placement:youtube-jay-clip-v1",
+      "artifact_id": "artifact:jay-clip-v1",
+      "channel": "youtube",
+      "route_ids": [
+        "route:jay-youtube-001"
       ]
     }
   ],
