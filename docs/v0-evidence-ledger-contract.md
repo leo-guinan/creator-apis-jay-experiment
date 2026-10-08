@@ -45,4 +45,4 @@ Every ledger export includes `fixture_status: synthetic`. Every record carries t
 
 ## Royalty rule
 
-The fixture accepts an explicit rate. The demonstration uses `0.10`, producing a synthetic `$100` accrual from synthetic `$1,000` collected revenue. This calculation is not a payment instruction or settlement receipt.
+The fixture accepts an explicit rate. The demonstration uses `0.10`, producing a synthetic `$100` accrual from synthetic `$1,000` collected revenue. This calculation is not a payment instruction or settlement receipt. The read-only reporting contract is documented in `docs/reporting-contract.md`.

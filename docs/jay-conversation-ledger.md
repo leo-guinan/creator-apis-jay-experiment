@@ -52,6 +52,8 @@ Observed verification:
 - Campaign `campaign:jay-14day-001` and experiment `experiment:ai-roi-am` propagate through the exported records.
 - YouTube and X placements/routes coexist under the same artifact and experiment.
 - Multiple valid route clicks in one session return `unknown` with `ambiguous_route_clicks` rather than guessed attribution.
-- `PYTHONPATH=src python3 -m unittest discover -s tests -v` passes 5 tests.
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` passes 7 tests.
 
-The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is a read-only reporting surface over these records.
+The read-only reporting surface is implemented in `src/creator_apis/reporting.py`; its contract is in `docs/reporting-contract.md`; and the generated report is `examples/synthetic-report.json`. It reports scoped counts, channel coverage, event types, attribution results, evidence traces, and direct royalty totals without mutating the ledger.
+
+The fixture remains synthetic. It does not imply a real Jay payment, real customer, real platform publication, or validated economics. The next slice is persistence and a stable API boundary for the report.

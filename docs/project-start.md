@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local experiment workspace with the first synthetic evidence-ledger slice implemented and published.
+Status: local experiment workspace with the synthetic evidence ledger and read-only reporting slice implemented and published.
 
 ## Source inputs
 
@@ -55,7 +55,7 @@ Verification:
 
 ## Next slice
 
-Add a read-only query/reporting surface over campaign, experiment, placement, route, event, conversion, attribution, and royalty records. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add persistence and a stable API boundary for the report while preserving scoped, read-only behavior. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

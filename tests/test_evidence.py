@@ -1,6 +1,7 @@
 import unittest
 
 from creator_apis.evidence import EvidenceLedger
+from creator_apis.reporting import LedgerReport
 
 
 class EvidenceLedgerTests(unittest.TestCase):
@@ -157,6 +158,44 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(exported["campaign_id"], "campaign:jay-14day-001")
         self.assertEqual(exported["experiment_id"], "experiment:ai-roi-am")
         self.assertEqual(exported["events"][0]["experiment_id"], "experiment:ai-roi-am")
+
+    def test_report_summarizes_channels_events_and_direct_royalty(self):
+        self.ledger.record_event(
+            "event:report-click",
+            "route_click",
+            session_id="session:report",
+            route_id="route:jay-youtube-001",
+        )
+        self.ledger.record_conversion(
+            "conversion:report",
+            session_id="session:report",
+            amount_cents=100_000,
+            purchase_event_id="event:report-purchase",
+        )
+
+        summary = LedgerReport(self.ledger).summary(royalty_rate=0.10)
+
+        self.assertEqual(summary["scope"]["campaign_id"], "campaign:jay-14day-001")
+        self.assertEqual(summary["counts"]["placements"], 2)
+        self.assertEqual(summary["counts"]["routes"], 2)
+        self.assertEqual(summary["placements_by_channel"], {"youtube": 1, "x": 1})
+        self.assertEqual(summary["events_by_type"]["route_click"], 1)
+        self.assertEqual(summary["attributions"][0]["classification"], "direct")
+        self.assertEqual(summary["royalty"]["accrued_amount_cents"], 10_000)
+
+    def test_report_does_not_count_out_of_scope_records(self):
+        self.ledger.add_placement(
+            "placement:other", "artifact:jay-clip-v1", "linkedin",
+            campaign_id="campaign:other", experiment_id="experiment:other",
+        )
+
+        summary = LedgerReport(self.ledger).summary(
+            campaign_id="campaign:jay-14day-001",
+            experiment_id="experiment:ai-roi-am",
+        )
+
+        self.assertEqual(summary["counts"]["placements"], 2)
+        self.assertNotIn("linkedin", summary["placements_by_channel"])
 
 
 if __name__ == "__main__":
