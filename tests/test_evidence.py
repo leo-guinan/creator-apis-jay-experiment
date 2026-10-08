@@ -3,12 +3,14 @@ import json
 import tempfile
 from pathlib import Path
 from threading import Thread
-from urllib.request import urlopen
+from urllib.error import HTTPError
+from urllib.request import Request, urlopen
 
 from creator_apis.api import ReportingAPI, create_handler
 from creator_apis.evidence import EvidenceLedger
 from creator_apis.reporting import LedgerReport
 from creator_apis.store import LedgerStore
+from creator_apis.sqlite_store import SQLiteLedgerStore
 
 
 class EvidenceLedgerTests(unittest.TestCase):
@@ -260,6 +262,91 @@ class EvidenceLedgerTests(unittest.TestCase):
     def test_reporting_api_rejects_unknown_query_parameters(self):
         with self.assertRaises(ValueError):
             ReportingAPI(self.ledger).get_report({"unexpected": "value"})
+
+    def test_sqlite_event_survives_store_reload_and_changes_report(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            store.append_event({
+                "event_id": "event:durable-click",
+                "event_type": "route_click",
+                "session_id": "session:durable",
+                "route_id": "route:jay-youtube-001",
+            })
+
+            reloaded = SQLiteLedgerStore(path)
+            report = LedgerReport(reloaded.load()).summary()
+
+        self.assertEqual(report["counts"]["events"], 1)
+        self.assertEqual(report["events_by_type"]["route_click"], 1)
+
+    def test_post_event_is_idempotent_and_report_reads_sqlite(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            body = json.dumps({
+                "event_id": "event:http-durable-click",
+                "event_type": "route_click",
+                "session_id": "session:http-durable",
+                "route_id": "route:jay-x-001",
+            }).encode()
+            request = Request(
+                f"http://127.0.0.1:{server.server_port}/v1/events",
+                data=body,
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with urlopen(request) as response:
+                    first = json.load(response)
+                with urlopen(request) as response:
+                    second = json.load(response)
+                with urlopen(
+                    f"http://127.0.0.1:{server.server_port}/v1/reports"
+                ) as response:
+                    report = json.load(response)
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+
+        self.assertEqual(first["created"], True)
+        self.assertEqual(second["created"], False)
+        self.assertEqual(report["report"]["counts"]["events"], 1)
+
+    def test_post_event_rejects_unknown_route(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "ledger.sqlite"
+            store = SQLiteLedgerStore.create(path, self.ledger)
+            server = __import__("http.server").server.HTTPServer(
+                ("127.0.0.1", 0), create_handler(ReportingAPI(store=store))
+            )
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            request = Request(
+                f"http://127.0.0.1:{server.server_port}/v1/events",
+                data=json.dumps({
+                    "event_id": "event:bad-route",
+                    "event_type": "route_click",
+                    "session_id": "session:bad",
+                    "route_id": "route:missing",
+                }).encode(),
+                headers={"Content-Type": "application/json"},
+                method="POST",
+            )
+            try:
+                with self.assertRaises(HTTPError) as error:
+                    urlopen(request)
+                self.assertEqual(error.exception.code, 400)
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
 
 
 if __name__ == "__main__":

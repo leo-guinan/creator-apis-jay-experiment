@@ -4,3 +4,5 @@ notes/source-manifest.json
 # Python caches
 __pycache__/
 *.py[cod]
+*.sqlite
+*.sqlite-*

@@ -18,17 +18,20 @@ PYTHONPATH=src python3 scripts/build_synthetic_receipt.py
 PYTHONPATH=src:scripts python3 scripts/report_synthetic_fixture.py
 PYTHONPATH=src:scripts python3 scripts/persist_synthetic_fixture.py
 PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --port 8080
+PYTHONPATH=src:scripts python3 scripts/persist_synthetic_sqlite.py
+PYTHONPATH=src:scripts python3 scripts/serve_synthetic_report.py --sqlite examples/synthetic-ledger.sqlite --port 8080
 ```
 
 The generated receipt is `examples/synthetic-evidence-receipt.json`. It is explicitly marked `fixture_status: synthetic` and includes YouTube and X placement/route records under one campaign and experiment.
 The generated report is `examples/synthetic-report.json`; it is a read-only summary of the same scoped fixture.
-The persisted fixture is `examples/synthetic-ledger.json`. The API serves `GET /v1/reports` from that JSON ledger.
+The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored `examples/synthetic-ledger.sqlite`. The API serves `GET /v1/reports` from either source and accepts `POST /v1/events` when backed by SQLite.
 
 ## Documentation
 
 - `docs/project-start.md` — source boundary, work completed, and next slice.
 - `docs/v0-evidence-ledger-contract.md` — record model and direct-attribution rules.
 - `docs/reporting-contract.md` — read-only report shape, filters, and boundaries.
+- `docs/event-ingestion-contract.md` — durable event write boundary and idempotence rules.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.
 - `docs/transcripts/` — approved timestamped transcript artifacts from the Jay recording.
@@ -37,10 +40,10 @@ The persisted fixture is `examples/synthetic-ledger.json`. The API serves `GET /
 
 The raw recording remains at its original local path and is not copied into this repository. Leo confirmed that Jay approved recording and publication to the YouTube channel; the transcript is therefore included as a narrower public, source-linked working artifact. Source-derived observations remain labeled, and synthetic fixture output must not be read as a real payment, customer conversion, platform publication, or settled royalty.
 
-## Implemented persistence and API slice
+## Implemented durable ingestion slice
 
 Campaign and experiment identifiers now propagate through records, events, conversions, and attribution results. Multiple placements/routes are supported, and ambiguous same-session route clicks remain `unknown` rather than being assigned to a channel by guesswork.
 
-`LedgerReport` provides scoped counts, placement/channel coverage, event counts, conversion classifications, evidence traces, and directly attributable royalty totals without mutating the ledger. `LedgerStore` persists and reloads the export as JSON with report-equivalent round-trip behavior. `GET /v1/reports` is a versioned, read-only HTTP boundary over the loaded ledger.
+`LedgerReport` provides scoped counts, placement/channel coverage, event counts, conversion classifications, evidence traces, and directly attributable royalty totals without mutating the ledger. `LedgerStore` persists and reloads JSON exports. `SQLiteLedgerStore` provides durable append-only event storage with WAL journaling. `POST /v1/events` is idempotent for identical replays, rejects conflicting event IDs and unknown routes, and `GET /v1/reports` reloads from SQLite on every request.
 
-Malformed paths and query parameters return bounded errors; no external platform or payment integration is implied.
+Malformed paths, query parameters, and event payloads return bounded errors; no external platform or payment integration is implied.

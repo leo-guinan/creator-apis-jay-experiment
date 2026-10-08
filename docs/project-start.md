@@ -1,6 +1,6 @@
 # Creator APIs project start
 
-Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, persistence, and versioned API slices implemented and published.
+Status: local experiment workspace with the synthetic evidence ledger, read-only reporting, JSON/SQLite persistence, and versioned event/report APIs implemented and published.
 
 ## Source inputs
 
@@ -64,9 +64,21 @@ Verification:
 - Live local HTTP readback returned `api_version: v1`, two placements, and 10,000 synthetic royalty cents.
 - `examples/synthetic-ledger.json` is the persisted synthetic fixture.
 
+## Completed fourth slice
+
+Added SQLite-backed append-only event ingestion at `POST /v1/events`. Identical event replays are idempotent, conflicting IDs are rejected, unknown routes are rejected, and report reads reload the durable store.
+
+Verification:
+
+- `PYTHONPATH=src python3 -m unittest discover -s tests -v` → 13 tests passed.
+- Event survived a SQLite store-object reload.
+- HTTP `POST /v1/events` returned `201` on first write and `200`/`created: false` on replay.
+- HTTP `GET /v1/reports` reflected the durable event.
+- Unknown route ingestion returned HTTP 400.
+
 ## Next slice
 
-Add durable event ingestion or a browser-facing dashboard only after deciding the persistence durability and authentication boundary. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
+Add a browser-facing dashboard only after deciding the authentication and deployment boundary. Do not add live platform publishing, payment settlement, or automated royalty payment until those contracts and consent rules are separately approved.
 
 ## Non-goals for the first slice
 

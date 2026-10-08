@@ -1,10 +1,10 @@
 # Read-only ledger reporting contract
 
-Status: implemented local reference slice with JSON persistence and a versioned HTTP boundary. Synthetic fixture only.
+Status: implemented local reference slice with JSON/SQLite persistence, durable event ingestion, and a versioned HTTP boundary. Synthetic fixture only.
 
 ## Surface
 
-`LedgerReport(ledger).summary(...)` returns a JSON-serializable report without mutating the ledger. `LedgerStore` persists the ledger export and reloads it without changing the report. `GET /v1/reports` exposes the report through `ReportingAPI`.
+`LedgerReport(ledger).summary(...)` returns a JSON-serializable report without mutating the ledger. `LedgerStore` persists JSON exports; `SQLiteLedgerStore` persists append-only events; `GET /v1/reports` exposes the report through `ReportingAPI` and reloads the durable store per request. `POST /v1/events` is documented in `docs/event-ingestion-contract.md`.
 
 Optional scope filters:
 
