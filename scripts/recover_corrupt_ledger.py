@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from uuid import uuid4
 
+from creator_apis.backup_provenance import ledger_identity, report_digest, sha256_file
 from creator_apis.sqlite_store import SQLiteLedgerStore
 
 
@@ -34,6 +35,7 @@ def _move_sqlite_bundle(database: Path, quarantine: Path) -> list[str]:
 def recover_database(
     database: str | Path,
     verified_backup: str | Path,
+    backup_receipt: str | Path,
     output_dir: str | Path,
     *,
     operator: str,
@@ -41,17 +43,30 @@ def recover_database(
 ) -> dict:
     database = Path(database)
     verified_backup = Path(verified_backup)
+    backup_receipt = Path(backup_receipt)
     output_dir = Path(output_dir)
     if not database.exists():
         raise FileNotFoundError(database)
     if not verified_backup.exists():
         raise FileNotFoundError(verified_backup)
-    before = SQLiteLedgerStore(database).verify_integrity()
+    if not backup_receipt.exists():
+        raise FileNotFoundError(backup_receipt)
+    receipt = json.loads(backup_receipt.read_text(encoding="utf-8"))
+    active_store = SQLiteLedgerStore(database)
+    before = active_store.verify_integrity()
     if before["status"] == "verified":
         raise ValueError("refusing recovery: active database is already verified")
     backup_integrity = SQLiteLedgerStore(verified_backup).verify_integrity()
     if backup_integrity["status"] != "verified":
         raise ValueError("refusing recovery: supplied backup is not verified")
+    if Path(receipt.get("backup_path", "")).resolve() != verified_backup.resolve():
+        raise ValueError("refusing recovery: backup receipt path mismatch")
+    if receipt.get("backup_sha256") != sha256_file(verified_backup):
+        raise ValueError("refusing recovery: backup file hash mismatch")
+    if receipt.get("backup_integrity") != backup_integrity:
+        raise ValueError("refusing recovery: backup receipt integrity mismatch")
+    if receipt.get("ledger_identity") != ledger_identity(active_store):
+        raise ValueError("refusing recovery: backup belongs to a different ledger identity")
 
     repair_id = f"repair:{uuid4()}"
     quarantine = output_dir / f"quarantine-{repair_id.split(':', 1)[1]}"
@@ -78,6 +93,12 @@ def recover_database(
         "quarantined_files": moved,
         "quarantine_directory": str(quarantine),
         "source_backup": str(verified_backup),
+        "backup_receipt": str(backup_receipt),
+        "backup_provenance": {
+            "ledger_identity": receipt["ledger_identity"],
+            "report_sha256": receipt.get("report_sha256"),
+            "backup_sha256": receipt["backup_sha256"],
+        },
         "integrity_before": before,
         "backup_integrity": backup_integrity,
         "integrity_after": after,
@@ -93,6 +114,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Quarantine and restore an invalid local SQLite ledger.")
     parser.add_argument("--database", type=Path, required=True)
     parser.add_argument("--verified-backup", type=Path, required=True)
+    parser.add_argument("--backup-receipt", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--operator", required=True)
     parser.add_argument("--reason", required=True)
@@ -100,6 +122,7 @@ def main() -> int:
     receipt = recover_database(
         args.database,
         args.verified_backup,
+        args.backup_receipt,
         args.output_dir,
         operator=args.operator,
         reason=args.reason,

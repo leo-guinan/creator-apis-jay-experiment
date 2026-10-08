@@ -49,6 +49,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/ledger-integrity-contract.md` — tamper-evident local event hash chain.
 - `docs/corruption-pipeline-contract.md` — deliberate corruption rejection across SQLite, backup/restore, and HTTP readback.
 - `docs/integrity-recovery-contract.md` — operator-controlled quarantine, verified restore, and repair receipt.
+- `docs/verified-backup-contract.md` — backup identity, hashes, roots, and provenance receipts.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.

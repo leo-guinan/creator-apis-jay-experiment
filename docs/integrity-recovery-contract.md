@@ -14,6 +14,7 @@ Run:
     PYTHONPATH=src:scripts python3 scripts/recover_corrupt_ledger.py \
       --database examples/synthetic-ledger.sqlite \
       --verified-backup /path/to/verified-backup.sqlite \
+      --backup-receipt /path/to/verified-backup.json \
       --output-dir examples/recovery-receipts \
       --operator leo \
       --reason "integrity failure during local verification"
