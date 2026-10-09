@@ -150,6 +150,7 @@ def import_batch(database: str | Path, input_path: str | Path, receipt_path: str
     manifest = {
         "batch_id": batch_id,
         "source_name": source_names[0] if len(source_names) == 1 else "multiple",
+        "source_status": "synthetic",
         "input_sha256": input_hash,
         "status": status,
         "counts": receipt["counts"],

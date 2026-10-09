@@ -59,6 +59,11 @@ class ReportingAPI:
             return {"api_version": "v1", "imports": []}
         return {"api_version": "v1", "imports": self.store.list_import_batches()}
 
+    def sources(self) -> dict:
+        if self.store is None:
+            return {"api_version": "v1", "sources": []}
+        return {"api_version": "v1", "sources": self.store.list_sources()}
+
     def audit(self) -> dict:
         if self.store is None:
             return {"audit_version": "v1", "status": "blocked", "errors": ["audit requires a SQLite store"], "warnings": []}
@@ -113,6 +118,9 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
                 return
             if parsed.path == "/v1/imports":
                 self._send_json(200, api.imports())
+                return
+            if parsed.path == "/v1/sources":
+                self._send_json(200, api.sources())
                 return
             if parsed.path == "/v1/audit":
                 payload = api.audit()

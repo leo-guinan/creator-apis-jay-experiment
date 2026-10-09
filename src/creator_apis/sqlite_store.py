@@ -64,6 +64,13 @@ class SQLiteLedgerStore:
                     observed_at TEXT NOT NULL,
                     errors TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS sources (
+                    source_name TEXT PRIMARY KEY,
+                    status TEXT NOT NULL,
+                    first_seen TEXT NOT NULL,
+                    last_seen TEXT NOT NULL,
+                    batch_count INTEGER NOT NULL
+                );
                 """
             )
         self._ensure_integrity_chain()
@@ -246,6 +253,10 @@ class SQLiteLedgerStore:
                 "INSERT INTO import_batches(batch_id, source_name, input_sha256, status, counts, integrity_before, integrity_after, report_sha256_before, report_sha256_after, observed_at, errors) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (manifest["batch_id"], manifest["source_name"], manifest["input_sha256"], manifest["status"], json.dumps(manifest["counts"], sort_keys=True), json.dumps(manifest["integrity_before"], sort_keys=True), json.dumps(manifest["integrity_after"], sort_keys=True), manifest["report_sha256_before"], manifest["report_sha256_after"], manifest["observed_at"], json.dumps(manifest["errors"], sort_keys=True)),
             )
+            connection.execute(
+                "INSERT INTO sources(source_name, status, first_seen, last_seen, batch_count) VALUES (?, ?, ?, ?, 1) ON CONFLICT(source_name) DO UPDATE SET last_seen = excluded.last_seen, batch_count = sources.batch_count + 1",
+                (manifest["source_name"], manifest.get("source_status", "unknown"), manifest["observed_at"], manifest["observed_at"]),
+            )
         return True
 
     def list_import_batches(self) -> list[dict[str, Any]]:
@@ -259,6 +270,11 @@ class SQLiteLedgerStore:
                 item[key] = json.loads(item[key])
             result.append(item)
         return result
+
+    def list_sources(self) -> list[dict[str, Any]]:
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT source_name, status, first_seen, last_seen, batch_count FROM sources ORDER BY source_name").fetchall()
+        return [dict(zip(("source_name", "status", "first_seen", "last_seen", "batch_count"), row)) for row in rows]
 
     def append_conversion(self, conversion: dict[str, Any]) -> tuple[dict[str, Any], bool]:
         allowed = {"conversion_id", "session_id", "amount_cents", "purchase_event_id", "campaign_id", "experiment_id"}
