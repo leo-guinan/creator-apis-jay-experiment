@@ -39,7 +39,33 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
             errors.append(f"backup receipt invalid: {exc}")
     imports = sorted((path for path in import_receipts if path.exists()), key=lambda path: path.stat().st_mtime, reverse=True)
+    manifests = store.list_import_batches()
+    manifest_by_id = {item["batch_id"]: item for item in manifests}
+    event_batch_ids = {event.get("batch_id") for event in store.load().events if isinstance(event.get("batch_id"), str)}
+    for batch_id in sorted(event_batch_ids - set(manifest_by_id)):
+        errors.append(f"event references unknown import batch: {batch_id}")
+    for manifest in manifests:
+        linked = sum(1 for event in store.load().events if event.get("batch_id") == manifest["batch_id"])
+        if manifest["status"] == "applied" and linked != manifest["counts"].get("applied"):
+            errors.append(f"import manifest event count mismatch: {manifest['batch_id']}")
+        if manifest["status"] == "rejected_atomic" and linked != 0:
+            errors.append(f"rejected batch has linked events: {manifest['batch_id']}")
+    receipt_batch_ids = set()
     latest_import = None
+    for path in imports:
+        try:
+            external = _load(path)
+            batch_id = external["batch_id"]
+            receipt_batch_ids.add(batch_id)
+            manifest = manifest_by_id.get(batch_id)
+            if manifest is None:
+                errors.append(f"import receipt has no SQLite manifest: {batch_id}")
+            elif external.get("manifest", {}).get("input_sha256") != manifest["input_sha256"] or external.get("manifest", {}).get("counts") != manifest["counts"]:
+                errors.append(f"import receipt differs from SQLite manifest: {batch_id}")
+        except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
+            errors.append(f"import receipt invalid: {exc}")
+    if manifests and imports and set(manifest_by_id) - receipt_batch_ids:
+        warnings.append("some SQLite import manifests have no external receipt")
     if imports:
         latest_import = _load(imports[0])
         if latest_import.get("status") == "applied" and latest_import.get("report_sha256_after") != current_report:
@@ -63,6 +89,8 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         "report_sha256": current_report,
         "backup": backup,
         "latest_import": latest_import,
+        "manifests": manifests,
+        "sources": store.list_sources(),
         "recovery": recovery,
         "warnings": warnings,
         "errors": errors,
