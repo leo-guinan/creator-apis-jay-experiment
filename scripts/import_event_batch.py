@@ -84,14 +84,14 @@ def _prepare(store: SQLiteLedgerStore, events: list[dict], parse_errors: list[st
         prior = seen.get(key) or existing.get(key)
         if prior is not None:
             if _source_equivalent(prior, event):
-                outcomes.append({"line": line, "outcome": "duplicate", "source_event_id": source_event_id})
+                outcomes.append({"line": line, "outcome": "duplicate", "source_name": source_name, "source_event_id": source_event_id})
             else:
                 errors.append(f"line {line}: conflicting source event identity")
                 outcomes.append({"line": line, "outcome": "rejected", "reason": "conflicting_source_event_id"})
             continue
         seen[key] = event
         prepared.append(event)
-        outcomes.append({"line": line, "outcome": "accepted", "source_event_id": source_event_id})
+        outcomes.append({"line": line, "outcome": "accepted", "source_name": source_name, "source_event_id": source_event_id})
     return prepared, outcomes, errors
 
 
