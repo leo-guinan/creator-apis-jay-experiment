@@ -48,6 +48,7 @@ def run_matrix(output: str | Path) -> dict:
         ready_db = _fixture(root / "ready")
         ready_dir = root / "ready"
         ready_dir.mkdir(exist_ok=True)
+        SQLiteLedgerStore(ready_db).set_source_status("audit-fixture", "synthetic", operator="audit-check", reason="synthetic fixture", observed_at="2026-10-08T00:00:00Z")
         input_path = ready_dir / "import.jsonl"
         input_path.write_text(json.dumps({"source_name": "audit-fixture", "source_event_id": "evt-1", "event_type": "route_click", "route_id": "route:jay-youtube-001"}) + "\n", encoding="utf-8")
         import_receipt = ready_dir / "import-001.json"

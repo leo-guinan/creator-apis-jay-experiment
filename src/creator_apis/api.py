@@ -62,7 +62,7 @@ class ReportingAPI:
     def sources(self) -> dict:
         if self.store is None:
             return {"api_version": "v1", "sources": []}
-        return {"api_version": "v1", "sources": self.store.list_sources()}
+        return {"api_version": "v1", "sources": self.store.list_sources(), "decisions": self.store.list_source_decisions()}
 
     def audit(self) -> dict:
         if self.store is None:

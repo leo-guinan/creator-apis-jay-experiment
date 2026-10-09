@@ -22,6 +22,11 @@ def _sha256(path: Path) -> str:
     return digest.hexdigest()
 
 
+def _logical_hash(path: Path) -> str:
+    payload = SQLiteLedgerStore(path).load().export()
+    return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+
 def _fresh_store(path: Path) -> SQLiteLedgerStore:
     ledger, _ = build_fixture()
     ledger.events.clear()
@@ -73,15 +78,15 @@ def _run(name: str, output_dir: Path) -> dict:
         remote_report = response["report"]
         status, _, remote_integrity = _request(connection, "GET", "/v1/integrity")
         steps.append({"name": "integrity", "status": status})
-        before_hash = _sha256(database)
     finally:
         connection.close()
         server.shutdown()
         thread.join(timeout=2)
         server.server_close()
+        before_hash = _logical_hash(database)
     expected = LedgerReport(SQLiteLedgerStore(database).load()).summary(royalty_rate=0.10)
     expected_integrity = SQLiteLedgerStore(database).verify_integrity()
-    after_hash = _sha256(database)
+    after_hash = _logical_hash(database)
     integrity_status = "verified" if remote_integrity == {"api_version": "v1", **expected_integrity} else "failed"
     report_status = "verified" if remote_report == expected else "failed"
     receipt = {

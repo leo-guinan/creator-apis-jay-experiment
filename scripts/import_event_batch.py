@@ -106,7 +106,12 @@ def import_batch(database: str | Path, input_path: str | Path, receipt_path: str
     input_hash = _file_hash(input_path)
     batch_id = f"batch:{input_path.stem}:{input_hash[:16]}"
     events, parse_errors = _load_batch(input_path)
-    prepared, outcomes, errors = _prepare(store, events, parse_errors, batch_id)
+    known_sources = {item["source_name"]: item["status"] for item in store.list_sources()}
+    source_names = {event.get("source_name") for event in events if isinstance(event.get("source_name"), str)}
+    source_errors = [f"source {name} is not approved: {known_sources.get(name, 'unknown')}" for name in sorted(name for name in source_names if isinstance(name, str)) if known_sources.get(name, "unknown") not in {"synthetic", "approved_local_export"}]
+    errors = parse_errors + source_errors
+    prepared, outcomes, prepare_errors = _prepare(store, events, [], batch_id)
+    errors.extend(prepare_errors)
     status = "rejected" if errors else "dry_run" if not apply else "applied"
     applied = 0
     if apply and not errors:

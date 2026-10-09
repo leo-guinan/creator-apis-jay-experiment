@@ -638,6 +638,7 @@ class EvidenceLedgerTests(unittest.TestCase):
             directory = Path(directory)
             database = directory / "ledger.sqlite"
             SQLiteLedgerStore.create(database, self.ledger)
+            SQLiteLedgerStore(database).set_source_status("unit-export", "synthetic", operator="test", reason="fixture", observed_at="2026-10-08T00:00:00Z")
             input_path = directory / "events.jsonl"
             input_path.write_text(json.dumps({
                 "source_name": "unit-export",
@@ -673,6 +674,7 @@ class EvidenceLedgerTests(unittest.TestCase):
             directory = Path(directory)
             database = directory / "ledger.sqlite"
             SQLiteLedgerStore.create(database, self.ledger)
+            SQLiteLedgerStore(database).set_source_status("unit-export", "synthetic", operator="test", reason="fixture", observed_at="2026-10-08T00:00:00Z")
             before = len(SQLiteLedgerStore(database).load().events)
             input_path = directory / "events.jsonl"
             input_path.write_text(json.dumps({"source_name": "unit-export", "source_event_id": "evt-002", "event_type": "route_click", "route_id": "route:jay-youtube-001"}) + "\n{malformed}\n", encoding="utf-8")
@@ -695,6 +697,7 @@ class EvidenceLedgerTests(unittest.TestCase):
             directory = Path(directory)
             database = directory / "ledger.sqlite"
             SQLiteLedgerStore.create(database, self.ledger)
+            SQLiteLedgerStore(database).set_source_status("unit-export", "synthetic", operator="test", reason="fixture", observed_at="2026-10-08T00:00:00Z")
             input_path = directory / "events.jsonl"
             input_path.write_text(json.dumps({"source_name": "unit-export", "source_event_id": "evt-003", "event_type": "route_click", "route_id": "route:jay-youtube-001"}) + "\n", encoding="utf-8")
             environment = dict(os.environ)
@@ -708,6 +711,7 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("failed", result.stdout)
 
+    def test_scenario_verifier_recomputes_sqlite_reports_and_writes_receipt(self):
         root = Path(__file__).parents[1]
         runner = root / "scripts" / "run_synthetic_scenarios.py"
         verifier = root / "scripts" / "verify_synthetic_scenarios.py"

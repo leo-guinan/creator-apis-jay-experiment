@@ -38,6 +38,14 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
                 warnings.append("backup is valid but not current")
         except (KeyError, OSError, ValueError, json.JSONDecodeError) as exc:
             errors.append(f"backup receipt invalid: {exc}")
+    sources = store.list_sources()
+    decisions = store.list_source_decisions()
+    decided_sources = {item["source_name"] for item in decisions}
+    for source in sources:
+        if source["batch_count"] > 0 and source["source_name"] not in decided_sources:
+            errors.append(f"imported source has no status decision: {source['source_name']}")
+        if source["batch_count"] > 0 and source["status"] not in {"synthetic", "approved_local_export"}:
+            errors.append(f"imported source is not approved: {source['source_name']}")
     imports = sorted((path for path in import_receipts if path.exists()), key=lambda path: path.stat().st_mtime, reverse=True)
     manifests = store.list_import_batches()
     manifest_by_id = {item["batch_id"]: item for item in manifests}
@@ -90,7 +98,8 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         "backup": backup,
         "latest_import": latest_import,
         "manifests": manifests,
-        "sources": store.list_sources(),
+        "sources": sources,
+        "source_decisions": decisions,
         "recovery": recovery,
         "warnings": warnings,
         "errors": errors,

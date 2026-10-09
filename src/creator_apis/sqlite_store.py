@@ -71,6 +71,15 @@ class SQLiteLedgerStore:
                     last_seen TEXT NOT NULL,
                     batch_count INTEGER NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS source_decisions (
+                    decision_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    source_name TEXT NOT NULL,
+                    previous_status TEXT NOT NULL,
+                    new_status TEXT NOT NULL,
+                    operator TEXT NOT NULL,
+                    reason TEXT NOT NULL,
+                    observed_at TEXT NOT NULL
+                );
                 """
             )
         self._ensure_integrity_chain()
@@ -275,6 +284,25 @@ class SQLiteLedgerStore:
         with sqlite3.connect(self.path) as connection:
             rows = connection.execute("SELECT source_name, status, first_seen, last_seen, batch_count FROM sources ORDER BY source_name").fetchall()
         return [dict(zip(("source_name", "status", "first_seen", "last_seen", "batch_count"), row)) for row in rows]
+
+    def set_source_status(self, source_name: str, status: str, *, operator: str, reason: str, observed_at: str) -> dict[str, Any]:
+        allowed = {"synthetic", "approved_local_export", "rejected", "unknown"}
+        if status not in allowed:
+            raise ValueError(f"invalid source status: {status}")
+        with sqlite3.connect(self.path) as connection:
+            row = connection.execute("SELECT status FROM sources WHERE source_name = ?", (source_name,)).fetchone()
+            previous = row[0] if row else "unknown"
+            if row is None:
+                connection.execute("INSERT INTO sources(source_name, status, first_seen, last_seen, batch_count) VALUES (?, ?, ?, ?, 0)", (source_name, status, observed_at, observed_at))
+            else:
+                connection.execute("UPDATE sources SET status = ?, last_seen = ? WHERE source_name = ?", (status, observed_at, source_name))
+            connection.execute("INSERT INTO source_decisions(source_name, previous_status, new_status, operator, reason, observed_at) VALUES (?, ?, ?, ?, ?, ?)", (source_name, previous, status, operator, reason, observed_at))
+        return {"source_name": source_name, "previous_status": previous, "new_status": status, "operator": operator, "reason": reason, "observed_at": observed_at}
+
+    def list_source_decisions(self) -> list[dict[str, Any]]:
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT decision_id, source_name, previous_status, new_status, operator, reason, observed_at FROM source_decisions ORDER BY decision_id").fetchall()
+        return [dict(zip(("decision_id", "source_name", "previous_status", "new_status", "operator", "reason", "observed_at"), row)) for row in rows]
 
     def append_conversion(self, conversion: dict[str, Any]) -> tuple[dict[str, Any], bool]:
         allowed = {"conversion_id", "session_id", "amount_cents", "purchase_event_id", "campaign_id", "experiment_id"}
