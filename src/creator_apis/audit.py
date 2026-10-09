@@ -19,6 +19,24 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         errors.append("active ledger integrity failed")
     identity = ledger_identity(store)
     current_report = report_digest(store)
+    schema = store.schema_status()
+    if schema["status"] != "ready":
+        errors.append("schema is not ready")
+    receipts = schema.get("migration_receipts", [])
+    if not receipts:
+        errors.append("no migration receipt")
+    else:
+        migration = receipts[-1]
+        if migration["status"] != "applied":
+            errors.append("migration receipt is not applied")
+        if migration["ledger_identity"] != identity:
+            errors.append("migration receipt ledger identity mismatch")
+        if migration["event_root_after"] != integrity.get("root_hash"):
+            errors.append("migration receipt event root mismatch")
+        if migration["decision_root_after"] != store.verify_source_decisions().get("root_hash"):
+            errors.append("migration receipt decision root mismatch")
+        if migration["report_sha256_after"] != current_report:
+            errors.append("migration receipt report digest mismatch")
     backup = None
     if backup_receipt is None or not backup_receipt.exists():
         warnings.append("no verified backup receipt configured")
@@ -94,6 +112,7 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         "status": status,
         "fixture_status": store.load().fixture_status,
         "integrity": integrity,
+        "schema": schema,
         "ledger_identity": identity,
         "report_sha256": current_report,
         "backup": backup,

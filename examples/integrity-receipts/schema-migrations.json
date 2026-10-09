@@ -4,9 +4,26 @@
     "report_same": true,
     "schema": {
       "expected_version": 4,
+      "migration_receipts": [
+        {
+          "applied_at": "2026-10-09T17:17:52.242425+00:00",
+          "decision_root_after": null,
+          "decision_root_before": null,
+          "event_root_after": null,
+          "event_root_before": null,
+          "ledger_identity": "3b8154f5cacf9a36bbb178dc9717bda85047dac2a31494c341d8eef52e4c1826",
+          "migration_ids": "[\"schema:current\"]",
+          "receipt_id": "migration:4",
+          "report_sha256_after": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
+          "report_sha256_before": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
+          "status": "applied",
+          "version_after": 4,
+          "version_before": 4
+        }
+      ],
       "migrations": [
         {
-          "applied_at": "2026-10-09T16:28:56.767149+00:00",
+          "applied_at": "2026-10-09T17:17:52.242425+00:00",
           "migration_id": "schema:current",
           "version": 4
         }
@@ -35,9 +52,26 @@
     "report_sha256": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
     "schema": {
       "expected_version": 4,
+      "migration_receipts": [
+        {
+          "applied_at": "2026-10-09T17:17:52.235401+00:00",
+          "decision_root_after": "9066bb7b703c8f82420eb2e71da44dd02f0323a5dba5e48f1eb7df0d741d4b0b",
+          "decision_root_before": null,
+          "event_root_after": null,
+          "event_root_before": null,
+          "ledger_identity": "3b8154f5cacf9a36bbb178dc9717bda85047dac2a31494c341d8eef52e4c1826",
+          "migration_ids": "[\"schema:current\"]",
+          "receipt_id": "migration:4",
+          "report_sha256_after": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
+          "report_sha256_before": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
+          "status": "applied",
+          "version_after": 4,
+          "version_before": 0
+        }
+      ],
       "migrations": [
         {
-          "applied_at": "2026-10-09T16:28:56.762969+00:00",
+          "applied_at": "2026-10-09T17:17:52.235401+00:00",
           "migration_id": "schema:current",
           "version": 4
         }

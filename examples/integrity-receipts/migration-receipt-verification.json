@@ -1,0 +1,21 @@
+{
+  "database": "examples/synthetic-ledger.sqlite",
+  "errors": [],
+  "receipt": {
+    "applied_at": "2026-10-09T17:15:59.556695+00:00",
+    "decision_root_after": null,
+    "decision_root_before": null,
+    "event_root_after": "a0faa09a67cf259df28146763db404fb7f5f0a8d1fe6c12dc1472996c76ee42e",
+    "event_root_before": "a0faa09a67cf259df28146763db404fb7f5f0a8d1fe6c12dc1472996c76ee42e",
+    "ledger_identity": "5ecfa38beda1c4a8a98ebd51a00a16cbbaf952f9f270f7cb5df4f854ae9499cf",
+    "migration_ids": "[\"schema:current\"]",
+    "receipt_id": "migration:4",
+    "report_sha256_after": "03df39a5769d1f34e1fc888cf2842da75485be506072a9f74f8d388e0852af49",
+    "report_sha256_before": "03df39a5769d1f34e1fc888cf2842da75485be506072a9f74f8d388e0852af49",
+    "status": "applied",
+    "version_after": 4,
+    "version_before": 4
+  },
+  "status": "verified",
+  "verification_version": "v1"
+}

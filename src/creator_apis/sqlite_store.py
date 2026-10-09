@@ -30,6 +30,7 @@ class SQLiteLedgerStore:
         store._initialize()
         with sqlite3.connect(store.path) as connection:
             store._write_ledger(connection, ledger)
+        store._refresh_migration_receipt()
         return store
 
     def _initialize(self) -> None:
@@ -90,10 +91,29 @@ class SQLiteLedgerStore:
                     migration_id TEXT NOT NULL,
                     applied_at TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS migration_receipts (
+                    receipt_id TEXT PRIMARY KEY,
+                    version_before INTEGER NOT NULL,
+                    version_after INTEGER NOT NULL,
+                    migration_ids TEXT NOT NULL,
+                    event_root_before TEXT,
+                    event_root_after TEXT,
+                    decision_root_before TEXT,
+                    decision_root_after TEXT,
+                    report_sha256_before TEXT NOT NULL,
+                    report_sha256_after TEXT NOT NULL,
+                    ledger_identity TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    applied_at TEXT NOT NULL
+                );
                 """
             )
+        with sqlite3.connect(self.path) as connection:
+            version_before = connection.execute("PRAGMA user_version").fetchone()[0]
         self._migrate_schema()
         self._ensure_integrity_chain()
+        if version_before < SCHEMA_VERSION:
+            self._refresh_migration_receipt()
 
     def _migrate_schema(self) -> None:
         now = datetime.now(timezone.utc).isoformat()
@@ -101,6 +121,9 @@ class SQLiteLedgerStore:
             current_version = connection.execute("PRAGMA user_version").fetchone()[0]
             if current_version > SCHEMA_VERSION:
                 raise ValueError(f"unsupported future schema version: {current_version}")
+            event_root_before = self._event_root(connection)
+            decision_root_before = self._decision_root(connection)
+            report_before = self._report_digest()
             columns = {row[1] for row in connection.execute("PRAGMA table_info(source_decisions)")}
             for name, declaration in (("sequence", "INTEGER"), ("previous_decision_hash", "TEXT"), ("decision_hash", "TEXT")):
                 if name not in columns:
@@ -114,12 +137,67 @@ class SQLiteLedgerStore:
                 previous_hash = decision_hash
             connection.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
             connection.execute("INSERT OR REPLACE INTO schema_migrations(version, migration_id, applied_at) VALUES (?, ?, ?)", (SCHEMA_VERSION, "schema:current", now))
+            event_root_after = self._event_root(connection)
+            decision_root_after = self._decision_root(connection)
+            identity = self._ledger_identity(connection)
+            connection.execute("INSERT OR REPLACE INTO migration_receipts(receipt_id, version_before, version_after, migration_ids, event_root_before, event_root_after, decision_root_before, decision_root_after, report_sha256_before, report_sha256_after, ledger_identity, status, applied_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", (f"migration:{SCHEMA_VERSION}", current_version, SCHEMA_VERSION, json.dumps(["schema:current"]), event_root_before, event_root_after, decision_root_before, decision_root_after, report_before, report_before, identity, "applied", now))
+
+    @staticmethod
+    def _event_root(connection: sqlite3.Connection) -> str | None:
+        row = connection.execute("SELECT payload FROM events ORDER BY rowid DESC LIMIT 1").fetchone()
+        return json.loads(row[0]).get("event_hash") if row else None
+
+    @staticmethod
+    def _decision_root(connection: sqlite3.Connection) -> str | None:
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(source_decisions)")}
+        if "decision_hash" not in columns:
+            return None
+        row = connection.execute("SELECT decision_hash FROM source_decisions ORDER BY sequence DESC, decision_id DESC LIMIT 1").fetchone()
+        return row[0] if row and row[0] else None
+
+    def _ledger_identity(self, connection: sqlite3.Connection | None = None) -> str:
+        if connection is not None:
+            metadata = {key: json.loads(value) for key, value in connection.execute("SELECT key, value FROM metadata")}
+            if "fixture_status" not in metadata:
+                return ""
+            records = {key: json.loads(value) for key, value in connection.execute("SELECT record_id, payload FROM records")}
+            identity = {"fixture_status": metadata["fixture_status"], "campaign_id": metadata.get("campaign_id"), "experiment_id": metadata.get("experiment_id"), "records": records}
+            return hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+        try:
+            ledger = self.load().export()
+        except (KeyError, TypeError):
+            return ""
+        identity = {"fixture_status": ledger["fixture_status"], "campaign_id": ledger.get("campaign_id"), "experiment_id": ledger.get("experiment_id"), "records": ledger["records"]}
+        return hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+
+    def _report_digest(self) -> str:
+        from .reporting import LedgerReport
+        try:
+            report = LedgerReport(self.load()).summary(royalty_rate=0.10)
+        except (KeyError, TypeError):
+            return ""
+        return hashlib.sha256(json.dumps(report, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     def schema_status(self) -> dict[str, Any]:
         with sqlite3.connect(self.path) as connection:
             version = connection.execute("PRAGMA user_version").fetchone()[0]
             migrations = connection.execute("SELECT version, migration_id, applied_at FROM schema_migrations ORDER BY version").fetchall()
-        return {"status": "ready" if version == SCHEMA_VERSION else "blocked", "version": version, "expected_version": SCHEMA_VERSION, "migrations": [dict(zip(("version", "migration_id", "applied_at"), row)) for row in migrations]}
+            receipts = connection.execute("SELECT receipt_id, version_before, version_after, migration_ids, event_root_before, event_root_after, decision_root_before, decision_root_after, report_sha256_before, report_sha256_after, ledger_identity, status, applied_at FROM migration_receipts ORDER BY applied_at").fetchall()
+        return {"status": "ready" if version == SCHEMA_VERSION else "blocked", "version": version, "expected_version": SCHEMA_VERSION, "migrations": [dict(zip(("version", "migration_id", "applied_at"), row)) for row in migrations], "migration_receipts": [dict(zip(("receipt_id", "version_before", "version_after", "migration_ids", "event_root_before", "event_root_after", "decision_root_before", "decision_root_after", "report_sha256_before", "report_sha256_after", "ledger_identity", "status", "applied_at"), row)) for row in receipts]}
+
+    def migration_receipts(self) -> list[dict[str, Any]]:
+        return self.schema_status()["migration_receipts"]
+
+    def _refresh_migration_receipt(self) -> None:
+        with sqlite3.connect(self.path) as connection:
+            receipt = connection.execute("SELECT receipt_id, version_before, version_after, migration_ids, event_root_before, decision_root_before, applied_at FROM migration_receipts ORDER BY applied_at DESC LIMIT 1").fetchone()
+            if receipt is None:
+                return
+            event_root = self._event_root(connection)
+            decision_root = self._decision_root(connection)
+            report = self._report_digest()
+            identity = self._ledger_identity(connection)
+            connection.execute("UPDATE migration_receipts SET event_root_after = ?, decision_root_after = ?, report_sha256_before = ?, report_sha256_after = ?, ledger_identity = ? WHERE receipt_id = ?", (event_root, decision_root, report, report, identity, receipt[0]))
 
     @staticmethod
     def _canonical_event(event: dict[str, Any]) -> dict[str, Any]:
