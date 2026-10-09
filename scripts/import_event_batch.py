@@ -51,7 +51,7 @@ def _load_batch(path: Path) -> tuple[list[dict], list[str]]:
     return events, errors
 
 
-def _prepare(store: SQLiteLedgerStore, events: list[dict], parse_errors: list[str]) -> tuple[list[dict], list[dict], list[str]]:
+def _prepare(store: SQLiteLedgerStore, events: list[dict], parse_errors: list[str], batch_id: str) -> tuple[list[dict], list[dict], list[str]]:
     ledger = store.load()
     prepared: list[dict] = []
     outcomes: list[dict] = []
@@ -71,6 +71,7 @@ def _prepare(store: SQLiteLedgerStore, events: list[dict], parse_errors: list[st
         key = (source_name, source_event_id)
         event = dict(raw)
         event["event_id"] = f"import:{source_name}:{source_event_id}"
+        event["batch_id"] = batch_id
         event.setdefault("metadata", {})
         event.setdefault("session_id", None)
         event.setdefault("route_id", None)
@@ -102,8 +103,10 @@ def import_batch(database: str | Path, input_path: str | Path, receipt_path: str
     store = SQLiteLedgerStore(database)
     before_integrity = store.verify_integrity()
     before_report = report_digest(store)
+    input_hash = _file_hash(input_path)
+    batch_id = f"batch:{input_path.stem}:{input_hash[:16]}"
     events, parse_errors = _load_batch(input_path)
-    prepared, outcomes, errors = _prepare(store, events, parse_errors)
+    prepared, outcomes, errors = _prepare(store, events, parse_errors, batch_id)
     status = "rejected" if errors else "dry_run" if not apply else "applied"
     applied = 0
     if apply and not errors:
@@ -126,7 +129,7 @@ def import_batch(database: str | Path, input_path: str | Path, receipt_path: str
         status = "rejected_atomic"
     receipt = {
         "receipt_version": "v1",
-        "batch_id": f"batch:{input_path.stem}:{_file_hash(input_path)[:16]}",
+        "batch_id": batch_id,
         "status": status,
         "fixture_status": after_store.load().fixture_status,
         "apply_requested": apply,
@@ -143,6 +146,22 @@ def import_batch(database: str | Path, input_path: str | Path, receipt_path: str
         "report_sha256_after": after_report,
     }
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
+    source_names = sorted({event.get("source_name") for event in events if event.get("source_name")})
+    manifest = {
+        "batch_id": batch_id,
+        "source_name": source_names[0] if len(source_names) == 1 else "multiple",
+        "input_sha256": input_hash,
+        "status": status,
+        "counts": receipt["counts"],
+        "integrity_before": before_integrity,
+        "integrity_after": after_integrity,
+        "report_sha256_before": before_report,
+        "report_sha256_after": after_report,
+        "observed_at": receipt["observed_at"],
+        "errors": errors,
+    }
+    after_store.record_import_batch(manifest)
+    receipt["manifest"] = manifest
     receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return receipt
 

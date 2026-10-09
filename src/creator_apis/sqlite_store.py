@@ -51,6 +51,19 @@ class SQLiteLedgerStore:
                     conversion_id TEXT PRIMARY KEY,
                     payload TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS import_batches (
+                    batch_id TEXT PRIMARY KEY,
+                    source_name TEXT NOT NULL,
+                    input_sha256 TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    counts TEXT NOT NULL,
+                    integrity_before TEXT NOT NULL,
+                    integrity_after TEXT NOT NULL,
+                    report_sha256_before TEXT NOT NULL,
+                    report_sha256_after TEXT NOT NULL,
+                    observed_at TEXT NOT NULL,
+                    errors TEXT NOT NULL
+                );
                 """
             )
         self._ensure_integrity_chain()
@@ -89,6 +102,7 @@ class SQLiteLedgerStore:
         connection.execute("DELETE FROM records")
         connection.execute("DELETE FROM events")
         connection.execute("DELETE FROM conversions")
+        connection.execute("DELETE FROM import_batches")
         connection.executemany(
             "INSERT INTO metadata(key, value) VALUES (?, ?)",
             [(key, json.dumps(payload[key])) for key in ("fixture_status", "campaign_id", "experiment_id")],
@@ -143,7 +157,7 @@ class SQLiteLedgerStore:
             return ledger
 
     def append_event(self, event: dict[str, Any]) -> tuple[dict[str, Any], bool]:
-        allowed = {"event_id", "event_type", "session_id", "route_id", "metadata", "campaign_id", "experiment_id", "observed_at", "source_name", "source_event_id"}
+        allowed = {"event_id", "event_type", "session_id", "route_id", "metadata", "campaign_id", "experiment_id", "observed_at", "source_name", "source_event_id", "batch_id"}
         unknown = set(event) - allowed
         if unknown:
             raise ValueError(f"unknown event field: {sorted(unknown)[0]}")
@@ -170,6 +184,7 @@ class SQLiteLedgerStore:
             "experiment_id": event.get("experiment_id") or (route and route["experiment_id"]) or ledger.experiment_id,
             "source_name": event.get("source_name"),
             "source_event_id": event.get("source_event_id"),
+            "batch_id": event.get("batch_id"),
         }
         with sqlite3.connect(self.path) as connection:
             existing = connection.execute(
@@ -215,6 +230,35 @@ class SQLiteLedgerStore:
             "root_hash": previous_hash,
             "errors": errors,
         }
+
+    def record_import_batch(self, manifest: dict[str, Any]) -> bool:
+        required = {"batch_id", "source_name", "input_sha256", "status", "counts", "integrity_before", "integrity_after", "report_sha256_before", "report_sha256_after", "observed_at", "errors"}
+        missing = required - set(manifest)
+        if missing:
+            raise ValueError(f"missing import manifest field: {sorted(missing)[0]}")
+        with sqlite3.connect(self.path) as connection:
+            existing = connection.execute("SELECT input_sha256 FROM import_batches WHERE batch_id = ?", (manifest["batch_id"],)).fetchone()
+            if existing is not None:
+                if existing[0] != manifest["input_sha256"]:
+                    raise ValueError(f"import batch conflict: {manifest['batch_id']}")
+                return False
+            connection.execute(
+                "INSERT INTO import_batches(batch_id, source_name, input_sha256, status, counts, integrity_before, integrity_after, report_sha256_before, report_sha256_after, observed_at, errors) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+                (manifest["batch_id"], manifest["source_name"], manifest["input_sha256"], manifest["status"], json.dumps(manifest["counts"], sort_keys=True), json.dumps(manifest["integrity_before"], sort_keys=True), json.dumps(manifest["integrity_after"], sort_keys=True), manifest["report_sha256_before"], manifest["report_sha256_after"], manifest["observed_at"], json.dumps(manifest["errors"], sort_keys=True)),
+            )
+        return True
+
+    def list_import_batches(self) -> list[dict[str, Any]]:
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT batch_id, source_name, input_sha256, status, counts, integrity_before, integrity_after, report_sha256_before, report_sha256_after, observed_at, errors FROM import_batches ORDER BY observed_at, batch_id").fetchall()
+        keys = ("batch_id", "source_name", "input_sha256", "status", "counts", "integrity_before", "integrity_after", "report_sha256_before", "report_sha256_after", "observed_at", "errors")
+        result = []
+        for row in rows:
+            item = dict(zip(keys, row))
+            for key in ("counts", "integrity_before", "integrity_after", "errors"):
+                item[key] = json.loads(item[key])
+            result.append(item)
+        return result
 
     def append_conversion(self, conversion: dict[str, Any]) -> tuple[dict[str, Any], bool]:
         allowed = {"conversion_id", "session_id", "amount_cents", "purchase_event_id", "campaign_id", "experiment_id"}

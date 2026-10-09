@@ -657,10 +657,13 @@ class EvidenceLedgerTests(unittest.TestCase):
             replay_verification = subprocess.run([sys.executable, str(verifier), "--receipt", str(replay_receipt)], check=True, capture_output=True, text=True, env=environment)
             apply = json.loads(apply_receipt.read_text(encoding="utf-8"))
             replay = json.loads(replay_receipt.read_text(encoding="utf-8"))
+            manifests = SQLiteLedgerStore(database).list_import_batches()
         self.assertIn("verified", verification.stdout)
         self.assertIn("verified", replay_verification.stdout)
         self.assertEqual(apply["counts"]["applied"], 1)
         self.assertEqual(replay["counts"]["duplicate"], 1)
+        self.assertEqual(len(manifests), 1)
+        self.assertEqual(manifests[0]["batch_id"], apply["batch_id"])
 
     def test_event_batch_import_rejects_mixed_batch_atomically(self):
         root = Path(__file__).parents[1]
