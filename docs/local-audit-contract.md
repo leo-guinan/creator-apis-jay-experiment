@@ -16,3 +16,10 @@ Statuses:
 - `blocked`: active integrity failed, a backup identity/hash/root mismatched, a recovery receipt is invalid, or an import report no longer matches the active ledger.
 
 The same read-only result is available at `GET /v1/audit`. Pass `--audit-dir` to the local server to discover `backup-receipt.json`, `import*.json`, and `repair-receipt.json` from one directory. The dashboard displays the audit status without adding a write path.
+
+The state matrix checker exercises all three states and HTTP status semantics:
+
+    PYTHONPATH=src:scripts python3 scripts/check_audit_states.py \
+      --output examples/integrity-receipts/audit-states.json
+
+It proves `ready` and `degraded` return HTTP 200 while `blocked` returns HTTP 503.

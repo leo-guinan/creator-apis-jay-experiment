@@ -1,0 +1,143 @@
+{
+  "states": {
+    "blocked": {
+      "audit": {
+        "audit_version": "v1",
+        "backup": null,
+        "errors": [
+          "active ledger integrity failed"
+        ],
+        "fixture_status": "synthetic",
+        "integrity": {
+          "errors": [
+            "event hash mismatch: event:click-1"
+          ],
+          "event_count": 2,
+          "root_hash": "5567bf78567a6358940440ae021632879350311ee390a72f4b19e43caa88beab",
+          "status": "failed"
+        },
+        "latest_import": null,
+        "ledger_identity": "5ecfa38beda1c4a8a98ebd51a00a16cbbaf952f9f270f7cb5df4f854ae9499cf",
+        "recovery": null,
+        "report_sha256": "6ab6204f56d7ed760fc3f8cd5c793213829b9f68439648dd9bee0f1a139ce105",
+        "status": "blocked",
+        "warnings": [
+          "no verified backup receipt configured",
+          "no import receipt configured"
+        ]
+      },
+      "http_status": 503
+    },
+    "degraded": {
+      "audit": {
+        "audit_version": "v1",
+        "backup": null,
+        "errors": [],
+        "fixture_status": "synthetic",
+        "integrity": {
+          "errors": [],
+          "event_count": 2,
+          "root_hash": "5567bf78567a6358940440ae021632879350311ee390a72f4b19e43caa88beab",
+          "status": "verified"
+        },
+        "latest_import": null,
+        "ledger_identity": "5ecfa38beda1c4a8a98ebd51a00a16cbbaf952f9f270f7cb5df4f854ae9499cf",
+        "recovery": null,
+        "report_sha256": "3d5ac39f765b9affbcd5c18775464e51070678de85108d1340a789cc01dab825",
+        "status": "degraded",
+        "warnings": [
+          "no verified backup receipt configured",
+          "no import receipt configured"
+        ]
+      },
+      "http_status": 200
+    },
+    "ready": {
+      "audit": {
+        "audit_version": "v1",
+        "backup": {
+          "backup_integrity": {
+            "errors": [],
+            "event_count": 3,
+            "root_hash": "d1a1c2125fb74ade3316a2cfdd94c725f4ad2158754f22b61f49ef5a9137fb3f",
+            "status": "verified"
+          },
+          "backup_path": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-audit-rhcjtlx9/ready/backup.sqlite",
+          "backup_sha256": "7eaf2900cc02a0a4369c395424edb7a6ef7eee876a899284c4fd415242673b58",
+          "campaign_id": "campaign:jay-14day-001",
+          "created_at": "2026-10-09T02:16:45.229981+00:00",
+          "experiment_id": "experiment:ai-roi-am",
+          "fixture_status": "synthetic",
+          "ledger_identity": "5ecfa38beda1c4a8a98ebd51a00a16cbbaf952f9f270f7cb5df4f854ae9499cf",
+          "receipt_version": "v1",
+          "report_sha256": "03df39a5769d1f34e1fc888cf2842da75485be506072a9f74f8d388e0852af49",
+          "source_integrity": {
+            "errors": [],
+            "event_count": 3,
+            "root_hash": "d1a1c2125fb74ade3316a2cfdd94c725f4ad2158754f22b61f49ef5a9137fb3f",
+            "status": "verified"
+          },
+          "source_path": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-audit-rhcjtlx9/ready/ledger.sqlite",
+          "source_sha256": "9fce93c9351393d9f6540d455e61ecd4f43928c03a4501104331339286cb1867",
+          "status": "verified"
+        },
+        "errors": [],
+        "fixture_status": "synthetic",
+        "integrity": {
+          "errors": [],
+          "event_count": 3,
+          "root_hash": "d1a1c2125fb74ade3316a2cfdd94c725f4ad2158754f22b61f49ef5a9137fb3f",
+          "status": "verified"
+        },
+        "latest_import": {
+          "apply_requested": true,
+          "batch_id": "batch:import:e85fb8793cea5f4e",
+          "counts": {
+            "accepted": 1,
+            "applied": 1,
+            "duplicate": 0,
+            "rejected": 0
+          },
+          "database": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-audit-rhcjtlx9/ready/ledger.sqlite",
+          "errors": [],
+          "fixture_status": "synthetic",
+          "input_path": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-audit-rhcjtlx9/ready/import.jsonl",
+          "input_sha256": "e85fb8793cea5f4e00787c63f4ae0aaab27740c5ddec4fa98f59c11f52d35e35",
+          "integrity_after": {
+            "errors": [],
+            "event_count": 3,
+            "root_hash": "d1a1c2125fb74ade3316a2cfdd94c725f4ad2158754f22b61f49ef5a9137fb3f",
+            "status": "verified"
+          },
+          "integrity_before": {
+            "errors": [],
+            "event_count": 2,
+            "root_hash": "5567bf78567a6358940440ae021632879350311ee390a72f4b19e43caa88beab",
+            "status": "verified"
+          },
+          "observed_at": "2026-10-09T02:16:45.227402+00:00",
+          "outcomes": [
+            {
+              "line": 1,
+              "outcome": "accepted",
+              "source_event_id": "evt-1",
+              "source_name": "audit-fixture"
+            }
+          ],
+          "receipt_version": "v1",
+          "report_sha256_after": "03df39a5769d1f34e1fc888cf2842da75485be506072a9f74f8d388e0852af49",
+          "report_sha256_before": "3d5ac39f765b9affbcd5c18775464e51070678de85108d1340a789cc01dab825",
+          "status": "applied"
+        },
+        "ledger_identity": "5ecfa38beda1c4a8a98ebd51a00a16cbbaf952f9f270f7cb5df4f854ae9499cf",
+        "recovery": null,
+        "report_sha256": "03df39a5769d1f34e1fc888cf2842da75485be506072a9f74f8d388e0852af49",
+        "status": "ready",
+        "warnings": []
+      },
+      "http_status": 200
+    }
+  },
+  "status": "verified",
+  "verification_version": "v1"
+}

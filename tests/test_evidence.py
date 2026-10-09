@@ -322,6 +322,24 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(audit["integrity"]["status"], "verified")
         self.assertIn("no verified backup receipt configured", audit["warnings"])
 
+    def test_audit_state_matrix_and_http_statuses(self):
+        root = Path(__file__).parents[1]
+        checker = root / "scripts" / "check_audit_states.py"
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / "audit-states.json"
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            result = subprocess.run([sys.executable, str(checker), "--output", str(output)], check=True, capture_output=True, text=True, env=environment)
+            receipt = json.loads(output.read_text(encoding="utf-8"))
+        self.assertIn("verified", result.stdout)
+        self.assertEqual(receipt["status"], "verified")
+        self.assertEqual(receipt["states"]["ready"]["audit"]["status"], "ready")
+        self.assertEqual(receipt["states"]["degraded"]["audit"]["status"], "degraded")
+        self.assertEqual(receipt["states"]["blocked"]["audit"]["status"], "blocked")
+        self.assertEqual(receipt["states"]["ready"]["http_status"], 200)
+        self.assertEqual(receipt["states"]["degraded"]["http_status"], 200)
+        self.assertEqual(receipt["states"]["blocked"]["http_status"], 503)
+
     def test_scenario_report_selection_is_fixed_and_read_only(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "direct.sqlite"
