@@ -55,6 +55,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `docs/local-audit-contract.md` — reconciled operator status across integrity, backups, imports, and recovery.
 - `docs/import-manifest-contract.md` — durable SQLite import manifests and read-only import history.
 - `docs/source-status-policy-contract.md` — explicit source approval, rejection, and decision history.
+- `docs/schema-migration-contract.md` — versioned SQLite schema upgrades and readiness reporting.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.

@@ -47,6 +47,7 @@ class ReportingAPI:
             "storage": "sqlite" if self.store is not None or self.scenario_stores else "json",
             "scenarios": self.available_scenarios(),
             "read_only": True,
+            "schema": self.store.schema_status() if self.store is not None else None,
         }
 
     def integrity(self) -> dict:

@@ -7,6 +7,8 @@ from typing import Any
 
 from .evidence import EvidenceLedger
 
+SCHEMA_VERSION = 4
+
 
 class SQLiteLedgerStore:
     """Durable local store for ledger records, conversions, and append-only events."""
@@ -83,9 +85,38 @@ class SQLiteLedgerStore:
                     previous_decision_hash TEXT,
                     decision_hash TEXT NOT NULL
                 );
+                CREATE TABLE IF NOT EXISTS schema_migrations (
+                    version INTEGER PRIMARY KEY,
+                    migration_id TEXT NOT NULL,
+                    applied_at TEXT NOT NULL
+                );
                 """
             )
+        self._migrate_schema()
         self._ensure_integrity_chain()
+
+    def _migrate_schema(self) -> None:
+        now = datetime.now(timezone.utc).isoformat()
+        with sqlite3.connect(self.path) as connection:
+            columns = {row[1] for row in connection.execute("PRAGMA table_info(source_decisions)")}
+            for name, declaration in (("sequence", "INTEGER"), ("previous_decision_hash", "TEXT"), ("decision_hash", "TEXT")):
+                if name not in columns:
+                    connection.execute(f"ALTER TABLE source_decisions ADD COLUMN {name} {declaration}")
+            rows = connection.execute("SELECT decision_id, source_name, previous_status, new_status, operator, reason, observed_at FROM source_decisions ORDER BY decision_id").fetchall()
+            previous_hash = None
+            for sequence, (decision_id, source_name, previous_status, new_status, operator, reason, observed_at) in enumerate(rows, start=1):
+                canonical = {"sequence": sequence, "previous_decision_hash": previous_hash, "source_name": source_name, "previous_status": previous_status, "new_status": new_status, "operator": operator, "reason": reason, "observed_at": observed_at}
+                decision_hash = hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+                connection.execute("UPDATE source_decisions SET sequence = ?, previous_decision_hash = ?, decision_hash = ? WHERE decision_id = ?", (sequence, previous_hash, decision_hash, decision_id))
+                previous_hash = decision_hash
+            connection.execute(f"PRAGMA user_version = {SCHEMA_VERSION}")
+            connection.execute("INSERT OR REPLACE INTO schema_migrations(version, migration_id, applied_at) VALUES (?, ?, ?)", (SCHEMA_VERSION, "schema:current", now))
+
+    def schema_status(self) -> dict[str, Any]:
+        with sqlite3.connect(self.path) as connection:
+            version = connection.execute("PRAGMA user_version").fetchone()[0]
+            migrations = connection.execute("SELECT version, migration_id, applied_at FROM schema_migrations ORDER BY version").fetchall()
+        return {"status": "ready" if version == SCHEMA_VERSION else "blocked", "version": version, "expected_version": SCHEMA_VERSION, "migrations": [dict(zip(("version", "migration_id", "applied_at"), row)) for row in migrations]}
 
     @staticmethod
     def _canonical_event(event: dict[str, Any]) -> dict[str, Any]:

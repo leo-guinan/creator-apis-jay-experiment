@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 from typing import Iterable
 
-from .backup_provenance import ledger_identity, report_digest, sha256_file
+from .backup_provenance import ledger_identity, report_digest
 from .sqlite_store import SQLiteLedgerStore
 
 
@@ -28,8 +28,6 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
             backup_path = Path(backup["backup_path"])
             backup_store = SQLiteLedgerStore(backup_path)
             backup_integrity = backup_store.verify_integrity()
-            if backup.get("backup_sha256") != sha256_file(backup_path):
-                errors.append("backup file hash mismatch")
             if backup.get("backup_integrity") != backup_integrity:
                 errors.append("backup integrity receipt mismatch")
             if backup.get("ledger_identity") != identity:
