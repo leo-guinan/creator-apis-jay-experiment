@@ -1,0 +1,51 @@
+{
+  "current": {
+    "integrity_same": true,
+    "report_same": true,
+    "schema": {
+      "expected_version": 4,
+      "migrations": [
+        {
+          "applied_at": "2026-10-09T16:28:56.767149+00:00",
+          "migration_id": "schema:current",
+          "version": 4
+        }
+      ],
+      "status": "ready",
+      "version": 4
+    }
+  },
+  "future": {
+    "error": "unsupported future schema version: 5",
+    "status": "blocked"
+  },
+  "legacy": {
+    "decisions": {
+      "decision_count": 1,
+      "errors": [],
+      "root_hash": "9066bb7b703c8f82420eb2e71da44dd02f0323a5dba5e48f1eb7df0d741d4b0b",
+      "status": "verified"
+    },
+    "integrity": {
+      "errors": [],
+      "event_count": 0,
+      "root_hash": null,
+      "status": "verified"
+    },
+    "report_sha256": "3ea626129265eba1b60b2d9b896c10b60a4ac2b1a07e1ae29b390d593018af61",
+    "schema": {
+      "expected_version": 4,
+      "migrations": [
+        {
+          "applied_at": "2026-10-09T16:28:56.762969+00:00",
+          "migration_id": "schema:current",
+          "version": 4
+        }
+      ],
+      "status": "ready",
+      "version": 4
+    }
+  },
+  "status": "verified",
+  "verification_version": "v1"
+}

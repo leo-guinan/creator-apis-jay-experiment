@@ -98,6 +98,9 @@ class SQLiteLedgerStore:
     def _migrate_schema(self) -> None:
         now = datetime.now(timezone.utc).isoformat()
         with sqlite3.connect(self.path) as connection:
+            current_version = connection.execute("PRAGMA user_version").fetchone()[0]
+            if current_version > SCHEMA_VERSION:
+                raise ValueError(f"unsupported future schema version: {current_version}")
             columns = {row[1] for row in connection.execute("PRAGMA table_info(source_decisions)")}
             for name, declaration in (("sequence", "INTEGER"), ("previous_decision_hash", "TEXT"), ("decision_hash", "TEXT")):
                 if name not in columns:
