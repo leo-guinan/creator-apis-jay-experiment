@@ -8,17 +8,19 @@ from typing import Mapping
 from urllib.parse import parse_qs, unquote, urlsplit
 
 from .reporting import LedgerReport
+from .audit import audit_local_state
 
 
 class ReportingAPI:
     """Versioned reporting and bounded event-ingestion boundary."""
 
-    def __init__(self, ledger=None, *, store=None, scenario_stores=None):
+    def __init__(self, ledger=None, *, store=None, scenario_stores=None, audit_paths=None):
         if ledger is None and store is None and not scenario_stores:
             raise ValueError("ledger, store, or scenario_stores is required")
         self.ledger = ledger
         self.store = store
         self.scenario_stores = dict(scenario_stores or {})
+        self.audit_paths = dict(audit_paths or {})
 
     def _current_ledger(self, scenario: str | None = None):
         if scenario is not None:
@@ -51,6 +53,11 @@ class ReportingAPI:
         if self.store is None:
             return {"status": "unavailable", "errors": ["integrity requires a SQLite store"]}
         return self.store.verify_integrity()
+
+    def audit(self) -> dict:
+        if self.store is None:
+            return {"audit_version": "v1", "status": "blocked", "errors": ["audit requires a SQLite store"], "warnings": []}
+        return audit_local_state(self.store, **self.audit_paths)
 
     def get_report(self, params: Mapping[str, str] | None = None) -> dict:
         params = dict(params or {})
@@ -98,6 +105,10 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
             if parsed.path == "/v1/integrity":
                 payload = api.integrity()
                 self._send_json(200 if payload["status"] == "verified" else 503, {"api_version": "v1", **payload})
+                return
+            if parsed.path == "/v1/audit":
+                payload = api.audit()
+                self._send_json(200 if payload["status"] != "blocked" else 503, {"api_version": "v1", **payload})
                 return
             if parsed.path == "/v1/scenarios":
                 self._send_json(200, {"api_version": "v1", "scenarios": api.available_scenarios()})

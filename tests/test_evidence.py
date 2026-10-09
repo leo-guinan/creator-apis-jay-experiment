@@ -303,6 +303,25 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertIn("status=verified", check.stdout)
         self.assertEqual(health_check["status"], "verified")
 
+    def test_local_audit_reports_degraded_without_backup_and_serves_read_only_endpoint(self):
+        with tempfile.TemporaryDirectory() as directory:
+            store = SQLiteLedgerStore.create(Path(directory) / "audit.sqlite", self.ledger)
+            api = ReportingAPI(store=store)
+            server = __import__("http.server").server.HTTPServer(("127.0.0.1", 0), create_handler(api))
+            thread = Thread(target=server.serve_forever, daemon=True)
+            thread.start()
+            try:
+                with urlopen(f"http://127.0.0.1:{server.server_port}/v1/audit") as response:
+                    audit = json.load(response)
+            finally:
+                server.shutdown()
+                thread.join(timeout=2)
+                server.server_close()
+        self.assertEqual(audit["api_version"], "v1")
+        self.assertEqual(audit["status"], "degraded")
+        self.assertEqual(audit["integrity"]["status"], "verified")
+        self.assertIn("no verified backup receipt configured", audit["warnings"])
+
     def test_scenario_report_selection_is_fixed_and_read_only(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "direct.sqlite"

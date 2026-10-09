@@ -41,6 +41,7 @@
     <section><h2>Channel coverage</h2><div id="channels">—</div></section>
     <section><h2>Placements and routes</h2><div id="placements">—</div></section>
     <section><h2>Attribution</h2><div id="attributions">—</div></section>
+    <section><h2>Operator audit</h2><div id="audit">—</div></section>
   </main>
   <script>
     const money = cents => `$${(cents / 100).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
@@ -80,6 +81,13 @@
       document.querySelector('#channels').innerHTML = Object.entries(report.placements_by_channel).map(([channel, count]) => `<code>${esc(channel)}</code> ${esc(count)}`).join(' · ') || '—';
       document.querySelector('#placements').innerHTML = `<table><thead><tr><th>Channel</th><th>Artifact</th><th>Routes</th></tr></thead><tbody>${report.placements.map(item => `<tr><td>${esc(item.channel)}</td><td><code>${esc(item.artifact_id)}</code></td><td>${item.route_ids.map(esc).join('<br>')}</td></tr>`).join('')}</tbody></table>`;
       document.querySelector('#attributions').innerHTML = `<table><thead><tr><th>Conversion</th><th>Classification</th><th>Contributor</th><th>Trace</th></tr></thead><tbody>${report.attributions.map(item => `<tr><td><code>${esc(item.conversion_id)}</code></td><td>${esc(item.classification)}${item.reason ? `<br><span class="error">${esc(item.reason)}</span>` : ''}</td><td>${esc(item.contributor_id)}</td><td>${item.trace.map(esc).join(' → ') || '—'}</td></tr>`).join('')}</tbody></table>`;
+      try {
+        const auditResponse = await fetch('/v1/audit');
+        const audit = await auditResponse.json();
+        document.querySelector('#audit').innerHTML = `<strong class="${audit.status === 'ready' ? '' : 'error'}">${esc(audit.status)}</strong> · integrity ${esc(audit.integrity?.status)} · ${esc(audit.warnings?.length || 0)} warnings · ${esc(audit.errors?.length || 0)} errors`;
+      } catch (error) {
+        document.querySelector('#audit').innerHTML = `<span class="error">audit unavailable: ${esc(error.message)}</span>`;
+      }
     }
     loadScenarios().then(loadReport).catch(error => { document.querySelector('#status').textContent = 'report unavailable'; document.querySelector('#status').classList.add('error'); document.querySelector('#scope').innerHTML = `<span class="error">${esc(error.message)}</span>`; });
   </script>
