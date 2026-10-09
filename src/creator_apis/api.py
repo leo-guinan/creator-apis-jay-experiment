@@ -64,6 +64,11 @@ class ReportingAPI:
             return {"api_version": "v1", "sources": []}
         return {"api_version": "v1", "sources": self.store.list_sources(), "decisions": self.store.list_source_decisions()}
 
+    def source_integrity(self) -> dict:
+        if self.store is None:
+            return {"status": "unavailable", "errors": ["source integrity requires a SQLite store"]}
+        return self.store.verify_source_decisions()
+
     def audit(self) -> dict:
         if self.store is None:
             return {"audit_version": "v1", "status": "blocked", "errors": ["audit requires a SQLite store"], "warnings": []}
@@ -121,6 +126,10 @@ def create_handler(api: ReportingAPI, *, dashboard_path: str | Path | None = Non
                 return
             if parsed.path == "/v1/sources":
                 self._send_json(200, api.sources())
+                return
+            if parsed.path == "/v1/sources/integrity":
+                payload = api.source_integrity()
+                self._send_json(200 if payload["status"] == "verified" else 503, {"api_version": "v1", **payload})
                 return
             if parsed.path == "/v1/audit":
                 payload = api.audit()

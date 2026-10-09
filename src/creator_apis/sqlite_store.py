@@ -78,7 +78,10 @@ class SQLiteLedgerStore:
                     new_status TEXT NOT NULL,
                     operator TEXT NOT NULL,
                     reason TEXT NOT NULL,
-                    observed_at TEXT NOT NULL
+                    observed_at TEXT NOT NULL,
+                    sequence INTEGER NOT NULL,
+                    previous_decision_hash TEXT,
+                    decision_hash TEXT NOT NULL
                 );
                 """
             )
@@ -292,12 +295,42 @@ class SQLiteLedgerStore:
         with sqlite3.connect(self.path) as connection:
             row = connection.execute("SELECT status FROM sources WHERE source_name = ?", (source_name,)).fetchone()
             previous = row[0] if row else "unknown"
+            last = connection.execute("SELECT sequence, decision_hash FROM source_decisions ORDER BY sequence DESC LIMIT 1").fetchone()
+            sequence = (last[0] if last else 0) + 1
+            previous_hash = last[1] if last else None
+            canonical = {"sequence": sequence, "previous_decision_hash": previous_hash, "source_name": source_name, "previous_status": previous, "new_status": status, "operator": operator, "reason": reason, "observed_at": observed_at}
+            decision_hash = hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
             if row is None:
                 connection.execute("INSERT INTO sources(source_name, status, first_seen, last_seen, batch_count) VALUES (?, ?, ?, ?, 0)", (source_name, status, observed_at, observed_at))
             else:
                 connection.execute("UPDATE sources SET status = ?, last_seen = ? WHERE source_name = ?", (status, observed_at, source_name))
-            connection.execute("INSERT INTO source_decisions(source_name, previous_status, new_status, operator, reason, observed_at) VALUES (?, ?, ?, ?, ?, ?)", (source_name, previous, status, operator, reason, observed_at))
+            connection.execute("INSERT INTO source_decisions(source_name, previous_status, new_status, operator, reason, observed_at, sequence, previous_decision_hash, decision_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", (source_name, previous, status, operator, reason, observed_at, sequence, previous_hash, decision_hash))
         return {"source_name": source_name, "previous_status": previous, "new_status": status, "operator": operator, "reason": reason, "observed_at": observed_at}
+
+    def verify_source_decisions(self) -> dict[str, Any]:
+        errors: list[str] = []
+        previous_hash = None
+        expected_sequence = 1
+        with sqlite3.connect(self.path) as connection:
+            rows = connection.execute("SELECT source_name, previous_status, new_status, operator, reason, observed_at, sequence, previous_decision_hash, decision_hash FROM source_decisions ORDER BY sequence").fetchall()
+        source_status = {item["source_name"]: item["status"] for item in self.list_sources()}
+        latest: dict[str, str] = {}
+        for source_name, previous_status, new_status, operator, reason, observed_at, sequence, previous_decision_hash, decision_hash in rows:
+            if sequence != expected_sequence or previous_decision_hash != previous_hash:
+                errors.append(f"decision chain continuity mismatch: {source_name}")
+            canonical = {"sequence": sequence, "previous_decision_hash": previous_decision_hash, "source_name": source_name, "previous_status": previous_status, "new_status": new_status, "operator": operator, "reason": reason, "observed_at": observed_at}
+            expected_hash = hashlib.sha256(json.dumps(canonical, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+            if decision_hash != expected_hash:
+                errors.append(f"decision hash mismatch: {source_name}")
+            if latest.get(source_name, "unknown") != previous_status:
+                errors.append(f"decision transition mismatch: {source_name}")
+            latest[source_name] = new_status
+            previous_hash = decision_hash
+            expected_sequence += 1
+        for source_name, status in source_status.items():
+            if status != latest.get(source_name, "unknown"):
+                errors.append(f"source status differs from decision log: {source_name}")
+        return {"status": "verified" if not errors else "failed", "decision_count": len(rows), "root_hash": previous_hash, "errors": errors}
 
     def list_source_decisions(self) -> list[dict[str, Any]]:
         with sqlite3.connect(self.path) as connection:

@@ -40,6 +40,9 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
             errors.append(f"backup receipt invalid: {exc}")
     sources = store.list_sources()
     decisions = store.list_source_decisions()
+    decision_integrity = store.verify_source_decisions()
+    if decision_integrity["status"] != "verified":
+        errors.append("source decision integrity failed")
     decided_sources = {item["source_name"] for item in decisions}
     for source in sources:
         if source["batch_count"] > 0 and source["source_name"] not in decided_sources:
@@ -100,6 +103,7 @@ def audit_local_state(store: SQLiteLedgerStore, *, backup_receipt: Path | None =
         "manifests": manifests,
         "sources": sources,
         "source_decisions": decisions,
+        "source_decision_integrity": decision_integrity,
         "recovery": recovery,
         "warnings": warnings,
         "errors": errors,

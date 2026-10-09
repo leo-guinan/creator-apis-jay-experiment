@@ -18,6 +18,6 @@ Register a decision:
       --operator leo \
       --reason "approved local export for bounded experiment"
 
-Every decision records the previous status, new status, operator, reason, and timestamp. Batch import refuses unknown or rejected sources and rejects mixed-status batches atomically. `GET /v1/sources` exposes the registry and decision history read-only.
+Every decision records the previous status, new status, operator, reason, and timestamp. Decisions are hash-chained and exposed through `GET /v1/sources/integrity`; tampering, deletion, reordering, or a source-status mutation without a decision blocks audit. Batch import refuses unknown or rejected sources and rejects mixed-status batches atomically. `GET /v1/sources` exposes the registry and decision history read-only.
 
 Synthetic sources are not production sources, and approval of a local export does not authorize public publication, payment settlement, or causal attribution.
