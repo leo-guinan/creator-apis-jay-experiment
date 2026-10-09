@@ -12,4 +12,4 @@ Migration acceptance requires:
 - partially incompatible schema states fail rather than silently pretending to be current;
 - edited and wrong-database receipts are rejected by the independent verifier.
 
-Schema migration is local-only. It does not publish data, change attribution rules, or authorize external ingestion.
+Schema migration is local-only. It does not publish data, change attribution rules, or authorize external ingestion. Local writes use SQLite WAL mode, a bounded busy timeout, and `BEGIN IMMEDIATE` for event, conversion, source-decision, and import-manifest mutations. `scripts/check_concurrent_writes.py` verifies two writer processes serialize without breaking the event chain.

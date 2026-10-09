@@ -59,6 +59,7 @@ The persisted fixtures are `examples/synthetic-ledger.json` and a local ignored 
 - `scripts/check_schema_migrations.py` — legacy/current/future schema compatibility matrix.
 - `scripts/verify_migration_receipt.py` — read-only independent migration receipt verifier.
 - `scripts/check_migration_receipt_failures.py` — tampered and wrong-database receipt rejection checks.
+- `scripts/check_concurrent_writes.py` — concurrent local writer serialization and integrity check.
 - `docs/decisions/0001-local-runtime.md` — accepted local-only runtime decision and future promotion gate.
 - `docs/jay-conversation-ledger.md` — source-derived observations, implications, and falsifiers.
 - `docs/sources/creator-apis-initial-architecture.md` — supplied architecture brief.

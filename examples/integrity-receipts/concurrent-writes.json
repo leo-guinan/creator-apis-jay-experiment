@@ -1,0 +1,20 @@
+{
+  "integrity": {
+    "errors": [],
+    "event_count": 2,
+    "root_hash": "1d7d4974f5d32157dc1a9b8f0578c40368af962de496c14388a8a3f1626b95ff",
+    "status": "verified"
+  },
+  "status": "verified",
+  "verification_version": "v1",
+  "writers": [
+    {
+      "event_id": "event:writer-1",
+      "status": "written"
+    },
+    {
+      "event_id": "event:writer-2",
+      "status": "written"
+    }
+  ]
+}

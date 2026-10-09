@@ -19,6 +19,11 @@ class SQLiteLedgerStore:
             raise FileNotFoundError(self.path)
         self._initialize()
 
+    def _connect(self) -> sqlite3.Connection:
+        connection = sqlite3.connect(self.path, timeout=5.0)
+        connection.execute("PRAGMA busy_timeout = 5000")
+        return connection
+
     @classmethod
     def create(cls, path: str | Path, ledger: EvidenceLedger):
         destination = Path(path)
@@ -34,7 +39,7 @@ class SQLiteLedgerStore:
         return store
 
     def _initialize(self) -> None:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             connection.executescript(
                 """
                 PRAGMA journal_mode = WAL;
@@ -108,7 +113,7 @@ class SQLiteLedgerStore:
                 );
                 """
             )
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             version_before = connection.execute("PRAGMA user_version").fetchone()[0]
         self._migrate_schema()
         self._ensure_integrity_chain()
@@ -117,7 +122,8 @@ class SQLiteLedgerStore:
 
     def _migrate_schema(self) -> None:
         now = datetime.now(timezone.utc).isoformat()
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
             current_version = connection.execute("PRAGMA user_version").fetchone()[0]
             if current_version > SCHEMA_VERSION:
                 raise ValueError(f"unsupported future schema version: {current_version}")
@@ -179,7 +185,7 @@ class SQLiteLedgerStore:
         return hashlib.sha256(json.dumps(report, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
 
     def schema_status(self) -> dict[str, Any]:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             version = connection.execute("PRAGMA user_version").fetchone()[0]
             migrations = connection.execute("SELECT version, migration_id, applied_at FROM schema_migrations ORDER BY version").fetchall()
             receipts = connection.execute("SELECT receipt_id, version_before, version_after, migration_ids, event_root_before, event_root_after, decision_root_before, decision_root_after, report_sha256_before, report_sha256_after, ledger_identity, status, applied_at FROM migration_receipts ORDER BY applied_at").fetchall()
@@ -189,7 +195,7 @@ class SQLiteLedgerStore:
         return self.schema_status()["migration_receipts"]
 
     def _refresh_migration_receipt(self) -> None:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             receipt = connection.execute("SELECT receipt_id, version_before, version_after, migration_ids, event_root_before, decision_root_before, applied_at FROM migration_receipts ORDER BY applied_at DESC LIMIT 1").fetchone()
             if receipt is None:
                 return
@@ -217,7 +223,7 @@ class SQLiteLedgerStore:
         return chained
 
     def _ensure_integrity_chain(self) -> None:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT event_id, payload FROM events ORDER BY rowid").fetchall()
             if not rows or all({"sequence", "previous_event_hash", "event_hash"} <= set(json.loads(payload)) for _, payload in rows):
                 return
@@ -257,7 +263,7 @@ class SQLiteLedgerStore:
         )
 
     def load(self) -> EvidenceLedger:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             metadata = {
                 key: json.loads(value)
                 for key, value in connection.execute("SELECT key, value FROM metadata")
@@ -317,7 +323,8 @@ class SQLiteLedgerStore:
             "source_event_id": event.get("source_event_id"),
             "batch_id": event.get("batch_id"),
         }
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
             existing = connection.execute(
                 "SELECT payload FROM events WHERE event_id = ?", (event_id,)
             ).fetchone()
@@ -340,7 +347,7 @@ class SQLiteLedgerStore:
         errors: list[str] = []
         previous_hash = None
         expected_sequence = 1
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT event_id, payload FROM events ORDER BY rowid").fetchall()
         for event_id, payload in rows:
             event = json.loads(payload)
@@ -367,7 +374,8 @@ class SQLiteLedgerStore:
         missing = required - set(manifest)
         if missing:
             raise ValueError(f"missing import manifest field: {sorted(missing)[0]}")
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
             existing = connection.execute("SELECT input_sha256 FROM import_batches WHERE batch_id = ?", (manifest["batch_id"],)).fetchone()
             if existing is not None:
                 if existing[0] != manifest["input_sha256"]:
@@ -384,7 +392,7 @@ class SQLiteLedgerStore:
         return True
 
     def list_import_batches(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT batch_id, source_name, input_sha256, status, counts, integrity_before, integrity_after, report_sha256_before, report_sha256_after, observed_at, errors FROM import_batches ORDER BY observed_at, batch_id").fetchall()
         keys = ("batch_id", "source_name", "input_sha256", "status", "counts", "integrity_before", "integrity_after", "report_sha256_before", "report_sha256_after", "observed_at", "errors")
         result = []
@@ -396,7 +404,7 @@ class SQLiteLedgerStore:
         return result
 
     def list_sources(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT source_name, status, first_seen, last_seen, batch_count FROM sources ORDER BY source_name").fetchall()
         return [dict(zip(("source_name", "status", "first_seen", "last_seen", "batch_count"), row)) for row in rows]
 
@@ -404,7 +412,8 @@ class SQLiteLedgerStore:
         allowed = {"synthetic", "approved_local_export", "rejected", "unknown"}
         if status not in allowed:
             raise ValueError(f"invalid source status: {status}")
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
             row = connection.execute("SELECT status FROM sources WHERE source_name = ?", (source_name,)).fetchone()
             previous = row[0] if row else "unknown"
             last = connection.execute("SELECT sequence, decision_hash FROM source_decisions ORDER BY sequence DESC LIMIT 1").fetchone()
@@ -423,7 +432,7 @@ class SQLiteLedgerStore:
         errors: list[str] = []
         previous_hash = None
         expected_sequence = 1
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT source_name, previous_status, new_status, operator, reason, observed_at, sequence, previous_decision_hash, decision_hash FROM source_decisions ORDER BY sequence").fetchall()
         source_status = {item["source_name"]: item["status"] for item in self.list_sources()}
         latest: dict[str, str] = {}
@@ -445,7 +454,7 @@ class SQLiteLedgerStore:
         return {"status": "verified" if not errors else "failed", "decision_count": len(rows), "root_hash": previous_hash, "errors": errors}
 
     def list_source_decisions(self) -> list[dict[str, Any]]:
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
             rows = connection.execute("SELECT decision_id, source_name, previous_status, new_status, operator, reason, observed_at FROM source_decisions ORDER BY decision_id").fetchall()
         return [dict(zip(("decision_id", "source_name", "previous_status", "new_status", "operator", "reason", "observed_at"), row)) for row in rows]
 
@@ -490,7 +499,8 @@ class SQLiteLedgerStore:
             "experiment_id": normalized["experiment_id"],
         }
         conversion_encoded = json.dumps(normalized, sort_keys=True)
-        with sqlite3.connect(self.path) as connection:
+        with self._connect() as connection:
+            connection.execute("BEGIN IMMEDIATE")
             existing_conversion = connection.execute(
                 "SELECT payload FROM conversions WHERE conversion_id = ?", (conversion_id,)
             ).fetchone()
