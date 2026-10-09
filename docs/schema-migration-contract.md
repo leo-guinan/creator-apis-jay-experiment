@@ -9,6 +9,7 @@ Migration acceptance requires:
 - an older valid database opens at the current schema version;
 - a current database is a no-op;
 - event integrity and report state are preserved;
-- partially incompatible schema states fail rather than silently pretending to be current.
+- partially incompatible schema states fail rather than silently pretending to be current;
+- edited and wrong-database receipts are rejected by the independent verifier.
 
 Schema migration is local-only. It does not publish data, change attribution rules, or authorize external ingestion.

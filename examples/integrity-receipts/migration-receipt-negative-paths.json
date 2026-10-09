@@ -1,0 +1,51 @@
+{
+  "status": "verified",
+  "tampered": {
+    "database": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-receipt-bzi6w5j1/clean.sqlite",
+    "errors": [
+      "report digest mismatch"
+    ],
+    "receipt": {
+      "applied_at": "2026-10-09T17:21:21.037347+00:00",
+      "decision_root_after": null,
+      "decision_root_before": null,
+      "event_root_after": null,
+      "event_root_before": null,
+      "ledger_identity": "642c2d8c744b48aee59320a4ef9120c07728847952c96052e9a4de08a6952865",
+      "migration_ids": "[\"schema:current\"]",
+      "receipt_id": "migration:4",
+      "report_sha256_after": "tampered",
+      "report_sha256_before": "d0ccd4c3995ff2f8334c509575805ceb60105db9da8e6145fb05b12142af3628",
+      "status": "applied",
+      "version_after": 4,
+      "version_before": 0
+    },
+    "status": "failed",
+    "verification_version": "v1"
+  },
+  "verification_version": "v1",
+  "wrong_database": {
+    "database": "/var/folders/4c/gfmq85t93gggkbtkgzbkx_mr0000gn/T/creator-apis-receipt-bzi6w5j1/wrong.sqlite",
+    "errors": [
+      "ledger identity mismatch",
+      "report digest mismatch"
+    ],
+    "receipt": {
+      "applied_at": "2026-10-09T17:21:21.037347+00:00",
+      "decision_root_after": null,
+      "decision_root_before": null,
+      "event_root_after": null,
+      "event_root_before": null,
+      "ledger_identity": "642c2d8c744b48aee59320a4ef9120c07728847952c96052e9a4de08a6952865",
+      "migration_ids": "[\"schema:current\"]",
+      "receipt_id": "migration:4",
+      "report_sha256_after": "d0ccd4c3995ff2f8334c509575805ceb60105db9da8e6145fb05b12142af3628",
+      "report_sha256_before": "d0ccd4c3995ff2f8334c509575805ceb60105db9da8e6145fb05b12142af3628",
+      "status": "applied",
+      "version_after": 4,
+      "version_before": 0
+    },
+    "status": "failed",
+    "verification_version": "v1"
+  }
+}
