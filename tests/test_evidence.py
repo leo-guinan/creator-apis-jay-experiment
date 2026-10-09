@@ -593,7 +593,81 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertEqual(verification["dashboard_status"], "verified")
         self.assertEqual(verification["report"]["royalty"]["accrued_amount_cents"], 10_000)
 
-    def test_scenario_verifier_recomputes_sqlite_reports_and_writes_receipt(self):
+    def test_event_batch_import_and_independent_verification(self):
+        root = Path(__file__).parents[1]
+        importer = root / "scripts" / "import_event_batch.py"
+        verifier = root / "scripts" / "verify_event_batch.py"
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            database = directory / "ledger.sqlite"
+            SQLiteLedgerStore.create(database, self.ledger)
+            input_path = directory / "events.jsonl"
+            input_path.write_text(json.dumps({
+                "source_name": "unit-export",
+                "source_event_id": "evt-001",
+                "event_type": "route_click",
+                "route_id": "route:jay-youtube-001",
+                "session_id": "session:batch-001",
+                "observed_at": "2026-10-08T00:00:00Z",
+            }) + "\n", encoding="utf-8")
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            apply_receipt = directory / "apply.json"
+            subprocess.run([sys.executable, str(importer), "--database", str(database), "--input", str(input_path), "--receipt", str(apply_receipt), "--apply"], check=True, capture_output=True, text=True, env=environment)
+            verification = subprocess.run([sys.executable, str(verifier), "--receipt", str(apply_receipt)], check=True, capture_output=True, text=True, env=environment)
+            replay_receipt = directory / "replay.json"
+            subprocess.run([sys.executable, str(importer), "--database", str(database), "--input", str(input_path), "--receipt", str(replay_receipt), "--apply"], check=True, capture_output=True, text=True, env=environment)
+            replay_verification = subprocess.run([sys.executable, str(verifier), "--receipt", str(replay_receipt)], check=True, capture_output=True, text=True, env=environment)
+            apply = json.loads(apply_receipt.read_text(encoding="utf-8"))
+            replay = json.loads(replay_receipt.read_text(encoding="utf-8"))
+        self.assertIn("verified", verification.stdout)
+        self.assertIn("verified", replay_verification.stdout)
+        self.assertEqual(apply["counts"]["applied"], 1)
+        self.assertEqual(replay["counts"]["duplicate"], 1)
+
+    def test_event_batch_import_rejects_mixed_batch_atomically(self):
+        root = Path(__file__).parents[1]
+        importer = root / "scripts" / "import_event_batch.py"
+        verifier = root / "scripts" / "verify_event_batch.py"
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            database = directory / "ledger.sqlite"
+            SQLiteLedgerStore.create(database, self.ledger)
+            before = len(SQLiteLedgerStore(database).load().events)
+            input_path = directory / "events.jsonl"
+            input_path.write_text(json.dumps({"source_name": "unit-export", "source_event_id": "evt-002", "event_type": "route_click", "route_id": "route:jay-youtube-001"}) + "\n{malformed}\n", encoding="utf-8")
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            receipt = directory / "rejected.json"
+            subprocess.run([sys.executable, str(importer), "--database", str(database), "--input", str(input_path), "--receipt", str(receipt), "--apply"], check=True, capture_output=True, text=True, env=environment)
+            verification = subprocess.run([sys.executable, str(verifier), "--receipt", str(receipt)], check=True, capture_output=True, text=True, env=environment)
+            result = json.loads(receipt.read_text(encoding="utf-8"))
+            after = len(SQLiteLedgerStore(database).load().events)
+        self.assertIn("verified", verification.stdout)
+        self.assertEqual(result["status"], "rejected_atomic")
+        self.assertEqual(before, after)
+
+    def test_event_batch_receipt_tampering_is_rejected(self):
+        root = Path(__file__).parents[1]
+        importer = root / "scripts" / "import_event_batch.py"
+        verifier = root / "scripts" / "verify_event_batch.py"
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            database = directory / "ledger.sqlite"
+            SQLiteLedgerStore.create(database, self.ledger)
+            input_path = directory / "events.jsonl"
+            input_path.write_text(json.dumps({"source_name": "unit-export", "source_event_id": "evt-003", "event_type": "route_click", "route_id": "route:jay-youtube-001"}) + "\n", encoding="utf-8")
+            environment = dict(os.environ)
+            environment["PYTHONPATH"] = str(root / "src") + ":" + str(root / "scripts")
+            receipt = directory / "receipt.json"
+            subprocess.run([sys.executable, str(importer), "--database", str(database), "--input", str(input_path), "--receipt", str(receipt), "--apply"], check=True, capture_output=True, text=True, env=environment)
+            tampered = json.loads(receipt.read_text(encoding="utf-8"))
+            tampered["counts"]["applied"] = 99
+            receipt.write_text(json.dumps(tampered), encoding="utf-8")
+            result = subprocess.run([sys.executable, str(verifier), "--receipt", str(receipt)], capture_output=True, text=True, env=environment)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("failed", result.stdout)
+
         root = Path(__file__).parents[1]
         runner = root / "scripts" / "run_synthetic_scenarios.py"
         verifier = root / "scripts" / "verify_synthetic_scenarios.py"
